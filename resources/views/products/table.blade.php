@@ -3,7 +3,10 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Gaurd Name</th>
+            <th>Note</th>
+            <th>Slug</th>
+            <th>Buy Price</th>
+            <th>Sale Price</th>
             <th class="text-center">Actions</th>
         </tr>
     </thead>
@@ -12,7 +15,10 @@
             <tr>
                 <th>{{ $item->id }}</th>
                 <th>{{ $item->name }}</th>
-                <th>{{ $item->guard_name }}</th>
+                <th>{{ $item->note }}</th>
+                <th>{{ $item->slug }}</th>
+                <th>{{ $item->buy_price }}</th>
+                <th>{{ $item->sale_price }}</th>
                 <td class="text-center">
                     <a href="{{ route($route_prefix . '.edit', $item) }}" class="btn btn-sm btn-success btn-edit-row">
                         <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;Modify
