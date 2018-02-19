@@ -15,10 +15,11 @@ class CreateSettingTypesTable extends Migration
     {
         Schema::create('setting_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code');
+            $table->string('slug');
             $table->string('name_en');
             $table->string('name_kh');
-            $table->string('note');
+            $table->string('image')->default('default-name.jpg');
+            $table->string('note')->nullable()->default(NULL);
             $table->timestamps();
         });
     }

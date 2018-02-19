@@ -27,7 +27,7 @@ Categories
 
 SettingTypes
 - id
-- code
+- slug
 - image
 - name_en
 - name_kh
@@ -38,7 +38,7 @@ SettingItems
 - id
 - type_id
 - type_model
-- code
+- slug
 - name_en
 - name_kh
 - value
@@ -70,8 +70,9 @@ OrderProduct
 ** NOTE
 - slug for read on web and barcode reader
 
-name -> unique() require
+name ->unique() require
 note -> nullable()->default(NULL)
 id -> unsignedInteger()
 price -> $table->decimal('price', 8, 2);
 image -> $table->string('avatar')->default('default-name.jpg');
+quantity->default(0)
