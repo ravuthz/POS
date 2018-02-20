@@ -9,8 +9,8 @@ class ProductController extends Controller
 {
   use CrudsControllerTrait;
 
-  protected $itemName = 'role_item';
-  protected $listName = 'role_list';
+  protected $itemName = 'product_item';
+  protected $listName = 'product_list';
 
   protected $modelPath = Product::class;
   protected $viewPrefix = 'products.';

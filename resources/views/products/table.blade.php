@@ -11,7 +11,8 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($role_list as $item)
+
+        @foreach($product_list as $item)
             <tr>
                 <th>{{ $item->id }}</th>
                 <th>{{ $item->name }}</th>
@@ -40,6 +41,6 @@
 
 <div class="row pull-right">
     <div class="col-md-12">
-        {!! $role_list->links() !!}
+        {!! $product_list->links() !!}
     </div>
 </div>
