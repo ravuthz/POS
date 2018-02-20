@@ -6,10 +6,11 @@ use Auth;
 use App\Traits\FieldsAuditTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\NameToSlugTrait;
 
 class Product extends Model
 {
-    use SoftDeletes, FieldsAuditTrait;
+    use SoftDeletes, FieldsAuditTrait, NameToSlugTrait;
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
@@ -21,11 +22,4 @@ class Product extends Model
         'sale_price',
         'category_id'
     ];
-
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = $value;
-        $this->attributes['slug'] = str_slug($value);
-    }
-
 }
