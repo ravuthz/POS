@@ -11,17 +11,19 @@ Products
 - slug
 - name
 - note
-- category_id
 - image
+- status
 - buy_price
 - sale_price
+- category_id
 * AuditFields
 
 Categories
 - id
 - slug
 - name
-- name
+- image
+- status
 - parent_id
 * AuditFields
 
@@ -76,3 +78,19 @@ id -> unsignedInteger()
 price -> $table->decimal('price', 8, 2);
 image -> $table->string('avatar')->default('default-name.jpg');
 quantity->default(0)
+
+
+
+php artisan make:factory ProductFactory
+php artisan make:seeder ProductsTableSeeder
+php artisan make:test App\Models\ProductTest
+
+
+cp .env.example .env.testing
+mysql -u root -p -e "create database laravel_pos_test"
+
+php artisan migrate --env=testing
+
+vendor\bin\phpunit
+
+vendor/bin/phpunit
