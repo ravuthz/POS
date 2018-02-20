@@ -18,10 +18,14 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->string('name')->unique();
             $table->string('note')->nullable()->default(NULL);
-            $table->unsignedInteger('category_id');
-            $table->string('avatar')->default('default-name.jpg');
+            $table->integer('status')->default(1);
+            $table->string('image')->default('default-product.jpg');
             $table->decimal('buy_price', 8, 2);
             $table->decimal('sale_price', 8, 2);
+            $table->unsignedInteger('category_id')->default(0);
+            $table->unsignedInteger('created_by')->default(0);
+            $table->unsignedInteger('updated_by')->default(0);
+            $table->unsignedInteger('deleted_by')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

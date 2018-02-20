@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Product;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class ProductTableSeeder extends Seeder
@@ -11,15 +13,18 @@ class ProductTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('products')->insert([
-            'slug' => str_random(10),
-            'name' => str_random(10),
-            'note' => str_random(10),
-            'category_id' => rand(1, 5),
-            'buy_price' => 123,
-            'sale_price' => 134,
-            'created_at' => Carbon\Carbon::now(),
-            'updated_at' => Carbon\Carbon::now(),
-        ]);
+        Auth::login(User::first());
+
+        factory(Product::class, 10)->create(['category_id' => 1]);
+        factory(Product::class, 20)->create(['category_id' => 2]);
+        factory(Product::class, 30)->create(['category_id' => 3]);
+        factory(Product::class, 40)->create(['category_id' => 4]);
+
+        $product1 = Product::first();
+        $product1->status = 0;
+        $product1->save();
+
+        $product2 = Product::find(2);
+        $product2->delete();
     }
 }
