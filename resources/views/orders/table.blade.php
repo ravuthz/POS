@@ -134,19 +134,7 @@
                     </div>
                     <div id="print" class="fixed-table-container">
                         <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 250px;"><div id="list-table-div" style="overflow: hidden; width: auto; height: 98px;">
-                            <div class="fixed-table-header">
-                                <table class="table table-striped table-condensed table-hover list-table" style="margin:0;">
-                                    <thead>
-                                        <tr class="success">
-                                            <th>Product</th>
-                                            <th style="width: 15%;text-align:center;">Price</th>
-                                            <th style="width: 15%;text-align:center;">Qty</th>
-                                            <th style="width: 20%;text-align:center;">Subtotal</th>
-                                            <th style="width: 20px;" class="satu"><i class="fa fa-trash-o"></i></th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
+                
                             <table id="posTable" class="table table-striped table-condensed table-hover list-table" style="margin:0px;" data-height="100">
                                 <thead>
                                     <tr class="success">
@@ -245,7 +233,7 @@
 @section('css')
 <style>
 .badge{
-    background-color: white; 
+    background-color: white;
     position: absolute;
     right: 20px;
     color: red;
