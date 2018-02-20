@@ -2,13 +2,15 @@
 
 namespace App\Traits;
 
-trait CrudsModelTrait {
+trait CrudsModelTrait
+{
 
     /**
      * Get only validate rules for create action
      * @return validation rules
      */
-    public function getCreateValidationRules() {
+    public function getCreateValidationRules()
+    {
         if (isset($this->createValidateRules)) {
             $this->validateRules = $this->createValidateRules;
         }
@@ -19,7 +21,8 @@ trait CrudsModelTrait {
      * Get only validate rules for update action
      * @return validation rules
      */
-    public function getUpdateValidationRules() {
+    public function getUpdateValidationRules()
+    {
         if (isset($this->updateValidateRules)) {
             $this->validateRules = $this->updateValidateRules;
         }
@@ -29,8 +32,8 @@ trait CrudsModelTrait {
     /**
      * Create or Update data with provide request
      */
-    public function saveOrUpdate($request) {
+    public function saveOrUpdate($request)
+    {
         return $this->fill($request->all())->save();
     }
-    
 }

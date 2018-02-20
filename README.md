@@ -21,7 +21,7 @@ Categories
 - id
 - slug
 - name
-- image
+- name
 - parent_id
 * AuditFields
 

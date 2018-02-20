@@ -32,7 +32,7 @@
             </div>
         </div>
     @endif
-    
+
     <div class="row">
         <div class="col-xs-12">
             @if(view()->exists($view_include_table))
@@ -48,7 +48,7 @@
             @endif
         </div>
     </div>
-    
+
 @stop
 
 @section('js')

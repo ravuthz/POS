@@ -21,3 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('roles', 'RoleController');
 Route::resource('products', 'ProductController');
+Route::resource('categories', 'CategoryController');
+Route::resource('settingtypes', 'SettingTypeController');
+Route::resource('settingitems', 'SettingItemController');
+Route::resource('stocks', 'StockController');
