@@ -25,3 +25,4 @@ Route::resource('categories', 'CategoryController');
 Route::resource('settingtypes', 'SettingTypeController');
 Route::resource('settingitems', 'SettingItemController');
 Route::resource('stocks', 'StockController');
+Route::resource('orders', 'OrderController');

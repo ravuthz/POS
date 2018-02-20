@@ -18,7 +18,7 @@
 @section('content')
 
     @include('crud.alert')
-    
+
     @if(view()->exists($view_include_search))
         <div class="row">
             <div class="col-xs-12">
@@ -50,6 +50,8 @@
     </div>
 
 @stop
+
+ 
 
 @section('js')
     <script type="text/javascript">
