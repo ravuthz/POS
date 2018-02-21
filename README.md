@@ -41,7 +41,7 @@ SettingItems
 - type_id
 - type_model
 - slug
-- name_en
+- name
 - name_kh
 - value
 - note

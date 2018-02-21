@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSettingItemsTable extends Migration
 {
@@ -15,14 +15,18 @@ class CreateSettingItemsTable extends Migration
     {
         Schema::create('setting_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('type_id');
-            $table->string('type_model');
+            $table->unsignedInteger('setting_type_id')->default(0);
+            $table->string('setting_type_model');
             $table->string('slug')->unique();
-            $table->string('name_en');
+            $table->string('name');
             $table->string('name_kh');
             $table->string('value');
             $table->string('note');
+            $table->unsignedInteger('created_by')->default(0);
+            $table->unsignedInteger('updated_by')->default(0);
+            $table->unsignedInteger('deleted_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\User;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserRolePermissionTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(ProductTableSeeder::class);
+        $this->call(SettingTypeTableSeeder::class);
+        $this->call(SettingItemTableSeeder::class);
     }
 }
