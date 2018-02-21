@@ -10,7 +10,6 @@ use App\Traits\NameToSlugTrait;
 
 class Category extends Model
 {
-    //TODO: Category Migration update follow README.md
     use SoftDeletes, FieldsAuditTrait, NameToSlugTrait;
     protected $dates = ['deleted_at'];
 
@@ -21,4 +20,9 @@ class Category extends Model
         'status',
         'parent_id'
     ];
+
+    public function products()
+    {
+        return $this->hasMany('App\Models\Product');
+    }
 }

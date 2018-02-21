@@ -43,9 +43,9 @@ class ProductTest extends TestCase
         $this->assertSoftDeleted('products', ['category_id' => 103, 'name' => 'product 3', 'slug' => 'product-3']);
     }
 
-    public function testFetchProduct() {
+    public function testFetchProduct()
+    {
         $product1 = Product::where('slug', 'product-4')->first();
         $this->assertDatabaseHas('products', $product1->toArray());
     }
-
 }

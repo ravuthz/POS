@@ -13,10 +13,8 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         Auth::login(User::first());
-        factory(Category::class, 10)->create();
-
-        $category = Category::first();
-        $category->status = 0;
-        $category->save();
+        factory(Category::class, 10)->create()->each(function ($product) {
+            $product->products()->save(factory(App\Models\Product::class)->make());
+        });
     }
 }
