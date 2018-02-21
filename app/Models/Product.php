@@ -7,6 +7,7 @@ use App\Traits\FieldsAuditTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\NameToSlugTrait;
+use App\Models\Category;
 
 class Product extends Model
 {

@@ -7,6 +7,7 @@ use App\Traits\FieldsAuditTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\NameToSlugTrait;
+use App\Models\Product;
 
 class Category extends Model
 {
@@ -23,6 +24,6 @@ class Category extends Model
 
     public function products()
     {
-        return $this->hasMany('App\Models\Product');
+        return $this->hasMany(Product::class);
     }
 }
