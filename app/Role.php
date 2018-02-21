@@ -13,7 +13,7 @@ class Role extends \Spatie\Permission\Models\Role
      * @var array
      */
     protected $validateRules = [
-        'name' => 'required||max:25',
+        'name'       => 'required||max:25',
         'guard_name' => 'required'
     ];
 
