@@ -3,7 +3,7 @@
 namespace Tests\Feature\App\Models;
 
 use Auth;
-use App\User;
+use App\Models\User;
 use Tests\TestCase;
 use App\Models\Stock;
 use App\Models\StockMovement;

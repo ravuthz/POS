@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\App\Models;
 
+use Auth;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
-use App\User;
-use Auth;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
