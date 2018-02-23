@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
 use App\Models\User;
-use Spatie\Permission\Models\Role;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserRolePermissionTableSeeder extends Seeder
 {
@@ -16,49 +15,95 @@ class UserRolePermissionTableSeeder extends Seeder
     public function run()
     {
         $roleAdmin = Role::create(['name' => 'admin']);
-        $roleAuthor = Role::create(['name' => 'author']);
-        $roleEditor = Role::create(['name' => 'editor']);
+        $roleSeller = Role::create(['name' => 'seller']);
+        $roleCustomer = Role::create(['name' => 'customer']);
 
-        $pCreate = Permission::create(['name' => 'create posts']);
-        $pRead = Permission::create(['name' => 'read posts']);
-        $pUpdate = Permission::create(['name' => 'update posts']);
-        $pDelete = Permission::create(['name' => 'delete posts']);
-        
-        
-        $roleAdmin->givePermissionTo($pCreate);
-        $roleAdmin->givePermissionTo($pRead);
-        $roleAdmin->givePermissionTo($pUpdate);
-        $roleAdmin->givePermissionTo($pDelete);
-        
-        $roleAuthor->givePermissionTo($pCreate, $pRead);
-        
-        $roleEditor->givePermissionTo($pRead, $pUpdate);
+        $cCreate = Permission::create(['name' => 'create category']);
+        $cUpdate = Permission::create(['name' => 'update category']);
+        $cDelete = Permission::create(['name' => 'delete category']);
+        $cDetail = Permission::create(['name' => 'detail category']);
 
-        // $pCreate->assignRole($roleAuthor);
-        // $pRead->assignRole($roleAuthor);
-        // $pUpdate->assignRole($roleAuthor);
-        // $pDelete->assignRole($roleAuthor);
-        
+        $pCreate = Permission::create(['name' => 'create product']);
+        $pUpdate = Permission::create(['name' => 'update product']);
+        $pDelete = Permission::create(['name' => 'delete product']);
+        $pDetail = Permission::create(['name' => 'detail product']);
+
+        $uCreate = Permission::create(['name' => 'create user']);
+        $uUpdate = Permission::create(['name' => 'update user']);
+        $uDelete = Permission::create(['name' => 'delete user']);
+        $uDetail = Permission::create(['name' => 'detail user']);
+
+        $oCreate = Permission::create(['name' => 'create order']);
+        $oUpdate = Permission::create(['name' => 'update order']);
+        $oDelete = Permission::create(['name' => 'delete order']);
+        $oDetail = Permission::create(['name' => 'detail order']);
+
+        $sCreate = Permission::create(['name' => 'create stock']);
+        $sUpdate = Permission::create(['name' => 'update stock']);
+        $sDelete = Permission::create(['name' => 'delete stock']);
+        $sDetail = Permission::create(['name' => 'detail stock']);
+
+        $roleAdmin->givePermissionTo(
+            $cCreate,
+            $cUpdate,
+            $cDelete,
+            $cDetail,
+            $pCreate,
+            $pUpdate,
+            $pDelete,
+            $pDetail,
+            $uCreate,
+            $uUpdate,
+            $uDelete,
+            $uDetail,
+            $oCreate,
+            $oUpdate,
+            $oDelete,
+            $oDetail,
+            $sCreate,
+            $sUpdate,
+            $sDelete,
+            $sDetail
+        );
+
+        $roleSeller->givePermissionTo($oCreate,
+            $oUpdate,
+            $oDelete,
+            $oDetail,
+            $sCreate,
+            $sUpdate,
+            $sDelete,
+            $sDetail
+        );
+
+        $roleCustomer->givePermissionTo(
+            $cDetail,
+            $pDetail,
+            $uDetail,
+            $oDetail,
+            $sDetail
+        );
+
         $admin = User::create([
-            'name' => 'adminz', 
-            'email' => 'adminz@gmail.com', 
+            'name'     => 'adminz',
+            'email'    => 'adminz@gmail.com',
             'password' => bcrypt('123123')
         ]);
         $admin->assignRole('admin');
-        
+
         $author = User::create([
-            'name' => 'author', 
-            'email' => 'author@gmail.com',
+            'name'     => 'seller',
+            'email'    => 'seller@gmail.com',
             'password' => bcrypt('123123')
         ]);
-        $author->assignRole('author');
-        
-         $editor = User::create([
-            'name' => 'editor', 
-            'email' => 'editor@gmail.com',
+        $author->assignRole('seller');
+
+        $editor = User::create([
+            'name'     => 'customer',
+            'email'    => 'customer@gmail.com',
             'password' => bcrypt('123123')
         ]);
-        $editor->assignRole('editor');
-        
+        $editor->assignRole('customer');
+
     }
 }
