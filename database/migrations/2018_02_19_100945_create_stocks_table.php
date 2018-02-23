@@ -15,10 +15,12 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('product_id');
-            $table->integer('quantity')->default(0);
-            $table->unsignedTinyInteger('type');
+            $table->unsignedTinyInteger('movement');
+            $table->unsignedInteger('created_by')->default(0);
+            $table->unsignedInteger('updated_by')->default(0);
+            $table->unsignedInteger('deleted_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
