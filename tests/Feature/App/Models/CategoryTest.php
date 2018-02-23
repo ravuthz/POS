@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\App\Models;
 
-use App\Models\Category;
-use App\User;
 use Auth;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Category;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
