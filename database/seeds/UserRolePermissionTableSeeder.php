@@ -2,8 +2,8 @@
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserRolePermissionTableSeeder extends Seeder
 {
@@ -17,71 +17,27 @@ class UserRolePermissionTableSeeder extends Seeder
         $roleAdmin = Role::create(['name' => 'admin']);
         $roleSeller = Role::create(['name' => 'seller']);
         $roleCustomer = Role::create(['name' => 'customer']);
+        
+        $user = $this->crudPermission('user');
+        $category = $this->crudPermission('category');
+        $product = $this->crudPermission('product');
+        $order = $this->crudPermission('order');
+        $stock = $this->crudPermission('stock');
+        
+        $roleAdmin->givePermissionTo(array_values($user));
+        $roleAdmin->givePermissionTo(array_values($category));
+        $roleAdmin->givePermissionTo(array_values($product));
+        $roleAdmin->givePermissionTo(array_values($order));
+        $roleAdmin->givePermissionTo(array_values($stock));
 
-        $cCreate = Permission::create(['name' => 'create category']);
-        $cUpdate = Permission::create(['name' => 'update category']);
-        $cDelete = Permission::create(['name' => 'delete category']);
-        $cDetail = Permission::create(['name' => 'detail category']);
-
-        $pCreate = Permission::create(['name' => 'create product']);
-        $pUpdate = Permission::create(['name' => 'update product']);
-        $pDelete = Permission::create(['name' => 'delete product']);
-        $pDetail = Permission::create(['name' => 'detail product']);
-
-        $uCreate = Permission::create(['name' => 'create user']);
-        $uUpdate = Permission::create(['name' => 'update user']);
-        $uDelete = Permission::create(['name' => 'delete user']);
-        $uDetail = Permission::create(['name' => 'detail user']);
-
-        $oCreate = Permission::create(['name' => 'create order']);
-        $oUpdate = Permission::create(['name' => 'update order']);
-        $oDelete = Permission::create(['name' => 'delete order']);
-        $oDetail = Permission::create(['name' => 'detail order']);
-
-        $sCreate = Permission::create(['name' => 'create stock']);
-        $sUpdate = Permission::create(['name' => 'update stock']);
-        $sDelete = Permission::create(['name' => 'delete stock']);
-        $sDetail = Permission::create(['name' => 'detail stock']);
-
-        $roleAdmin->givePermissionTo(
-            $cCreate,
-            $cUpdate,
-            $cDelete,
-            $cDetail,
-            $pCreate,
-            $pUpdate,
-            $pDelete,
-            $pDetail,
-            $uCreate,
-            $uUpdate,
-            $uDelete,
-            $uDetail,
-            $oCreate,
-            $oUpdate,
-            $oDelete,
-            $oDetail,
-            $sCreate,
-            $sUpdate,
-            $sDelete,
-            $sDetail
-        );
-
-        $roleSeller->givePermissionTo($oCreate,
-            $oUpdate,
-            $oDelete,
-            $oDetail,
-            $sCreate,
-            $sUpdate,
-            $sDelete,
-            $sDetail
-        );
-
+        $roleSeller->givePermissionTo(array_values($order));
+        $roleSeller->givePermissionTo(array_values($stock));
+        
         $roleCustomer->givePermissionTo(
-            $cDetail,
-            $pDetail,
-            $uDetail,
-            $oDetail,
-            $sDetail
+            $user['detail'],
+            $category['detail'],
+            $product['detail'],
+            $order['detail']
         );
 
         $admin = User::create([
@@ -104,6 +60,24 @@ class UserRolePermissionTableSeeder extends Seeder
             'password' => bcrypt('123123')
         ]);
         $editor->assignRole('customer');
+        
+        $other = User::create([
+            'name' => 'other',
+            'email' => 'other@gmail.com',
+            'password' => bcrypt('123123')
+        ]);
 
     }
+    
+    protected function crudPermission($name) {
+        $name = strtoupper($name);
+        return [
+            'create' => Permission::create(['name' => 'CREATE_' . $name, 'guard_name' => 'web']),
+            'update' => Permission::create(['name' => 'UPDATE_' . $name, 'guard_name' => 'web']),
+            'delete' => Permission::create(['name' => 'DELETE_' . $name, 'guard_name' => 'web']),
+            'detail' => Permission::create(['name' => 'DETAIL_' . $name, 'guard_name' => 'web'])
+        ];
+    }
+    
+    
 }
