@@ -64,7 +64,48 @@
         </main>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts -->    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+    var popover = '';
+    popover += '<table class="table">';
+  popover += '<thead  class="thead-dark">';
+    popover += '<tr>';
+      popover += '<th scope="col">#</th>';
+      popover += '<th scope="col">First</th>';
+      popover += '<th scope="col">Last</th>';
+      popover += '<th scope="col">Handle</th>';
+    popover += '</tr>';
+  popover += '</thead>';
+  popover += '<tbody>';
+    popover += '<tr>';
+      popover += '<th scope="row">1</th>';
+      popover += '<td>Mark</td>';
+      popover += '<td>Otto</td>';
+      popover += '<td>@mdo</td>';
+    popover += '</tr>';
+    popover += '<tr>';
+      popover += '<th scope="row">2</th>';
+      popover += '<td>Jacob</td>';
+      popover += '<td>Thornton</td>';
+      popover += '<td>@fat</td>';
+    popover += '</tr>';
+    popover += '<tr>';
+      popover += '<th scope="row">3</th>';
+      popover += '<td>Larry</td>';
+      popover += '<td>the Bird</td>';
+      popover += '<td>@twitter</td>';
+    popover += '</tr>';
+  popover += '</tbody>';
+popover += '</table>';
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover({
+            content: popover,
+            html: true,
+            title: 'Simple POS'
+        });
+    });
+    </script>
 </body>
 </html>
