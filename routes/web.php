@@ -15,14 +15,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('roles', 'RoleController');
-Route::resource('products', 'ProductController');
-Route::resource('categories', 'CategoryController');
-Route::resource('settingtypes', 'SettingTypeController');
-Route::resource('settingitems', 'SettingItemController');
-Route::resource('stocks', 'StockController');
-Route::resource('orders', 'OrderController');
+Auth::routes();
+
+Route::group(['middleware' => 'auth', 'prefix' => 'adminz'], function() {
+    
+    Route::get('/', 'AdminController@index');
+    Route::resource('roles', 'RoleController');
+    Route::resource('products', 'ProductController');
+    Route::resource('categories', 'CategoryController');
+    Route::resource('settingtypes', 'SettingTypeController');
+    Route::resource('settingitems', 'SettingItemController');
+    Route::resource('stocks', 'StockController');
+    Route::resource('orders', 'OrderController');
+    
+});

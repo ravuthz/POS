@@ -27,4 +27,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token'
     ];
+    
+    public function scopeWithRolePermission($q)
+    {
+        return $this->with(['roles' => function($query) {
+            $query->select('id', 'name')->with(['permissions' => function($q) {
+                $q->select('id', 'name');
+            }]);
+        }]);
+    }
 }
