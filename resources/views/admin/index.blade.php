@@ -8,7 +8,7 @@
 
 @section('content')
 
-    <example-component />
+    <product-component />
 
     <ul>
       <li v-for="item in items">

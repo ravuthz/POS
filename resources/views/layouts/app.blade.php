@@ -12,6 +12,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+    #sidebar {
+      background-color:#212529;
+      height:100%;
+      position:fixed;
+      right:0;
+      padding-top: 50px;
+    }
+    </style>
 </head>
 <body>
     <div id="app">
