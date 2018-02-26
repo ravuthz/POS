@@ -11,19 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-
-    <style>
-    #sidebar {
-      background-color:#212529;
-      height:100%;
-      position:fixed;
-      right:0;
-      padding-top: 50px;
-    }
-    </style>
 </head>
 <body>
     <div id="app">
@@ -76,48 +64,7 @@
         </main>
     </div>
 
-    <!-- Scripts -->    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script>
-    var popover = '';
-    popover += '<table class="table">';
-  popover += '<thead  class="thead-dark">';
-    popover += '<tr>';
-      popover += '<th scope="col">#</th>';
-      popover += '<th scope="col">First</th>';
-      popover += '<th scope="col">Last</th>';
-      popover += '<th scope="col">Handle</th>';
-    popover += '</tr>';
-  popover += '</thead>';
-  popover += '<tbody>';
-    popover += '<tr>';
-      popover += '<th scope="row">1</th>';
-      popover += '<td>Mark</td>';
-      popover += '<td>Otto</td>';
-      popover += '<td>@mdo</td>';
-    popover += '</tr>';
-    popover += '<tr>';
-      popover += '<th scope="row">2</th>';
-      popover += '<td>Jacob</td>';
-      popover += '<td>Thornton</td>';
-      popover += '<td>@fat</td>';
-    popover += '</tr>';
-    popover += '<tr>';
-      popover += '<th scope="row">3</th>';
-      popover += '<td>Larry</td>';
-      popover += '<td>the Bird</td>';
-      popover += '<td>@twitter</td>';
-    popover += '</tr>';
-  popover += '</tbody>';
-popover += '</table>';
-    $(document).ready(function(){
-        $('[data-toggle="popover"]').popover({
-            content: popover,
-            html: true,
-            title: 'Simple POS'
-        });
-    });
-    </script>
 </body>
 </html>

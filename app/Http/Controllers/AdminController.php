@@ -22,6 +22,6 @@ class AdminController extends Controller
 
     public function products()
     {
-        return Product::all();
+        return Product::paginate(12);
     }
 }

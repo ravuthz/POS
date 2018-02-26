@@ -8,6 +8,16 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.BootstrapVue = require('bootstrap-vue');
+
+import { Modal, Popover, Navbar, Table } from 'bootstrap-vue/es/components';
+
+Vue.use(BootstrapVue);
+
+Vue.use(Modal);
+Vue.use(Popover);
+Vue.use(Navbar);
+Vue.use(Table);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -19,11 +29,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 Vue.component('product-component', require('./components/ProductComponent.vue'));
 
 const app = new Vue({
-    el: '#app',
-    data: {
-      items: [
-        { message: 'Foo' },
-        { message: 'Bar' }
-      ]
-    }
+    el: '#app'
 });
