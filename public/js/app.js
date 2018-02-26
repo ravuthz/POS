@@ -47185,6 +47185,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47222,7 +47223,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container-fluit" }, [
     _c("div", { staticClass: "row text-center text-lg-left" }, [
       _c("div", { staticClass: "col-md-11" }, [
         _c(
@@ -47241,6 +47242,10 @@ var render = function() {
                   }
                 },
                 [
+                  _c("span", { staticClass: "badge" }, [
+                    _vm._v(_vm._s(product.sale_price))
+                  ]),
+                  _vm._v(" "),
                   _c("img", {
                     staticClass: "card-img-top",
                     attrs: { src: product.image }
@@ -47418,7 +47423,7 @@ exports = module.exports = __webpack_require__(48)(false);
 
 
 // module
-exports.push([module.i, "\n.card{\n    cursor:pointer;\n}\n", ""]);
+exports.push([module.i, "\n.card{\n        cursor:pointer;\n        padding: 5px;\n        margin: 15px;\n}\n.badge{\n    background-color: white;\n    position: absolute;\n    right: 5px;\n    color: red;\n    font-size: 14px;\n}\n\n", ""]);
 
 // exports
 
