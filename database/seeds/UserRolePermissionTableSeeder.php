@@ -2,8 +2,8 @@
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserRolePermissionTableSeeder extends Seeder
 {
@@ -17,13 +17,16 @@ class UserRolePermissionTableSeeder extends Seeder
         $roleAdmin = Role::create(['name' => 'admin']);
         $roleSeller = Role::create(['name' => 'seller']);
         $roleCustomer = Role::create(['name' => 'customer']);
-        
+
         $user = $this->crudPermission('user');
         $category = $this->crudPermission('category');
         $product = $this->crudPermission('product');
         $order = $this->crudPermission('order');
         $stock = $this->crudPermission('stock');
-        
+
+        $roleAdmin->givePermissionTo(
+            Permission::create(['name' => 'DETAIL_ADMIN'])
+        );
         $roleAdmin->givePermissionTo(array_values($user));
         $roleAdmin->givePermissionTo(array_values($category));
         $roleAdmin->givePermissionTo(array_values($product));
@@ -32,7 +35,7 @@ class UserRolePermissionTableSeeder extends Seeder
 
         $roleSeller->givePermissionTo(array_values($order));
         $roleSeller->givePermissionTo(array_values($stock));
-        
+
         $roleCustomer->givePermissionTo(
             $user['detail'],
             $category['detail'],
@@ -60,16 +63,17 @@ class UserRolePermissionTableSeeder extends Seeder
             'password' => bcrypt('123123')
         ]);
         $editor->assignRole('customer');
-        
+
         $other = User::create([
-            'name' => 'other',
-            'email' => 'other@gmail.com',
+            'name'     => 'other',
+            'email'    => 'other@gmail.com',
             'password' => bcrypt('123123')
         ]);
 
     }
-    
-    protected function crudPermission($name) {
+
+    protected function crudPermission($name)
+    {
         $name = strtoupper($name);
         return [
             'create' => Permission::create(['name' => 'CREATE_' . $name, 'guard_name' => 'web']),
@@ -78,6 +82,5 @@ class UserRolePermissionTableSeeder extends Seeder
             'detail' => Permission::create(['name' => 'DETAIL_' . $name, 'guard_name' => 'web'])
         ];
     }
-    
-    
+
 }
