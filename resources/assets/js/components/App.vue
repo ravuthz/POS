@@ -14,10 +14,10 @@
                             <span></span>
                         </button>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-xs-6"  v-for="product in products">
-                            <div class="card" @click="add(product)">
+                            <div class="card" @click="addItem(product)">
                                 <span class="badge">{{ product.sale_price }}</span>
                                 <img class="card-img-top" :src="product.image">
                                 <div class="card-block">
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </nav>
 
@@ -36,7 +36,14 @@
         <nav id="sidebar" v-bind:class="{ active : showRightSidebar }">
             <div class="sidebar-header">
                 <h3>Simple POS</h3>
-                <b-table striped hover :items="items"></b-table>
+                <b-table striped hover :items="items" :fields="fields">
+                    <template slot="no" slot-scope="data">
+                        {{ data.index + 1 }}
+                    </template>
+                    <template slot="qty" slot-scope="data">
+                        {{ data.item.qty }}
+                    </template>
+                </b-table>
             </div>
         </nav>
 
@@ -48,9 +55,20 @@
     export default{
         data () {
             return {
+                fields: [
+                    'no',
+                    {
+                        key:'name'
+                    },
+                    {
+                        key:'sale_price',
+                        label: 'Price'
+                    },
+                    'qty'
+                ],
                 showRightSidebar: false,
                 products: [],
-                items: []
+                items: [],
             }
         },
         mounted() {
@@ -60,30 +78,24 @@
         methods: {
             loadProducts: function() {
                 axios.get('/api/products').then(res => {
-                    console.log("loadProducts: ", res.data);
                     this.products = res.data.data;
                 });
             },
-            add: function(product) {
-                console.log("add: ", product);
-                let length = this.items.length;
+            addItem: function(product) {
+                product.qty = product.qty || 1;
 
-                if (length) {
-                    for (let i=0; i<length; i++) {
-                        let item = this.items[i];
-                        console.log(product.id, item.id);
-                        if (product.id !== item.id) {
-                            this.items.push(product);
-                        }
+                this.items.map((item, index) => {
+                    if (item == product) {
+                        this.items.splice(index, 1);
+                        product.qty += 1;
                     }
-                } else {
-                    this.items.push(product);
-                }
+                });
 
+                this.items.push(product);
             }
         }
     }
-    
+
 </script>
 
 <style type="text/css">
@@ -102,7 +114,7 @@
     .navbar{
         background: #e5e5e5;
     }
-    
+
     #sidebar, #content {
         height: 100vh;
         overflow: auto;
