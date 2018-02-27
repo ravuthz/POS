@@ -10,3 +10,12 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+/public/js/app.js
+/public/css/app.css
+
+.env
+.env.testing
+.env.develop
+
+php_errors.log
