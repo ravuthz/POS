@@ -7,17 +7,17 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
-window.BootstrapVue = require('bootstrap-vue');
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import BootstrapVue from 'bootstrap-vue';
 
-import { Modal, Popover, Navbar, Table } from 'bootstrap-vue/es/components';
+import App from './components/App.vue';
+import Dashboard from './components/dashboard/Home.vue';
+import ProductList from './components/products/ProductList.vue';
+import ProductShow from './components/products/ProductShow.vue';
 
+Vue.use(VueRouter);
 Vue.use(BootstrapVue);
-
-Vue.use(Modal);
-Vue.use(Popover);
-Vue.use(Navbar);
-Vue.use(Table);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -25,9 +25,29 @@ Vue.use(Table);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.component('product-component', require('./components/ProductComponent.vue'));
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+      {
+        name: 'dashboard.home',
+        path: '/adminz/',
+        component: Dashboard
+      },
+      {
+        name: 'product.list',
+        path: '/adminz/products',
+        component: ProductList
+      },
+      {
+        name: 'product.show',
+        path: '/adminz/products/:id',
+        component: ProductShow
+      }
+    ]
+});
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: { App },
+    router
 });

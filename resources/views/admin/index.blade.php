@@ -1,13 +1,5 @@
-@extends('layouts.app')
-
-@section('title', 'AdminLTE')
-
-@section('content_header')
-    <h1>Dashboard</h1>
-@stop
+@extends('layouts.vue')
 
 @section('content')
-
-    <product-component />
-
+    <app></app>
 @stop

@@ -8,15 +8,16 @@
                 <div class="container-fluid">
 
                     <div class="navbar-header">
-                        <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <button type="button" id="sidebarCollapse" class="navbar-btn"  @click="showRightSidebar = !showRightSidebar">
                             <span></span>
                             <span></span>
                             <span></span>
                         </button>
                     </div>
+                    
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-xs-6"  v-for="product in products">
-                            <div class="card" v-on:click="add(product)">
+                            <div class="card" @click="add(product)">
                                 <span class="badge">{{ product.sale_price }}</span>
                                 <img class="card-img-top" :src="product.image">
                                 <div class="card-block">
@@ -25,13 +26,14 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </nav>
 
         </div>
 
         <!-- Sidebar Holder -->
-        <nav id="sidebar">
+        <nav id="sidebar" v-bind:class="{ active : showRightSidebar }">
             <div class="sidebar-header">
                 <h3>Simple POS</h3>
                 <b-table striped hover :items="items"></b-table>
@@ -42,16 +44,11 @@
 </template>
 
 <script>
-    $(document).ready(function () {
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-            $(this).toggleClass('active');
-        });
-    });
 
-    export default {
+    export default{
         data () {
             return {
+                showRightSidebar: false,
                 products: [],
                 items: []
             }
@@ -62,14 +59,13 @@
 
         methods: {
             loadProducts: function() {
-                axios.get('/adminz/products/json').then(res => {
+                axios.get('/api/products').then(res => {
                     console.log("loadProducts: ", res.data);
                     this.products = res.data.data;
                 });
             },
             add: function(product) {
                 console.log("add: ", product);
-
                 let length = this.items.length;
 
                 if (length) {
@@ -84,13 +80,12 @@
                     this.items.push(product);
                 }
 
-
-
             }
         }
-
     }
+    
 </script>
+
 <style type="text/css">
     .card{
         cursor:pointer;
@@ -106,5 +101,10 @@
     }
     .navbar{
         background: #e5e5e5;
+    }
+    
+    #sidebar, #content {
+        height: 100vh;
+        overflow: auto;
     }
 </style>
