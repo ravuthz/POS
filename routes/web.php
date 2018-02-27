@@ -11,24 +11,55 @@
 |
  */
 
+use App\Models\Product;
+use Illuminate\Http\Request;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/logout', function() {
+    Auth::logout();
+    return redirect('/login');
+});
+
+Route::get('/adminz/{vue_capture?}', function () {
+ return view('admin.index');
+})->where('vue_capture', '[\/\w\.-]*');
+
+// Route::group(['middleware' => ['auth', 'crud.permissions'], 'prefix' => 'adminz'], function () {
+//     Route::get('/', 'AdminController@index');
+//     Route::resource('roles', 'RoleController');
+//     Route::resource('products', 'ProductController');
+//     Route::resource('categories', 'CategoryController');
+//     Route::resource('settingtypes', 'SettingTypeController');
+//     Route::resource('settingitems', 'SettingItemController');
+//     Route::resource('stocks', 'StockController');
+//     Route::resource('orders', 'OrderController');
+// });
 
 Auth::routes();
 
-Route::get('adminz/products/json', 'AdminController@products');
+Route::group(['prefix' => 'api'], function() {
 
-Route::group(['middleware' => ['auth', 'crud.permissions'], 'prefix' => 'adminz'], function () {
-    Route::get('/', 'AdminController@index');
-    Route::resource('roles', 'RoleController');
-    Route::resource('products', 'ProductController');
-    Route::resource('categories', 'CategoryController');
-    Route::resource('settingtypes', 'SettingTypeController');
-    Route::resource('settingitems', 'SettingItemController');
-    Route::resource('stocks', 'StockController');
-    Route::resource('orders', 'OrderController');
-
+    Route::get('/products', function(Request $request) {
+        $size = $request->get('size', 12);
+        return  Product::select([
+            'id',
+            'slug',
+            'name',
+            'status',
+            'image',
+            'buy_price',
+            'sale_price',
+            'category_id',
+            'created_by',
+            'created_at'
+        ])->paginate($size);
+    });
+    
+    Route::get('products/{id}', function($id) {
+        return Product::find($id); 
+    });
+    
 });
