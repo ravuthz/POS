@@ -9,6 +9,7 @@ require('./bootstrap');
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue';
 
 import App from './components/App.vue';
@@ -17,6 +18,7 @@ import ProductList from './components/products/ProductList.vue';
 import ProductShow from './components/products/ProductShow.vue';
 
 Vue.use(VueRouter);
+Vue.use(Vue2Filters)
 Vue.use(BootstrapVue);
 
 Vue.component('crud-table', require('./components/core/CrudTable.vue'));

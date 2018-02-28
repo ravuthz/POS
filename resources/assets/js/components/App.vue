@@ -3,20 +3,21 @@
 
         <!-- Page Content Holder -->
         <div id="content">
-            
+
             <router-view></router-view>
 
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
-
-                    <div class="navbar-header">
-                        <button type="button" id="sidebarCollapse" class="navbar-btn"  @click="showRightSidebar = !showRightSidebar">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-1">
+                            <div class="navbar-header">
+                                <button type="button" id="sidebarCollapse" class="navbar-btn"  @click="showRightSidebar = !showRightSidebar">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </button>
+                            </div>
                     </div>
-
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-xs-6"  v-for="product in products">
                             <div class="card" @click="addItem(product)">
@@ -42,10 +43,27 @@
                     <template slot="no" slot-scope="data">
                         {{ data.index + 1 }}
                     </template>
+                    <template slot="sale_price" slot-scope="data">
+                        {{ data.item.sale_price | currency('R ') }}
+                    </template>
                     <template slot="qty" slot-scope="data">
                         {{ data.item.qty }}
                     </template>
+                    <template slot="subtotal" slot-scope="data">
+                        {{ data.item.subTotal | currency('R ') }}
+                    </template>
+                    <template slot="actions" slot-scope="data">
+                        <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
+                        <b-button size="sm" @click.stop="removeItem(data.index)" class="mr-1">
+                          x
+                        </b-button>
+                    </template>
                 </b-table>
+                <div class="clearfix total">
+                    <span class="float-left">Total</span>
+                    <span class="float-right">{{ sumItemsTotal | currency('R ') }}</span>
+                </div>
+
             </div>
         </nav>
 
@@ -58,23 +76,54 @@
         data () {
             return {
                 fields: [
-                    'no',
                     {
-                        key:'name'
+                        key: 'no',
+                        label: '#'
+                    }
+                    ,
+                    {
+                        key:'name',
                     },
                     {
                         key:'sale_price',
-                        label: 'Price'
+                        label: 'Price',
+                        class: 'text-right'
                     },
-                    'qty'
+                    {
+                        key:'qty',
+                        class: 'text-right'
+                    },
+                    {
+                        key:'subtotal',
+                        class: 'text-right'
+                    },
+                    {
+                        key: 'actions',
+                        label: '',
+                        class: 'text-right'
+                    }
                 ],
                 showRightSidebar: false,
                 products: [],
                 items: [],
+                total: 0.00
             }
         },
         mounted() {
             this.loadProducts();
+        },
+
+        computed: {
+            sumItemsTotal () {
+                let total = 0;
+                let length = this.items.length;
+                this.items.map(item => {
+                    item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
+                    total += item.subTotal;
+                });
+                this.total = total;
+                return this.total;
+            }
         },
 
         methods: {
@@ -84,17 +133,21 @@
                 });
             },
             addItem: function(product) {
-                product.qty = product.qty || 1;
-
+                let addItem = product;
+                addItem.qty = addItem.qty || 1;
                 this.items.map((item, index) => {
-                    if (item == product) {
+                    if (item == addItem) {
                         this.items.splice(index, 1);
-                        product.qty += 1;
+                        addItem.qty += 1;
                     }
                 });
+                this.items.push(addItem);
+            },
+            removeItem: function(index) {
+                this.items[index].qty = 1;
+                this.items.splice(index, 1);
+            },
 
-                this.items.push(product);
-            }
         }
     }
 
@@ -103,8 +156,8 @@
 <style type="text/css">
     .card{
         cursor:pointer;
-        padding: 5px;
-        margin: 5px;
+        padding: 15px;
+        margin: 15px 0px;
     }
     .badge{
         background-color: white;
