@@ -18,13 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/logout', function() {
+Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
 });
 
 Route::get('/adminz/{vue_capture?}', function () {
- return view('admin.index');
+    return view('admin.index');
 })->where('vue_capture', '[\/\w\.-]*');
 
 // Route::group(['middleware' => ['auth', 'crud.permissions'], 'prefix' => 'adminz'], function () {
@@ -40,26 +40,8 @@ Route::get('/adminz/{vue_capture?}', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'api'], function() {
+Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
-    Route::get('/products', function(Request $request) {
-        $size = $request->get('size', 12);
-        return  Product::select([
-            'id',
-            'slug',
-            'name',
-            'status',
-            'image',
-            'buy_price',
-            'sale_price',
-            'category_id',
-            'created_by',
-            'created_at'
-        ])->paginate($size);
-    });
-    
-    Route::get('products/{id}', function($id) {
-        return Product::find($id); 
-    });
+    Route::resource('products', 'ProductController', ['except' => ['create', 'edit']]);
     
 });
