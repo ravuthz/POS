@@ -3,6 +3,8 @@
 
         <!-- Page Content Holder -->
         <div id="content">
+            
+            <router-view></router-view>
 
             <nav class="navbar navbar-default">
                 <div class="container-fluid">

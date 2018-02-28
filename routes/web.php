@@ -40,25 +40,6 @@ Route::get('/adminz/{vue_capture?}', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'api'], function () {
-    Route::get('/products', function (Request $request) {
-        $size = $request->get('size', 12);
-        return Product::select([
-            'id',
-            'slug',
-            'name',
-            'status',
-            'image',
-            'buy_price',
-            'sale_price',
-            'category_id',
-            'created_by',
-            'created_at'
-        ])->paginate($size);
-    });
-
-    Route::get('products/{id}', function ($id) {
-        return Product::find($id);
-    });
-
+Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
+    Route::resource('products', 'ProductController', ['except' => ['create', 'edit']]);
 });
