@@ -59,7 +59,9 @@ a, a:hover, a:focus {
 }
 
 #sidebar.active {
-    margin-left: -350px;
+    // margin-left: -350px;
+    min-width: 0px;
+    max-width: 0px;
     transform: rotateY(100deg);
 }
 
@@ -189,11 +191,15 @@ a.article, a.article:hover {
 ----------------------------------------------------- */
 @media (max-width: 768px) {
     #sidebar {
+        min-width: 250px;
+        max-width: 250px;
         margin-left: -250px;
         transform: rotateY(90deg);
     }
     #sidebar.active {
         margin-left: 0;
+        min-width: 250px;
+        max-width: 250px;
         transform: none;
     }
     #sidebarCollapse span:first-of-type,
