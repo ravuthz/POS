@@ -19,6 +19,8 @@ import ProductShow from './components/products/ProductShow.vue';
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 
+Vue.component('crud-table', require('./components/core/CrudTable.vue'));
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
