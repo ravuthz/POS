@@ -41,7 +41,5 @@ Route::get('/adminz/{vue_capture?}', function () {
 Auth::routes();
 
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
-
     Route::resource('products', 'ProductController', ['except' => ['create', 'edit']]);
-    
 });
