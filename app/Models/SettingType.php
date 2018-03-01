@@ -15,9 +15,8 @@ class SettingType extends Model
     protected $fillable = [
         'slug',
         'name',
-        'image',
-        'name',
-        'name_kh'
+        'name_kh',
+        'image'
     ];
 
     public function settingItems()
