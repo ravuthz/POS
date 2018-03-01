@@ -19,7 +19,7 @@
                     </template>
                     <template slot="actions" slot-scope="data">
                         <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                        <b-button size="sm" @click.stop="removeItem(data.index)" class="mr-1">
+                        <b-button size="sm" @click.stop="removeItem(data.item)" class="mr-1">
                           x
                         </b-button>
                     </template>
@@ -115,13 +115,11 @@
         computed: {
             sumItemsTotal () {
                 let total = 0;
-                let length = this.items.length;
                 this.items.map(item => {
                     item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
                     total += item.subTotal;
                 });
-                this.total = total;
-                return this.total;
+                return (this.total = total);
             }
         },
         // watch: {
@@ -132,33 +130,41 @@
         //     }
         // },
         methods: {
-            loadProducts: function() {
+            loadProducts() {
                 axios.get('/api/products').then(res => {
                     this.products = res.data.data;
+                    this.products.map(product => product.qty = 0);
                 });
             },
-            addItem: function(product) {
-                product.qty = product.qty || 1;
-                this.items.map((item, index) => {
+            loadItems() {
+                this.items = this.products.filter(product => product.qty > 0);
+            },
+            addItem(product) {
+                this.products.map(item => {
                     if (item == product) {
-                        this.items.splice(index, 1);
-                        product.qty += 1;
+                        item.qty += 1;
                     }
-                });
-                this.items.push(product);
-                console.log(this.items);
+                })
+                console.log("Add product to carts: ", this.products);
+                this.loadItems();
             },
-            removeItem: function(index) {
-                this.items[index].qty = 1;
-                this.items.splice(index, 1);
-            },
-            changeQty: function(newItem){
-                this.items.map((item, index) => {
-                    if (item == newItem) {
-                        this.items.splice(index, 1);
+            removeItem(product) {
+                this.products.map(item => {
+                    if (item == product) {
+                        item.qty = 0;
                     }
-                });
-                this.items.push(newItem);
+                })
+                console.log("Remove product from carts: ", this.products);
+                this.loadItems();
+            },
+            changeQty(product){
+                this.products.map(item => {
+                    if (item == product) {
+                        item.qty = parseInt(product.qty);
+                    }
+                })
+                console.log("Update product 's quantity: ", this.products);
+                this.loadItems();
             }
         }
     }
