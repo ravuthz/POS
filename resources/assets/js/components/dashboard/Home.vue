@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <!-- <div>
         DashboardHome Component
-    </div>
+    </div> -->
 </template>
 
 <script>

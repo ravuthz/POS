@@ -8,16 +8,6 @@
 
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-1">
-                            <div class="navbar-header">
-                                <button type="button" id="sidebarCollapse" class="navbar-btn"  @click="showRightSidebar = !showRightSidebar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </button>
-                            </div>
-                    </div>
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-xs-6"  v-for="product in products">
                             <div class="card" @click="addItem(product)">
@@ -34,9 +24,14 @@
             </nav>
 
         </div>
-
+        <button type="button" id="sidebarCollapse" class="navbar-btn"  @click="showRightSidebar = !showRightSidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <!-- Sidebar Holder -->
         <nav id="sidebar" v-bind:class="{ active : showRightSidebar }">
+
             <div class="sidebar-header">
                 <h3>Simple POS</h3>
                 <b-table striped hover :items="items" :fields="fields">
