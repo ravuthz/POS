@@ -30,21 +30,22 @@ Vue.component('crud-table', require('./components/core/CrudTable.vue'));
  */
 
 const router = new VueRouter({
+    base: '/seller',
     mode: 'history',
     routes: [
       {
         name: 'dashboard.home',
-        path: '/adminz/',
+        path: '/',
         component: Dashboard
       },
       {
         name: 'product.list',
-        path: '/adminz/products',
+        path: '/products',
         component: ProductList
       },
       {
         name: 'product.show',
-        path: '/adminz/products/:id',
+        path: '/products/:id',
         component: ProductShow
       }
     ]

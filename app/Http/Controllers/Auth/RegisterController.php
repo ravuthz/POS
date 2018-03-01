@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use Auth;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -68,5 +69,20 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+    
+    public function redirectPath()
+    {
+        $user = Auth::user();
+        
+        if ($user->hasRole('admin')) {
+            return '/adminz';
+        }
+        
+        if ($user->hasRole('seller')) {
+            return '/seller';
+        }
+        
+        return $this->redirectTo;
     }
 }
