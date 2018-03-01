@@ -17,28 +17,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $size = $request->get('size', '12');
-        $sort = $request->get('sort', 'null');
-        $desc = $request->get('desc', 'false');
-        $filter = $request->get('filter', 'null');
-        
-        if ($sort === null || $sort == 'null') {
-            $sort = 'id';
-        }
-        
-        if ($desc == false || $desc == 'false') {
-            $desc = 'asc';
-        } else {
-            $desc = 'desc';
-        }
-        
-        if ($filter == null || $filter == 'null') {
-            $filter = '%';
-        } else {
-            $filter = "%{$filter}%";
-        }
-        
-        $data = Product::where('name', 'like', $filter)->orderBy($sort, $desc)->paginate($size);
+        $data = Product::getNamePageSort($request);
         return new ProductCollection($data);
     }
 
