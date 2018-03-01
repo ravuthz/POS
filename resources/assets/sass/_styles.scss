@@ -169,7 +169,7 @@ a {
 #sidebarCollapse {
   width: 40px;
   height: 40px;
-  background: #f5f5f5;
+  background: #e5e5e5;;
   span {
     width: 80%;
     height: 2px;
@@ -200,6 +200,8 @@ a {
 ----------------------------------------------------- */
 @media (max-width: 768px) {
   #sidebar {
+    min-width: 250px;
+    max-width: 250px;
     margin-left: -250px;
     transform: rotateY(90deg);
     &.active {
@@ -240,4 +242,11 @@ a {
 .buttonPrint{
     padding: 30px;
     background: #7ccc70;
+}
+.rightSearch{
+    position: absolute;
+    right: 0;
+}
+.navbar-header{
+    width: 100%;
 }

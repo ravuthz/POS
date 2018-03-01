@@ -42,12 +42,16 @@
 
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
-                     <div class="navbar-header">
-                        <button type="button" id="sidebarCollapse" class="navbar-btn"  @click="showRightSidebar = !showRightSidebar">
+                    <div class="navbar-header row">
+                        <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-md-2 col-sm-2"  @click="showRightSidebar = !showRightSidebar">
                             <span></span>
                             <span></span>
                             <span></span>
                         </button>
+                        <div class="row col-md-10 col-sm-8 rightSearch">
+                            <b-form-input class="col-md-9 col-sm-8"></b-form-input>
+                            <b-btn variant="outline-success" class="col-md-3 col-sm-3">Search</b-btn>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-xs-6"  v-for="product in products">
