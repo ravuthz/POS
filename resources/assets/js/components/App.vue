@@ -43,14 +43,14 @@
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header row">
-                        <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-md-2 col-sm-2"  @click="showRightSidebar = !showRightSidebar">
+                        <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-lg-1 col-md-2"  @click="showRightSidebar = !showRightSidebar">
                             <span></span>
                             <span></span>
                             <span></span>
                         </button>
-                        <div class="row col-md-10 col-sm-8 rightSearch">
-                            <b-form-input class="col-md-9 col-sm-8"></b-form-input>
-                            <b-btn variant="outline-success" class="col-md-3 col-sm-3">Search</b-btn>
+                        <div class="row col-lg-11 col-md-10rightSearch">
+                            <b-form-input class="col-md-9"></b-form-input>
+                            <b-btn variant="outline-success" class="col-md-3">Search</b-btn>
                         </div>
                     </div>
                     <div class="row">
