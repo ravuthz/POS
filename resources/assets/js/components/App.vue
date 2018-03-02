@@ -19,7 +19,7 @@
                     </template>
                     <template slot="actions" slot-scope="data">
                         <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                        <b-button size="sm" @click.stop="removeItem(data.item)" class="mr-1">
+                        <b-button size="sm" @click.stop="removeItem(data.item)" class="mr-1 btn-danger">
                           x
                         </b-button>
                     </template>
@@ -49,7 +49,7 @@
                             <span></span>
                         </button>
                         <div class="col-lg-11 col-md-10 rightSearch row">
-                            <b-form-input class="col-md-9"></b-form-input>
+                            <b-form-input class="col-md-9" placeholder="Search product here..."></b-form-input>
                             <b-btn variant="outline-success" class="col-md-3">Search</b-btn>
                         </div>
                     </div>
