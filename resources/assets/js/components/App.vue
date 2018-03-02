@@ -48,7 +48,7 @@
                             <span></span>
                             <span></span>
                         </button>
-                        <div class="row col-lg-11 col-md-10rightSearch">
+                        <div class="col-lg-11 col-md-10 rightSearch row">
                             <b-form-input class="col-md-9"></b-form-input>
                             <b-btn variant="outline-success" class="col-md-3">Search</b-btn>
                         </div>
