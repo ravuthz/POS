@@ -4,7 +4,7 @@
         <nav id="sidebar" v-bind:class="{ active : showRightSidebar }">
             <div class="sidebar-header">
                 <h3>Simple POS</h3>
-                <b-table striped hover :items="items" :fields="fields">
+                <b-table striped hover :items="items" :fields="fields" :value.sync="items">
                     <template slot="no" slot-scope="data">
                         {{ data.index + 1 }}
                     </template>
@@ -81,6 +81,7 @@
 
 <script>
 
+        var Vue = require('vue');
     export default{
         data () {
             return {
@@ -118,6 +119,7 @@
                 total: 0.00,
                 currentPage: 1,
                 perPage: 12,
+                productName: null,
                 totalRows: null
             }
         },
@@ -135,51 +137,38 @@
                 return (this.total = total);
             }
         },
-        // watch: {
-        //     items: function (oldQty, newQty) {
-        //         // this.items.map(item => {
-        //             console.log("====", oldQty);
-        //         // })
-        //     }
-        // },
         methods: {
             loadProducts() {
-
                 axios.get('/api/products').then(res => {
                     this.totalRows = res.data.meta.total;
                     this.products = res.data.data;
-                    this.products.map(product => product.qty = 0);
                 });
             },
-            loadItems() {
-                this.items = this.products.filter(product => product.qty > 0);
-            },
             addItem(product) {
-                this.products.map(item => {
+                product.qty = product.qty || 1;
+                this.items.map((item, index) => {
                     if (item == product) {
-                        item.qty += 1;
+                        this.items.splice(index,1);
+                        item.qty = product.qty + 1 ;
                     }
-                })
-                console.log("Add product to carts: ", this.products);
-                this.loadItems();
+                });
+                this.items.push(product);
             },
             removeItem(product) {
-                this.products.map(item => {
+                this.products.map((item, index) => {
                     if (item == product) {
-                        item.qty = 0;
+                        this.items.splice(index, 1);
                     }
                 })
-                console.log("Remove product from carts: ", this.products);
-                this.loadItems();
             },
             changeQty(product){
-                this.products.map(item => {
+                this.items.map((item, index) => {
                     if (item == product) {
+                        this.items.splice(index, 1);
                         item.qty = parseInt(product.qty);
+                        this.items.push(product);
                     }
                 })
-                console.log("Update product 's quantity: ", this.products);
-                this.loadItems();
             },
             searchProduct: function(name) {
                 axios.get('/api/products/?filter=' + name).then(res => {
