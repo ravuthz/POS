@@ -42,15 +42,16 @@
 
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
-                    <div class="navbar-header row">
-                        <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-lg-1 col-md-2"  @click="showRightSidebar = !showRightSidebar">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                        <div class="col-lg-11 col-md-10 rightSearch row">
-                            <b-form-input class="col-md-9" placeholder="Search product here..."></b-form-input>
-                            <b-btn variant="outline-success" class="col-md-3">Search</b-btn>
+                    <div class="navbar-header">
+                        <div class="row">
+                            <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-lg-1 col-md-2"  @click="showRightSidebar = !showRightSidebar">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                            <div class="col-lg-11 col-md-10 rightSearch">
+                                <b-form-input placeholder="Search product here..." v-model="productName" @keyup.native="searchProduct(productName)"></b-form-input>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -65,6 +66,11 @@
                         </div>
                     </div>
 
+                    <template>
+                        <div>
+                            <b-pagination size="md" @change="changePage" :total-rows="totalRows" v-model="currentPage" :per-page="perPage"></b-pagination>
+                      </div>
+                    </template>
                 </div>
             </nav>
 
@@ -109,7 +115,10 @@
                 showRightSidebar: false,
                 products: [],
                 items: [],
-                total: 0.00
+                total: 0.00,
+                currentPage: 1,
+                perPage: 12,
+                totalRows: null
             }
         },
         mounted() {
@@ -135,7 +144,9 @@
         // },
         methods: {
             loadProducts() {
+
                 axios.get('/api/products').then(res => {
+                    this.totalRows = res.data.meta.total;
                     this.products = res.data.data;
                     this.products.map(product => product.qty = 0);
                 });
@@ -169,6 +180,19 @@
                 })
                 console.log("Update product 's quantity: ", this.products);
                 this.loadItems();
+            },
+            searchProduct: function(name) {
+                axios.get('/api/products/?filter=' + name).then(res => {
+                    this.totalRows = res.data.meta.total;
+                    this.products = res.data.data;
+                    this.products.map(product => product.qty = 0);
+                });
+            },
+            changePage (pageNum) {
+                axios.get('/api/products/?page=' + pageNum).then(res => {
+                    this.products = res.data.data;
+                    this.products.map(product => product.qty = 0);
+                });
             }
         }
     }
