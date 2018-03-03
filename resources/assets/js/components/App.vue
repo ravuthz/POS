@@ -4,7 +4,7 @@
         <nav id="sidebar" v-bind:class="{ active : showRightSidebar }">
             <div class="sidebar-header">
                 <h3>Simple POS</h3>
-                <b-table striped hover :items="items" :fields="fields">
+                <b-table striped hover :items="items" :fields="fields" :value.sync="items">
                     <template slot="no" slot-scope="data">
                         {{ data.index + 1 }}
                     </template>
@@ -19,7 +19,7 @@
                     </template>
                     <template slot="actions" slot-scope="data">
                         <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                        <b-button size="sm" @click.stop="removeItem(data.item)" class="mr-1">
+                        <b-button size="sm" @click.stop="removeItem(data.item)" class="mr-1 btn-danger">
                           x
                         </b-button>
                     </template>
@@ -42,15 +42,16 @@
 
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
-                    <div class="navbar-header row">
-                        <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-md-2 col-sm-2"  @click="showRightSidebar = !showRightSidebar">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                        <div class="row col-md-10 col-sm-8 rightSearch">
-                            <b-form-input class="col-md-9 col-sm-8"></b-form-input>
-                            <b-btn variant="outline-success" class="col-md-3 col-sm-3">Search</b-btn>
+                    <div class="navbar-header">
+                        <div class="row">
+                            <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-lg-1 col-md-2"  @click="showRightSidebar = !showRightSidebar">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                            <div class="col-lg-11 col-md-10 rightSearch">
+                                <b-form-input placeholder="Search product here..." v-model="productName" @keyup.native="searchProduct(productName)"></b-form-input>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -65,6 +66,11 @@
                         </div>
                     </div>
 
+                    <template>
+                        <div>
+                            <b-pagination size="md" @change="changePage" :total-rows="totalRows" v-model="currentPage" :per-page="perPage"></b-pagination>
+                      </div>
+                    </template>
                 </div>
             </nav>
 
@@ -74,6 +80,8 @@
 </template>
 
 <script>
+
+    let Vue = require('vue');
 
     export default{
         data () {
@@ -109,7 +117,11 @@
                 showRightSidebar: false,
                 products: [],
                 items: [],
-                total: 0.00
+                total: 0.00,
+                currentPage: 1,
+                perPage: 12,
+                productName: null,
+                totalRows: null
             }
         },
         mounted() {
@@ -123,52 +135,64 @@
                     item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
                     total += item.subTotal;
                 });
+
+                this.items = this.items.sort(function(a, b){
+                    return a.date - b.date;
+                });
+
+                console.log("this.items: ", this.items);
+
                 return (this.total = total);
             }
         },
-        // watch: {
-        //     items: function (oldQty, newQty) {
-        //         // this.items.map(item => {
-        //             console.log("====", oldQty);
-        //         // })
-        //     }
-        // },
         methods: {
             loadProducts() {
                 axios.get('/api/products').then(res => {
+                    this.totalRows = res.data.meta.total;
+                    this.products = res.data.data;
+                });
+            },
+            addItem(product) {
+                product.qty = product.qty || 1;
+                this.items.map((item, index) => {
+
+                    if (item == product) {
+                        this.items.splice(index, 1);
+                        item.qty = product.qty + 1 ;
+                    }
+                    item.date = new Date();
+                });
+                this.items.push(product);
+            },
+            removeItem(product) {
+                this.products.map((item, index) => {
+                    if (item.id == product.id) {
+                        this.items.splice(index, 1);
+                    }
+                })
+            },
+            changeQty(product){
+                this.items.map((item, index) => {
+                    if (item.id == product.id) {
+                        this.items.splice(index, 1);
+                        item.qty = parseInt(product.qty);
+                        this.items.push(product);
+                    }
+                })
+                console.log(this.items);
+            },
+            searchProduct: function(name) {
+                axios.get('/api/products/?filter=' + name).then(res => {
+                    this.totalRows = res.data.meta.total;
                     this.products = res.data.data;
                     this.products.map(product => product.qty = 0);
                 });
             },
-            loadItems() {
-                this.items = this.products.filter(product => product.qty > 0);
-            },
-            addItem(product) {
-                this.products.map(item => {
-                    if (item == product) {
-                        item.qty += 1;
-                    }
-                })
-                console.log("Add product to carts: ", this.products);
-                this.loadItems();
-            },
-            removeItem(product) {
-                this.products.map(item => {
-                    if (item == product) {
-                        item.qty = 0;
-                    }
-                })
-                console.log("Remove product from carts: ", this.products);
-                this.loadItems();
-            },
-            changeQty(product){
-                this.products.map(item => {
-                    if (item == product) {
-                        item.qty = parseInt(product.qty);
-                    }
-                })
-                console.log("Update product 's quantity: ", this.products);
-                this.loadItems();
+            changePage (pageNum) {
+                axios.get('/api/products/?page=' + pageNum).then(res => {
+                    this.products = res.data.data;
+                    this.products.map(product => product.qty = 0);
+                });
             }
         }
     }
