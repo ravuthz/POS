@@ -30,6 +30,8 @@ Route::group([
     ], function() {
         
     Route::apiResource('products', 'ProductController');
+    Route::get('sales-products', 'ProductController@sales');
+    Route::apiResource('sales', 'SaleProductController');
     
 });
 
