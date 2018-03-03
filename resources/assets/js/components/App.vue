@@ -81,7 +81,8 @@
 
 <script>
 
-        var Vue = require('vue');
+    let Vue = require('vue');
+
     export default{
         data () {
             return {
@@ -134,6 +135,13 @@
                     item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
                     total += item.subTotal;
                 });
+
+                this.items = this.items.sort(function(a, b){
+                    return a.date - b.date;
+                });
+
+                console.log("this.items: ", this.items);
+
                 return (this.total = total);
             }
         },
@@ -147,28 +155,31 @@
             addItem(product) {
                 product.qty = product.qty || 1;
                 this.items.map((item, index) => {
+
                     if (item == product) {
-                        this.items.splice(index,1);
+                        this.items.splice(index, 1);
                         item.qty = product.qty + 1 ;
                     }
+                    item.date = new Date();
                 });
                 this.items.push(product);
             },
             removeItem(product) {
                 this.products.map((item, index) => {
-                    if (item == product) {
+                    if (item.id == product.id) {
                         this.items.splice(index, 1);
                     }
                 })
             },
             changeQty(product){
                 this.items.map((item, index) => {
-                    if (item == product) {
+                    if (item.id == product.id) {
                         this.items.splice(index, 1);
                         item.qty = parseInt(product.qty);
                         this.items.push(product);
                     }
                 })
+                console.log(this.items);
             },
             searchProduct: function(name) {
                 axios.get('/api/products/?filter=' + name).then(res => {
