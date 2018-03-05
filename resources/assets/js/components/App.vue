@@ -26,10 +26,10 @@
                 </b-table>
                 <div class="clearfix total">
                     <span class="float-left">Total</span>
-                    <span class="float-right">{{ sumItemsTotal | currency('R ') }}</span>
+                    <span class="float-right">{{ total | currency('R ') }}</span>
                 </div>
                 <div class="buttonPos">
-                  <b-button class="buttonPrint">Print</b-button>
+                  <b-button v-b-modal.modal1 class="buttonPrint">Print</b-button>
                 </div>
 
             </div>
@@ -73,6 +73,11 @@
                     </template>
                 </div>
             </nav>
+
+            <!-- Modal Component -->
+            <b-modal id="modal1" title="Invoice">
+                <p class="my-4">Hello from modal!</p>
+            </b-modal>
 
         </div>
 
@@ -125,74 +130,98 @@
             }
         },
         mounted() {
-            this.loadProducts();
+            this.loadProducts({page: 1, size: 12});
+            this.loadItemsStorage();
+            this.sumItemsPriceTotal();
         },
-
-        computed: {
-            sumItemsTotal () {
+        methods: {
+            setStorage(key, value) {
+                var item = JSON.stringify(value);
+                window.localStorage.setItem(key, item);
+            },
+            getStorage(key, defaultValue) {
+                var item = window.localStorage.getItem(key);
+                if (item) {
+                    return JSON.parse(item);
+                } else {
+                    return defaultValue;
+                }
+            },
+            queryParams(url, query = {}) {
+                let params = [];
+                for (let q in query) {
+                    if (query.hasOwnProperty(q)) {
+                        params.push(q + '=' + query[q]);
+                        console.log("query params: ", q, query[q]);
+                    }
+                }
+                if (params.length > 0) {
+                    url += '?';
+                    url += params.join('&');
+                }
+                return url;
+            },
+            loadProducts(query = {}) {
+                let url = this.queryParams('/api/products', query);
+                
+                axios.get(url).then(res => {
+                    this.totalRows = res.data.meta.total;
+                    this.products = res.data.data;
+                });
+            },
+            loadItemsStorage() {
+                let oldItems = this.getStorage('items', []);
+                if (oldItems.length > 0 && this.items.length <= 0) {
+                    this.items = oldItems;
+                }
+                this.updateItemsStorage();
+            },
+            updateItemsStorage() {
+                this.setStorage('items', this.items);
+            },
+            sumItemsPriceTotal() {
                 let total = 0;
                 this.items.map(item => {
                     item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
                     total += item.subTotal;
                 });
-
-                this.items = this.items.sort(function(a, b){
-                    return a.date - b.date;
-                });
-
-                console.log("this.items: ", this.items);
-
-                return (this.total = total);
-            }
-        },
-        methods: {
-            loadProducts() {
-                axios.get('/api/products').then(res => {
-                    this.totalRows = res.data.meta.total;
-                    this.products = res.data.data;
-                });
+                this.total = total;
             },
+            
             addItem(product) {
-                product.qty = product.qty || 1;
-                this.items.map((item, index) => {
-
-                    if (item == product) {
-                        this.items.splice(index, 1);
-                        item.qty = product.qty + 1 ;
-                    }
-                    item.date = new Date();
-                });
-                this.items.push(product);
+                let found = this.items.find(item => item.id == product.id);
+                
+                if (found) {
+                    found.qty += 1;
+                } else {
+                    product.qty = 1;
+                    this.items.push(product);    
+                }
+                this.sumItemsPriceTotal();
+                this.updateItemsStorage();
             },
             removeItem(product) {
-                this.products.map((item, index) => {
-                    if (item.id == product.id) {
-                        this.items.splice(index, 1);
-                    }
-                })
+                let found = this.items.findIndex(item => item.id == product.id);
+                console.log("found: ", found)
+                if (found >= 0) {
+                    this.items.splice(found, 1);
+                }
+                this.sumItemsPriceTotal();
+                this.updateItemsStorage();
             },
-            changeQty(product){
-                this.items.map((item, index) => {
-                    if (item.id == product.id) {
-                        this.items.splice(index, 1);
-                        item.qty = parseInt(product.qty);
-                        this.items.push(product);
-                    }
-                })
-                console.log(this.items);
+            changeQty(product) {
+                let found = this.items.find(item => item.id == product.id);
+                if (found) {
+                    found.qty = parseInt(product.qty);
+                }
+                this.sumItemsPriceTotal();
+                this.updateItemsStorage();
             },
             searchProduct: function(name) {
-                axios.get('/api/products/?filter=' + name).then(res => {
-                    this.totalRows = res.data.meta.total;
-                    this.products = res.data.data;
-                    this.products.map(product => product.qty = 0);
-                });
+                this.loadProducts({page: 1, size: 12, filter: name});
             },
             changePage (pageNum) {
-                axios.get('/api/products/?page=' + pageNum).then(res => {
-                    this.products = res.data.data;
-                    this.products.map(product => product.qty = 0);
-                });
+                this.loadProducts({page: pageNum, size: 12});
             }
         }
     }

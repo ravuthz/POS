@@ -28,6 +28,11 @@ class User extends Authenticatable
         'password', 'remember_token'
     ];
     
+    public function scopeGetCustomer($query)
+    {
+        return $query->where('name', 'customer')->first();
+    }
+    
     public function scopeWithRolePermission($q)
     {
         return $this->with(['roles' => function($query) {
@@ -36,4 +41,10 @@ class User extends Authenticatable
             }]);
         }]);
     }
+    
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'created_by');
+    }
+    
 }

@@ -15,7 +15,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/logout', function () {
@@ -23,23 +23,38 @@ Route::get('/logout', function () {
     return redirect('/login');
 });
 
-Route::get('/adminz/{vue_capture?}', function () {
-    return view('admin.index');
-})->where('vue_capture', '[\/\w\.-]*');
+Route::group([
+    'prefix' => 'api', 
+    'namespace' => 'Api',
+    'middleware' => 'auth'
+    ], function() {
+        
+    Route::apiResource('products', 'ProductController');
+    Route::get('sales-products', 'ProductController@sales');
+    Route::apiResource('sales', 'SaleProductController');
+    
+});
 
-// Route::group(['middleware' => ['auth', 'crud.permissions'], 'prefix' => 'adminz'], function () {
-//     Route::get('/', 'AdminController@index');
-//     Route::resource('roles', 'RoleController');
-//     Route::resource('products', 'ProductController');
-//     Route::resource('categories', 'CategoryController');
-//     Route::resource('settingtypes', 'SettingTypeController');
-//     Route::resource('settingitems', 'SettingItemController');
-//     Route::resource('stocks', 'StockController');
-//     Route::resource('orders', 'OrderController');
-// });
+Route::group([
+    'prefix' => 'adminz',
+    'middleware' => ['auth', 'crud.permissions']
+    ], function () {
+        
+    Route::get('/', 'AdminController@index');
+    Route::resource('roles', 'RoleController');
+    Route::resource('products', 'ProductController');
+    Route::resource('categories', 'CategoryController');
+    Route::resource('settingtypes', 'SettingTypeController');
+    Route::resource('settingitems', 'SettingItemController');
+    Route::resource('stocks', 'StockController');
+    Route::resource('orders', 'OrderController');
+    
+});
+
+Route::get('/seller/{vue_capture?}', function () {
+    return view('vue');
+})->where('vue_capture', '[\/\w\.-]*');
 
 Auth::routes();
 
-Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
-    Route::resource('products', 'ProductController', ['except' => ['create', 'edit']]);
-});
+
