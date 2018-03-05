@@ -23,6 +23,9 @@ class UserRolePermissionTableSeeder extends Seeder
         $product = $this->crudPermission('product');
         $order = $this->crudPermission('order');
         $stock = $this->crudPermission('stock');
+        $settingItem = $this->crudPermission('settingitem');
+        $settingType = $this->crudPermission('settingtype');
+        $role = $this->crudPermission('role');
 
         $roleAdmin->givePermissionTo(
             Permission::create(['name' => 'DETAIL_ADMIN'])
@@ -32,6 +35,9 @@ class UserRolePermissionTableSeeder extends Seeder
         $roleAdmin->givePermissionTo(array_values($product));
         $roleAdmin->givePermissionTo(array_values($order));
         $roleAdmin->givePermissionTo(array_values($stock));
+        $roleAdmin->givePermissionTo(array_values($settingItem));
+        $roleAdmin->givePermissionTo(array_values($settingType));
+        $roleAdmin->givePermissionTo(array_values($role));
 
         $roleSeller->givePermissionTo(array_values($order));
         $roleSeller->givePermissionTo(array_values($stock));
@@ -69,7 +75,6 @@ class UserRolePermissionTableSeeder extends Seeder
             'email'    => 'other@gmail.com',
             'password' => bcrypt('123123')
         ]);
-
     }
 
     protected function crudPermission($name)
@@ -82,5 +87,4 @@ class UserRolePermissionTableSeeder extends Seeder
             'detail' => Permission::create(['name' => 'DETAIL_' . $name, 'guard_name' => 'web'])
         ];
     }
-
 }
