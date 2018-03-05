@@ -30,29 +30,32 @@ trait CrudsControllerTrait
 
     private function renderData()
     {
+        $viewPrefix = $this->viewPrefix;
         $this->data['item_name'] = $this->itemName;
         $this->data['list_name'] = $this->listName;
-
         $this->data['crud_size'] = $this->crudSize;
-
         $this->data['model_path'] = $this->modelPath;
-        $this->data['view_prefix'] = $this->viewPrefix;
+        $this->data['view_prefix'] = $viewPrefix;
         $this->data['route_prefix'] = $this->routePrefix;
-
-        $this->data['view_include_form'] = $this->viewPrefix . '.form';
-        $this->data['view_include_table'] = $this->viewPrefix . '.table';
-        $this->data['view_include_search'] = $this->viewPrefix . '.search';
+        $this->data['view_include_form'] = $viewPrefix . '.form';
+        $this->data['view_include_table'] = $viewPrefix . '.table';
+        $this->data['view_include_search'] = $viewPrefix . '.search';
     }
-
+    
     public function renderTitle($title)
     {
         $this->data['site_title'] = $this->getSiteTitle() . ' ' . $title;
         $this->data['page_title'] = $this->getPageTitle() . ' ' . $title;
     }
+    
+    public function getRouteName($name = 'index')
+    {
+        return $this->routePrefix . '.' . $name;
+    }
 
     public function getFilterData($request = null)
     {
-        return $this->model->paginate($this->crudSize);
+        return $this->model->latest()->paginate($this->crudSize);
     }
 
     public function getSingleData($id = null)
@@ -63,7 +66,7 @@ trait CrudsControllerTrait
     public function renderView($name)
     {
         return view()->first([
-            $this->viewPrefix . $name,
+            $this->viewPrefix . '.' . $name,
             'crud.' . $name
         ], $this->data);
     }
@@ -128,10 +131,10 @@ trait CrudsControllerTrait
     public function store(Request $request)
     {
         $this->model = new $this->model();
-        $this->validate($request, $this->model->getCreateValidationRules());
+        $this->validate($request, $this->model->getCreateRules());
         $this->model->saveOrUpdate($request);
 
-        return redirect()->route($this->routePrefix . '.index')
+        return redirect()->route($this->getRouteName())
             ->with('success', trans('crud.item.updated', ['item' => $this->getPageTitle()]));
     }
 
@@ -145,10 +148,10 @@ trait CrudsControllerTrait
     public function update(Request $request, $id)
     {
         $this->model = $this->getSingleData($id);
-        $this->validate($request, $this->model->getUpdateValidationRules());
+        $this->validate($request, $this->model->getUpdateRules());
         $this->model->saveOrUpdate($request);
 
-        return redirect()->route($this->routePrefix . '.index')
+        return redirect()->route($this->getRouteName())
             ->with('success', trans('crud.item.created', ['item' => $this->getPageTitle()]));
     }
 
@@ -162,7 +165,7 @@ trait CrudsControllerTrait
     {
         $this->model = $this->getSingleData($id);
         $this->model->delete();
-        return redirect()->route($this->routePrefix . '.index')
+        return redirect()->route($this->getRouteName())
             ->with('success', trans('crud.item.deleted', ['item' => $this->getPageTitle()   ]));
     }
 
