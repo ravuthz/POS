@@ -27,24 +27,24 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token'
     ];
-    
+
     public function scopeGetCustomer($query)
     {
         return $query->where('name', 'customer')->first();
     }
-    
+
     public function scopeWithRolePermission($q)
     {
-        return $this->with(['roles' => function($query) {
-            $query->select('id', 'name')->with(['permissions' => function($q) {
+        return $this->with(['roles' => function ($query) {
+            $query->select('id', 'name')->with(['permissions' => function ($q) {
                 $q->select('id', 'name');
             }]);
         }]);
     }
-    
+
     public function orders()
     {
         return $this->hasMany(Order::class, 'created_by');
     }
-    
+
 }

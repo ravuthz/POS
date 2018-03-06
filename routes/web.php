@@ -11,9 +11,6 @@
 |
  */
 
-use App\Models\Product;
-use Illuminate\Http\Request;
-
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -24,22 +21,20 @@ Route::get('/logout', function () {
 });
 
 Route::group([
-    'prefix' => 'api', 
-    'namespace' => 'Api',
+    'prefix'     => 'api',
+    'namespace'  => 'Api',
     'middleware' => 'auth'
-    ], function() {
-        
+], function () {
     Route::apiResource('products', 'ProductController');
     Route::get('sales-products', 'ProductController@sales');
     Route::apiResource('sales', 'SaleProductController');
-    
+
 });
 
 Route::group([
-    'prefix' => 'adminz',
+    'prefix'     => 'adminz',
     'middleware' => ['auth', 'crud.permissions']
-    ], function () {
-        
+], function () {
     Route::get('/', 'AdminController@index');
     Route::resource('roles', 'RoleController');
     Route::resource('products', 'ProductController');
@@ -48,7 +43,7 @@ Route::group([
     Route::resource('settingitems', 'SettingItemController');
     Route::resource('stocks', 'StockController');
     Route::resource('orders', 'OrderController');
-    
+
 });
 
 Route::get('/seller/{vue_capture?}', function () {
@@ -56,5 +51,3 @@ Route::get('/seller/{vue_capture?}', function () {
 })->where('vue_capture', '[\/\w\.-]*');
 
 Auth::routes();
-
-
