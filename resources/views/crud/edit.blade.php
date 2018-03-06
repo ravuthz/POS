@@ -12,11 +12,17 @@
 
     <div class="row">
         <div class="col-xs-12">
-            @if (view()->exists($view_prefix . '.form'))
+            @if (view()->exists($view_include_form))
                 <div class="box">
                     <div class="box-header">
-                        {!! BootForm::open(['model' => $__data[$item_name], 'store' => $route_prefix . '.store', 'update' => $route_prefix . '.update']) !!}
-                                @include($view_prefix . '.form')
+                        @php $form_model = $__data[$item_name] @endphp
+                        {!! BootForm::open([
+                            'files' => true,
+                            'model' => $form_model,
+                            'store' => $route_prefix . '.store',
+                            'update' => $route_prefix . '.update'
+                        ]) !!}
+                            @include($view_include_form)
                         {!! BootForm::close() !!}
                     </div>
                 </div>
