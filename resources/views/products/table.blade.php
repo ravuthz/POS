@@ -3,7 +3,7 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Note</th>
+            <th>Name KH</th>
             <th>Slug</th>
             <th>Buy Price</th>
             <th>Sale Price</th>
@@ -16,7 +16,7 @@
             <tr>
                 <th>{{ $item->id }}</th>
                 <th>{{ $item->name }}</th>
-                <th>{{ $item->note }}</th>
+                <th>{{ $item->name_kh }}</th>
                 <th>{{ $item->slug }}</th>
                 <th>{{ $item->buy_price }}</th>
                 <th>{{ $item->sale_price }}</th>
