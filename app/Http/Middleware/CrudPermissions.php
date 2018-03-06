@@ -53,9 +53,11 @@ class CrudPermissions
     protected function fetchPermission($request)
     {
         $controller = class_basename($request->route()->getController());
-        $controller = str_replace('Controller', '', $controller);
-        $action = $request->route()->getActionMethod();
+        $controller = str_replace('Controller', '', $controller); // ProductController => Product
+        $action = $request->route()->getActionMethod(); //
         $action = $this->replaceAction($action);
-        return strtoupper($action . $controller);
+
+        // CREATE_PRODUCT
+        return strtoupper($action . $controller); // // create_Product
     }
 }
