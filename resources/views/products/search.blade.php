@@ -1,11 +1,8 @@
 <div class="row">
-    <div class="col-md-6">
-        {!! BootForm::text('name') !!}
+    <div class="col-lg-11 col-md-10 col-sm-10">
+        {!! BootForm::text('name', false, null, ['class' => 'dd', 'placeholder' => 'Search name, name_kh here...']) !!}
     </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12 text-center">
-        {!! Form::submit('Search', ['class' => 'btn btn-primary']) !!}
+    <div class="col-lg-1 col-md-2 col-sm-2 text-center">
+        {!! Form::submit('Search', ['class' => 'col-xs-12 btn btn-primary']) !!}
     </div>
 </div>

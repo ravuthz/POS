@@ -21,4 +21,11 @@ class SettingTypeController extends Controller
         $this->setPageTitle("SettingType");
         $this->setSiteTitle("SettingTypes");
     }
+
+    // Override query all data with search form
+    public function getFilterData($request = null)
+    {
+        $name = $request->get('name', '');
+        return SettingType::searchName($name)->latest()->paginate(10);
+    }
 }

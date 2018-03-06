@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SettingItem;
+use App\Models\SettingType;
 use App\Traits\CrudsControllerTrait;
 
 class SettingItemController extends Controller
@@ -20,5 +21,6 @@ class SettingItemController extends Controller
         $this->initialize();
         $this->setPageTitle("SettingItem");
         $this->setSiteTitle("SettingItems");
+        $this->data['parent_lists'] = SettingType::pluck('name', 'id')->prepend('No Parent', '0');
     }
 }

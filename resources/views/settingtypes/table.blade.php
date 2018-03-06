@@ -17,7 +17,7 @@
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->image }}</td>
                 <td>{{ $item->slug }}</td>
-                <td>{{ $item->name_en }}</td>
+                <td>{{ $item->name }}</td>
                 <td>{{ $item->name_kh }}</td>
                 <td>{{ $item->note }}</td>
                 <td class="text-center">

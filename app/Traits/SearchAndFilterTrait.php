@@ -13,7 +13,7 @@ trait SearchAndFilterTrait
         }
         return $query;
     }
-    
+
     public function scopeSearchName($query, $name = '')
     {
         $query->where('name', 'like', "%{$name}%");

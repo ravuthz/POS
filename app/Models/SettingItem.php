@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\SettingType;
 use App\Traits\FieldsAuditTrait;
 use App\Traits\NameToSlugTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,6 @@ class SettingItem extends Model
 
     public function settingType()
     {
-        return $this->belongsTo(SettingType::class);
+        return $this->belongsTo(SettingType::class, 'setting_type_id');
     }
 }

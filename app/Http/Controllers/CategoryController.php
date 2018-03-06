@@ -22,7 +22,7 @@ class CategoryController extends Controller
         $this->data['parent_lists'] = Category::where('parent_id', '0')
             ->pluck('name', 'id')->prepend('No Parent', '0');
     }
-    
+
     // Override query all data with search form
     public function getFilterData($request = null)
     {

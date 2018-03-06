@@ -5,7 +5,6 @@ namespace App\Traits;
 use App;
 use Exception;
 use Illuminate\Http\Request;
-use Validator;
 
 trait CrudsControllerTrait
 {
@@ -41,13 +40,13 @@ trait CrudsControllerTrait
         $this->data['view_include_table'] = $viewPrefix . '.table';
         $this->data['view_include_search'] = $viewPrefix . '.search';
     }
-    
+
     public function renderTitle($title)
     {
         $this->data['site_title'] = $this->getSiteTitle() . ' ' . $title;
         $this->data['page_title'] = $this->getPageTitle() . ' ' . $title;
     }
-    
+
     public function getRouteName($name = 'index')
     {
         return $this->routePrefix . '.' . $name;
@@ -135,7 +134,7 @@ trait CrudsControllerTrait
         $this->model->saveOrUpdate($request);
 
         return redirect()->route($this->getRouteName())
-            ->with('success', trans('crud.item.updated', ['item' => $this->getPageTitle()]));
+                         ->with('success', trans('crud.item.updated', ['item' => $this->getPageTitle()]));
     }
 
     /**
@@ -152,7 +151,7 @@ trait CrudsControllerTrait
         $this->model->saveOrUpdate($request);
 
         return redirect()->route($this->getRouteName())
-            ->with('success', trans('crud.item.created', ['item' => $this->getPageTitle()]));
+                         ->with('success', trans('crud.item.created', ['item' => $this->getPageTitle()]));
     }
 
     /**
@@ -166,7 +165,6 @@ trait CrudsControllerTrait
         $this->model = $this->getSingleData($id);
         $this->model->delete();
         return redirect()->route($this->getRouteName())
-            ->with('success', trans('crud.item.deleted', ['item' => $this->getPageTitle()   ]));
+                         ->with('success', trans('crud.item.deleted', ['item' => $this->getPageTitle()]));
     }
-
 }

@@ -39,11 +39,17 @@ Route::group([
     Route::resource('roles', 'RoleController');
     Route::resource('products', 'ProductController');
     Route::resource('categories', 'CategoryController');
-    Route::resource('settingtypes', 'SettingTypeController');
-    Route::resource('settingitems', 'SettingItemController');
     Route::resource('stocks', 'StockController');
     Route::resource('orders', 'OrderController');
 
+});
+
+Route::group([
+    'prefix'     => 'adminz',
+    'middleware' => ['auth', 'role:admin']
+], function () {
+    Route::resource('settingtypes', 'SettingTypeController');
+    Route::resource('settingitems', 'SettingItemController');
 });
 
 Route::get('/seller/{vue_capture?}', function () {

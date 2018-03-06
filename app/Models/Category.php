@@ -17,9 +17,9 @@ class Category extends Model
     protected $dates = ['deleted_at'];
 
     protected $rules = [
-        'name' => 'required|unique:products,name,{id}',
+        'name'    => 'required|unique:products,name,{id}',
         'name_kh' => 'required',
-        'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        'image'   => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
     ];
 
     protected $fillable = [
@@ -30,7 +30,7 @@ class Category extends Model
         'status',
         'parent_id'
     ];
-    
+
     public function parent()
     {
         return $this->belongsTo(Self::class, 'parent_id');

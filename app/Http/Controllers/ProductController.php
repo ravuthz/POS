@@ -14,14 +14,14 @@ class ProductController extends Controller
     protected $modelPath = Product::class;
     protected $viewPrefix = 'products.';
     protected $routePrefix = 'products';
-    
+
     public function __construct()
     {
         $this->initialize();
         $this->setSiteTitle('Product');
         $this->setPageTitle('Products');
     }
-    
+
     // Override query all data with search form
     public function getFilterData($request = null)
     {

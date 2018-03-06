@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        {!! BootForm::text('type_id') !!}
+        {!! BootForm::select('parent_id', 'Parent', $parent_lists) !!}
     </div>
 
     <div class="col-md-6">
@@ -9,23 +9,20 @@
 </div>
 <div class="row">
     <div class="col-md-6">
-        {!! BootForm::text('name_en') !!}
+        {!! BootForm::text('name') !!}
     </div>
     <div class="col-md-6">
         {!! BootForm::text('name_kh') !!}
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
-        {!! BootForm::text('slug') !!}
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
         {!! BootForm::text('value') !!}
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
-        {!! BootForm::text('note') !!}
+    <div class="col-md-12">
+        {!! BootForm::textarea('note') !!}
     </div>
 </div>
 <div class="row">

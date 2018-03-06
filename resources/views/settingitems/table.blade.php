@@ -2,10 +2,10 @@
     <thead>
         <tr>
             <th>Id</th>
-            <th>Type_Id</th>
-            <th>Type_Model</th>
+            <th>Type</th>
+            <th>Model</th>
             <th>Slug</th>
-            <th>Name_en</th>
+            <th>Name</th>
             <th>Name_kh</th>
             <th>Value</th>
             <th>Note</th>
@@ -17,10 +17,10 @@
         @foreach($settingitem_list as $item)
             <tr>
                 <td>{{ $item->id }}</td>
-                <td>{{ $item->type_id }}</td>
+                <td>{{ optional($item->settingType)->name }}</td>
                 <td>{{ $item->type_model }}</td>
                 <td>{{ $item->slug }}</td>
-                <td>{{ $item->name_en }}</td>
+                <td>{{ $item->name }}</td>
                 <td>{{ $item->name_kh }}</td>
                 <td>{{ $item->value }}</td>
                 <td>{{ $item->note }}</td>
