@@ -28,10 +28,14 @@
                     <span class="float-left">Total</span>
                     <span class="float-right">{{ total | currency('R ') }}</span>
                 </div>
-                <div class="buttonPos">
-                  <b-button v-b-modal.modal1 class="buttonPrint">Print</b-button>
+                <div class="row">
+                    <div class="buttonPos">
+                      <b-button v-b-modal.modal1 class="buttonPrint">Print</b-button>
+                    </div>
+                    <div class="buttonPos">
+                      <b-link href="/logout" class="btn btn-secondary buttonPrint">Logout</b-link>
+                    </div>
                 </div>
-
             </div>
         </nav>
 
@@ -78,7 +82,6 @@
             <b-modal id="modal1" title="Invoice">
                 <p class="my-4">Hello from modal!</p>
             </b-modal>
-
         </div>
 
     </div>
@@ -163,7 +166,7 @@
             },
             loadProducts(query = {}) {
                 let url = this.queryParams('/api/products', query);
-                
+
                 axios.get(url).then(res => {
                     this.totalRows = res.data.meta.total;
                     this.products = res.data.data;
@@ -187,15 +190,15 @@
                 });
                 this.total = total;
             },
-            
+
             addItem(product) {
                 let found = this.items.find(item => item.id == product.id);
-                
+
                 if (found) {
                     found.qty += 1;
                 } else {
                     product.qty = 1;
-                    this.items.push(product);    
+                    this.items.push(product);
                 }
                 this.sumItemsPriceTotal();
                 this.updateItemsStorage();

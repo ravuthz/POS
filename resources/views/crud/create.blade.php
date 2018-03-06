@@ -15,7 +15,13 @@
             @if (view()->exists($view_include_form))
                 <div class="box">
                     <div class="box-header">
-                        {!! BootForm::open(['model' => $__data[$item_name], 'store' => $route_prefix . '.store', 'update' => $route_prefix . '.update']) !!}
+                        @php $form_model = $__data[$item_name] @endphp
+                        {!! BootForm::open([
+                            'files' => true,
+                            'model' => $form_model,
+                            'store' => $route_prefix . '.store',
+                            'update' => $route_prefix . '.update'
+                            ]) !!}
                                 @include($view_include_form)
                         {!! BootForm::close() !!}
                     </div>

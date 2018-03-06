@@ -4,13 +4,6 @@ namespace App\Traits;
 
 trait SearchAndFilterTrait
 {
-    public function scopeSearchName($query, $name = '')
-    {
-        $query->where('name', 'like', "%{$name}%");
-        $query->orWhere('name_kh', 'like', "%{$name}%");
-        return $query;
-    }
-
     public function scopeFilterName($query, $request)
     {
         if ($request->has('name')) {
@@ -18,6 +11,13 @@ trait SearchAndFilterTrait
             $query->where('name', 'like', "%{$name}%");
             $query->orWhere('name_kh', 'like', "%{$name}%");
         }
+        return $query;
+    }
+    
+    public function scopeSearchName($query, $name = '')
+    {
+        $query->where('name', 'like', "%{$name}%");
+        $query->orWhere('name_kh', 'like', "%{$name}%");
         return $query;
     }
 
