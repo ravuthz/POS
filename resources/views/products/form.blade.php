@@ -3,7 +3,7 @@
         {!! BootForm::text('name') !!}
     </div>
     <div class="col-md-6">
-        {!! BootForm::text('slug', 'Slug', NULL, ['disabled' => true]) !!}
+        {!! BootForm::text('name_kh') !!}
     </div>
 </div>
 
@@ -18,7 +18,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        {!! BootForm::text('note') !!}
+        {!! BootForm::textarea('note') !!}
     </div>
 </div>
 <div class="row">

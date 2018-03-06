@@ -7,6 +7,6 @@ $factory->define(App\Models\Category::class, function (Faker $faker) {
         'name' => $faker->name(),
         'name_kh' => $faker->name(),
         'image' => $faker->imageUrl(),
-        'parent_id' =>  random_int(1, 5)
+        'parent_id' =>  random_int(0, 5)
     ];
 });

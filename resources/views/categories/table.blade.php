@@ -3,8 +3,8 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Slug</th>
-            <th>Parent_id</th>
+            <th>Name KH</th>
+            <th>Parent</th>
             <th class="text-center">Actions</th>
         </tr>
     </thead>
@@ -14,8 +14,8 @@
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->name }}</td>
-                <td>{{ $item->slug }}</td>
-                <td>{{ $item->parent_id }}</td>
+                <td>{{ $item->name_kh }}</td>
+                <td>{{ optional($item->parent)->name }}</td>
                 <td class="text-center">
                     <a href="{{ route($route_prefix . '.edit', $item) }}" class="btn btn-sm btn-success btn-edit-row">
                         <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;Modify
