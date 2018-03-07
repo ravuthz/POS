@@ -7,7 +7,8 @@ trait CrudsModelTrait
     /**
      * Get validate rules
      */
-    public function getValidateRules() {
+    public function getValidateRules()
+    {
         if (count($this->rules) <= 0) {
             return [];
         }
@@ -16,7 +17,7 @@ trait CrudsModelTrait
         foreach ($this->rules as $k => $rules) {
             $this->rules[$k] = str_replace($search, $replace, $rules);
         }
-        
+
         // dd($this->rules);
         return $this->rules;
     }
@@ -30,11 +31,11 @@ trait CrudsModelTrait
         if (isset($this->createRules)) {
             $this->rules = $this->createRules;
         }
-        
+
         if (isset($this->rules) && $this->rules == null) {
-            $this->rules = [];   
+            $this->rules = [];
         }
-        
+
         return $this->getValidateRules();
     }
 
@@ -47,11 +48,11 @@ trait CrudsModelTrait
         if (isset($this->updateRules)) {
             $this->rules = $this->updateRules;
         }
-        
+
         if (isset($this->rules) && $this->rules == null) {
-            $this->rules = [];   
+            $this->rules = [];
         }
-        
+
         return $this->getValidateRules();
     }
 
@@ -61,14 +62,14 @@ trait CrudsModelTrait
     public function saveOrUpdate($request)
     {
         $data = $request->except(['image']);
-        
+
         if ($request->hasFile('image')) {
             $data['image'] = $this->uploadFile('image', $request);
         }
-        
+
         return $this->fill($data)->save();
     }
-    
+
     public function uploadFile($name, $request)
     {
         $path = public_path('uploads');

@@ -21,7 +21,8 @@ class SettingType extends Model
         'slug',
         'name',
         'name_kh',
-        'image'
+        'image',
+        'note'
     ];
 
     protected $rules = [
