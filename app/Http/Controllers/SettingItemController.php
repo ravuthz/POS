@@ -21,6 +21,12 @@ class SettingItemController extends Controller
         $this->initialize();
         $this->setPageTitle("SettingItem");
         $this->setSiteTitle("SettingItems");
-        $this->data['parent_lists'] = SettingType::pluck('name', 'id')->prepend('No Parent', '0');
+        $this->data['setting_type'] = SettingType::pluck('name', 'id')->prepend('No Parent', '0');
+    }
+
+    public function getFilterData($request = null)
+    {
+        $name = $request->get('name', '');
+        return SettingItem::searchName($name)->latest()->paginate(10);
     }
 }

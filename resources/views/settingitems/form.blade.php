@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-6">
-        {!! BootForm::select('parent_id', 'Parent', $parent_lists) !!}
+        {!! BootForm::select('setting_type_id', 'Parent', $setting_type) !!}
     </div>
 
     <div class="col-md-6">
-        {!! BootForm::text('type_model') !!}
+        {!! BootForm::text('setting_type_model') !!}
     </div>
 </div>
 <div class="row">

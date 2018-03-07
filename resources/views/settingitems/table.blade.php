@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ optional($item->settingType)->name }}</td>
-                <td>{{ $item->type_model }}</td>
+                <td>{{ $item->setting_type_model }}</td>
                 <td>{{ $item->slug }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->name_kh }}</td>
