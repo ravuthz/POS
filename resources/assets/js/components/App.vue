@@ -30,6 +30,15 @@
                 </div>
                 <div class="row">
                     <div class="buttonPos">
+                      <b-button class="buttonPrint" @click="createSaleProduct">Sale</b-button>
+                    </div>
+                    <div class="buttonPos">
+                      <b-button class="buttonPrint" @click="updateSaleProduct">Update</b-button>
+                    </div>
+                    <div class="buttonPos" v-if="!items">
+                        <b-link class="btn btn-secondary buttonPrint" href="/sales">Sold Products</b-link>
+                    </div>
+                    <div class="buttonPos">
                       <b-button v-b-modal.modal1 class="buttonPrint">Print</b-button>
                     </div>
                     <div class="buttonPos">
@@ -225,6 +234,30 @@
             },
             changePage (pageNum) {
                 this.loadProducts({page: pageNum, size: 12});
+            },
+            
+            createSaleProduct() {
+                let data = {
+                    items: this.items,
+                    total: this.total
+                };
+                
+                axios.post('/api/sales', data).then(res => {
+                    console.log("Order: ", res.data);
+                });
+                
+                // this.setStorage('items', []);
+                // this.items = [];
+            },
+            updateSaleProduct() {
+                let data = {
+                    items: this.items,
+                    total: this.total
+                };
+                
+                axios.put('/api/sales/1', data).then(res => {
+                    console.log("Order: ", res.data);
+                });
             }
         }
     }

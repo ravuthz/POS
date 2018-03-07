@@ -23,7 +23,7 @@ Route::get('/logout', function () {
 Route::group([
     'prefix'     => 'api',
     'namespace'  => 'Api',
-    'middleware' => 'auth'
+    // 'middleware' => 'auth'
 ], function () {
     Route::apiResource('products', 'ProductController');
     Route::get('sales-products', 'ProductController@sales');

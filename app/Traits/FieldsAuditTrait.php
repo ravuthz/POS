@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Auth;
+use App\Models\User;
 
 trait FieldsAuditTrait
 {
