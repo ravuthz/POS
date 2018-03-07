@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class UserRolePermissionTableSeeder extends Seeder
 {
@@ -17,6 +17,11 @@ class UserRolePermissionTableSeeder extends Seeder
         $roleAdmin = Role::create(['name' => 'admin']);
         $roleSeller = Role::create(['name' => 'seller']);
         $roleCustomer = Role::create(['name' => 'customer']);
+
+//        $permissions = Permission::defaultPermissions();
+//        foreach ($permissions as $perms) {
+//            Permission::firstOrCreate(['name' => $perms]);
+//        }
 
         $user = $this->crudPermission('user');
         $category = $this->crudPermission('category');
@@ -50,29 +55,29 @@ class UserRolePermissionTableSeeder extends Seeder
         );
 
         $admin = User::create([
-            'name'     => 'adminz',
-            'email'    => 'adminz@gmail.com',
+            'name' => 'adminz',
+            'email' => 'adminz@gmail.com',
             'password' => bcrypt('123123')
         ]);
         $admin->assignRole('admin');
 
         $author = User::create([
-            'name'     => 'seller',
-            'email'    => 'seller@gmail.com',
+            'name' => 'seller',
+            'email' => 'seller@gmail.com',
             'password' => bcrypt('123123')
         ]);
         $author->assignRole('seller');
 
         $editor = User::create([
-            'name'     => 'customer',
-            'email'    => 'customer@gmail.com',
+            'name' => 'customer',
+            'email' => 'customer@gmail.com',
             'password' => bcrypt('123123')
         ]);
         $editor->assignRole('customer');
 
         $other = User::create([
-            'name'     => 'other',
-            'email'    => 'other@gmail.com',
+            'name' => 'other',
+            'email' => 'other@gmail.com',
             'password' => bcrypt('123123')
         ]);
     }
