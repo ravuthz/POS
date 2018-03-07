@@ -18,7 +18,7 @@ class CreateStockMovementsTable extends Migration
             $table->unsignedInteger('stock_id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('price');
-            $table->integer('quantity');
+            $table->integer('quantity')->default(1);
             $table->timestamps();
         });
     }

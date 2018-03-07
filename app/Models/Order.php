@@ -19,7 +19,12 @@ class Order extends Model
         return $this->hasMany(OrderProduct::class);
     }
     
-    public function orderProduct($product, $quantity = 1, $customer = null) 
+    public function stock()
+    {
+        return $this->hasOne(Stock::class);
+    }
+    
+    public function orderProduct($product, $price, $quantity = 1, $customer = null) 
     {
         $customer = $customer ?: User::getCustomer()->id;
         $this->ordered_by = $customer;
@@ -28,6 +33,7 @@ class Order extends Model
         
         $item = new OrderProduct();
         $item->product()->associate($product);
+        $item->price = $price;
         $item->quantity = $quantity;
         $this->items()->save($item);
     }

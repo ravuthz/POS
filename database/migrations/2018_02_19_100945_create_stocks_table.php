@@ -16,6 +16,7 @@ class CreateStocksTable extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedTinyInteger('movement');
+            $table->unsignedInteger('order_id')->default(0);
             $table->unsignedInteger('created_by')->default(0);
             $table->unsignedInteger('updated_by')->default(0);
             $table->unsignedInteger('deleted_by')->default(0);

@@ -11,14 +11,29 @@ class Stock extends Model
     use SoftDeletes, FieldsAuditTrait;
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['movement'];
+    protected $fillable = ['order_id', 'movement'];
+    
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id');
+    }
     
     public function movements()
     {
         return $this->hasMany(StockMovement::class);
     }
     
-    public function increase($product, $quantity = 1, $price = null)
+    public function scopeMoveIns($query)
+    {
+        return $query->where('movement', 1)->with('movements');
+    }
+    
+    public function scopeMoveOuts($query)
+    {
+        return $query->where('movement', 0)->with('movements');
+    }
+    
+    public function increase($product, $price = null, $quantity = 1)
     {
         $this->movement = 1; // 1 in
         $this->save();
@@ -30,7 +45,7 @@ class Stock extends Model
         $this->movements()->save($move);
     }
     
-    public function decrease($product, $quantity = 1, $price = null)
+    public function decrease($product, $price = null, $quantity = 1)
     {
         $this->movement = 0; // 0 out
         $this->save();
