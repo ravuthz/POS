@@ -11,7 +11,6 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Stock;
 use App\Models\User;
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -106,7 +105,6 @@ class SaleProductController extends Controller
                     $itemDetails->quantity = $item['qty'];
                     $itemDetails->save();
                 }
-
             }
         }
 

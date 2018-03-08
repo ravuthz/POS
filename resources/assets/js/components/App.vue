@@ -30,7 +30,7 @@
                 </div>
                 <div class="row">
                     <div class="buttonPos">
-                      <b-button v-b-modal.sellItem class="buttonPrint" @click="createSaleProduct">Sale</b-button>
+                      <b-button v-b-modal.sellItem class="buttonPrint">Sale</b-button>
                     </div>
                     <div class="buttonPos">
                       <b-button class="buttonPrint" @click="updateSaleProduct">Update</b-button>
@@ -103,7 +103,7 @@
             <b-modal id="sellItem"
                 title="Sale"
                 ok-title="Save & Print"
-                @ok="">
+                @ok="createSaleProduct()">
                 Accept sale?
 
             </b-modal>
@@ -261,7 +261,7 @@
                 axios.post('/api/sales', data).then(res => {
                     console.log("Order: ", res.data);
                 });
-
+                this.clearSaleProduct();
                 // this.setStorage('items', []);
                 // this.items = [];
             },
