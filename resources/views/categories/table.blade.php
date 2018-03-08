@@ -1,7 +1,7 @@
 <table class="table table-bordered crud-table">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>Image</th>
             <th>Name</th>
             <th>Name KH</th>
             <th>Parent</th>
@@ -12,7 +12,7 @@
 
         @foreach($category_list as $item)
             <tr>
-                <td>{{ $item->id }}</td>
+                <td><img src="/images/{{ $item->image }}" alt="{{ $item->image }}" width="100px" height="100px"></td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->name_kh }}</td>
                 <td>{{ optional($item->parent)->name }}</td>

@@ -19,7 +19,7 @@
                     </template>
                     <template slot="actions" slot-scope="data">
                         <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                        <b-button size="sm" @click.stop="removeItem(data.item)" class="mr-1 btn-danger">
+                        <b-button size="sm"  v-b-modal.removeItem  @click="itemRemove=data.item" class="mr-1 btn-danger">
                           x
                         </b-button>
                     </template>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="row">
                     <div class="buttonPos">
-                      <b-button class="buttonPrint" @click="createSaleProduct">Sale</b-button>
+                      <b-button v-b-modal.sellItem class="buttonPrint">Sale</b-button>
                     </div>
                     <div class="buttonPos">
                       <b-button class="buttonPrint" @click="updateSaleProduct">Update</b-button>
@@ -39,7 +39,7 @@
                         <b-link class="btn btn-secondary buttonPrint" href="/sales">Sold Products</b-link>
                     </div>
                     <div class="buttonPos">
-                      <b-button v-b-modal.modal1 class="buttonPrint">Print</b-button>
+                      <b-button class="buttonPrint" v-b-modal.clearAllItem >Clear</b-button>
                     </div>
                     <div class="buttonPos">
                       <b-link href="/logout" class="btn btn-secondary buttonPrint">Logout</b-link>
@@ -88,8 +88,24 @@
             </nav>
 
             <!-- Modal Component -->
-            <b-modal id="modal1" title="Invoice">
-                <p class="my-4">Hello from modal!</p>
+            <b-modal id="removeItem"
+                title="Item"
+                @ok="removeItem(itemRemove)">
+                Do you want to delete this item?
+            </b-modal>
+
+            <b-modal id="clearAllItem"
+                title="Clear"
+                @ok="clearSaleProduct()">
+                Do you want to clear all item?
+            </b-modal>
+
+            <b-modal id="sellItem"
+                title="Sale"
+                ok-title="Save & Print"
+                @ok="createSaleProduct()">
+                Accept sale?
+
             </b-modal>
         </div>
 
@@ -235,17 +251,17 @@
             changePage (pageNum) {
                 this.loadProducts({page: pageNum, size: 12});
             },
-            
+
             createSaleProduct() {
                 let data = {
                     items: this.items,
                     total: this.total
                 };
-                
+
                 axios.post('/api/sales', data).then(res => {
                     console.log("Order: ", res.data);
                 });
-                
+                this.clearSaleProduct();
                 // this.setStorage('items', []);
                 // this.items = [];
             },
@@ -254,10 +270,15 @@
                     items: this.items,
                     total: this.total
                 };
-                
+
                 axios.put('/api/sales/1', data).then(res => {
                     console.log("Order: ", res.data);
                 });
+            },
+            clearSaleProduct: function() {
+                this.items= [];
+                localStorage.clear();
+                this.sumItemsPriceTotal();
             }
         }
     }
