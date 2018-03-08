@@ -24,7 +24,7 @@ a {
 
 .navbar {
   padding: 15px 10px;
-  background: #fff;
+  background: #fefefe;;
   border: none;
   border-radius: 0;
   margin-bottom: 40px;
@@ -57,19 +57,19 @@ a {
 #sidebar {
   min-width: 450px;
   max-width: 450px;
-  background: #7386D5;
-  color: #fff;
+  background: #fefefe;
+  color: #000;
   transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
   transform-origin: bottom left;
-  // height: 100vh;
-  // overflow: auto;
+  height: 65vh;
+  overflow: auto;
   &.active {
     margin-left: -450px;
     transform: rotateY(100deg);
   }
   .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
+    background: #fefefe;
   }
   ul {
     &.components {
@@ -164,8 +164,9 @@ a {
 
 #content {
   padding: 20px;
-  min-height: 100vh;
+  min-height: 90vh;
   transition: all 0.3s;
+  overflow: auto;
 }
 
 #sidebarCollapse {
@@ -205,6 +206,8 @@ a {
     min-width: 250px;
     max-width: 250px;
     margin-left: -250px;
+    height: 100vh;
+    overflow: auto;
     transform: rotateY(90deg);
     &.active {
       margin-left: 0;
@@ -233,17 +236,22 @@ a {
     }
   }
 }
-.total{
-    margin: 0px 15px;
-    padding: 0px 5px;
-    background: #4d6f60;
-}
-.buttonPos{
-    margin: 15px 0;
+
+.footerSidebar{
+    margin: 0;
+    padding-top: 15px;
+    position: fixed;
+    bottom: 0;
+    width: 450px;
 }
 .buttonPrint{
     padding: 30px;
-    background: #7ccc70;
+    margin:10px;
+    background: #1b17f5;
+}
+.total{
+    padding: 10px 5px;
+    background: #4d6f60;
 }
 /* .rightSearch{
     position: absolute;
@@ -258,11 +266,10 @@ a {
 
 .text-right .form-control{
     margin-left: 10px;
-    margin-right: -240px;
+    margin-right: -255px;
     width: 70%;
     padding: 0;
-    background-color: #7386D5;
-    color: #fff;
+    background-color: #fefefe;
     border: 0;
 }
 .mr-1{

@@ -14,14 +14,15 @@ import BootstrapVue from 'bootstrap-vue';
 
 import App from './components/App.vue';
 import Dashboard from './components/dashboard/Home.vue';
-import ProductList from './components/products/ProductList.vue';
-import ProductShow from './components/products/ProductShow.vue';
 
 Vue.use(VueRouter);
 Vue.use(Vue2Filters)
 Vue.use(BootstrapVue);
 
 Vue.component('crud-table', require('./components/core/CrudTable.vue'));
+Vue.component('sidebar', require('./components/products/Sidebar.vue'));
+Vue.component('productlist', require('./components/products/ProductList.vue'));
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -37,16 +38,6 @@ const router = new VueRouter({
         name: 'dashboard.home',
         path: '/',
         component: Dashboard
-      },
-      {
-        name: 'product.list',
-        path: '/products',
-        component: ProductList
-      },
-      {
-        name: 'product.show',
-        path: '/products/:id',
-        component: ProductShow
       }
     ]
 });
