@@ -1,7 +1,7 @@
 <table class="table table-bordered crud-table">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>Image</th>
             <th>Name</th>
             <th>Name KH</th>
             <th>Slug</th>
@@ -14,12 +14,12 @@
 
         @foreach($product_list as $item)
             <tr>
-                <th>{{ $item->id }}</th>
-                <th>{{ $item->name }}</th>
-                <th>{{ $item->name_kh }}</th>
-                <th>{{ $item->slug }}</th>
-                <th>{{ $item->buy_price }}</th>
-                <th>{{ $item->sale_price }}</th>
+                <td><img src="/images/{{ $item->image }}" alt="{{ $item->image }}" width="100px" height="100px"></td>
+                <td>{{ $item->name }}</td>
+                <td>{{ $item->name_kh }}</td>
+                <td>{{ $item->slug }}</td>
+                <td>{{ $item->buy_price }}</td>
+                <td>{{ $item->sale_price }}</td>
                 <td class="text-center">
                     <a href="{{ route($route_prefix . '.edit', $item) }}" class="btn btn-sm btn-success btn-edit-row">
                         <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;Modify

@@ -1,7 +1,6 @@
 <table class="table table-bordered crud-table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Image</th>
             <th>Slug</th>
             <th>Name_EN</th>
@@ -14,8 +13,7 @@
 
         @foreach($settingtype_list as $item)
             <tr>
-                <td>{{ $item->id }}</td>
-                <td>{{ $item->image }}</td>
+                <td><img src="/images/{{ $item->image }}" alt="{{ $item->image }}" width="100px" height="100px"></td>
                 <td>{{ $item->slug }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->name_kh }}</td>
