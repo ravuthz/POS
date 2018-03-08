@@ -47,4 +47,10 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'created_by');
     }
 
+    public function setPasswordAttribute($value)
+    {
+        if ($this->id > 0 && $this->password) {
+            $this->attributes['password'] = bcrypt($value);
+        }
+    }
 }

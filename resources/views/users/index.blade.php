@@ -1,8 +1,11 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('title', 'Users List')
 
 @section('content')
+    
+    @include('crud.alert')
+    
     <div class="row">
         <div class="col-md-5">
             <h3 class="modal-title">{{ $result->total() }} {{ str_plural('User', $result->count()) }} </h3>
@@ -24,7 +27,7 @@
                 <th>Email</th>
                 <th>Role</th>
                 <th>Created At</th>
-                @can('edit_users', 'delete_users')
+                @can('UPDATE_USER', 'DELETE_USER')
                 <th class="text-center">Actions</th>
                 @endcan
             </tr>
@@ -38,7 +41,7 @@
                     <td>{{ $item->roles->implode('name', ', ') }}</td>
                     <td>{{ $item->created_at->toFormattedDateString() }}</td>
 
-                    @can('edit_users')
+                    @can('UPDATE_USER')
                     <td class="text-center">
                         @include('shared._actions', [
                             'entity' => 'users',

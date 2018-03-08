@@ -1,4 +1,4 @@
-@extends('adminlt::page')
+@extends('adminlte::page')
 
 @section('title', 'Edit User ' . $user->first_name)
 
@@ -14,19 +14,16 @@
         </div>
     </div>
 
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-content">
-                        {!! Form::model($user, ['method' => 'PUT', 'route' => ['users.update',  $user->id ] ]) !!}
-                        @include('user._form')
-                                <!-- Submit Form Button -->
-                        {!! Form::submit('Save Changes', ['class' => 'btn btn-primary']) !!}
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            
+            {!! Form::model($user, ['method' => 'PUT', 'route' => ['users.update',  $user->id ] ]) !!}
+            @include('users._form')
+                    <!-- Submit Form Button -->
+            {!! Form::submit('Save Changes', ['class' => 'btn btn-primary']) !!}
+            {!! Form::close() !!}
+
         </div>
     </div>
+    
 @endsection
