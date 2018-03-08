@@ -5,8 +5,8 @@
 
 @can('DELETE_USER')
     {!! Form::open( ['method' => 'delete', 'url' => route($entity.'.destroy', ['user' => $id]), 'style' => 'display: inline', 'onSubmit' => 'return confirm("Are yous sure wanted to delete it?")']) !!}
-        <button type="submit" class="btn-delete btn btn-xs btn-danger">
-            <i class="glyphicon glyphicon-trash"></i>
-        </button>
+    <button type="submit" class="btn-delete btn btn-xs btn-danger">
+        <i class="glyphicon glyphicon-trash"></i>
+    </button>
     {!! Form::close() !!}
 @endcan

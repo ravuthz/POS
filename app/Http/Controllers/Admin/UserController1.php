@@ -2,49 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\Authorizable;
-use App\Traits\CrudsControllerTrait;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
-class UserController extends Controller
+class UserController1 extends Controller
 {
     use Authorizable;
-    use CrudsControllerTrait;
 
-    protected $itemName = 'user';
-    protected $listName = 'users';
-    protected $modelPath = User::class;
-    protected $viewPrefix = 'users';
-    protected $routePrefix = 'users';
-
-    public function __construct()
+    public function index()
     {
-        try {
-            $this->initialize();
-            $this->setPageTitle("User");
-            $this->setSiteTitle("Users");
-            $this->data['roles'] = Role::pluck('name', 'id');
-            $this->data['permissions'] = Permission::all('name', 'id');
-        } catch (Exception $e) {
-            Log::debug($e);
-        }
+        $result = User::latest()->paginate();
+        return view('users.index', compact('result'));
     }
 
-    // Override query all data with search form
-    public function getFilterData($request = null)
+    public function create()
     {
-        $name = $request->get('name', '');
-        return User::searchName($name)->latest()->paginate(10);
+        $roles = Role::pluck('name', 'id');
+        return view('users.create', compact('roles'));
     }
 
-    public function store1(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|min:2',
@@ -60,7 +42,16 @@ class UserController extends Controller
             ->with('success', 'User was created successfully :D');
     }
 
-    public function update1(Request $request, $id)
+    public function edit($id)
+    {
+        $user = User::find($id);
+        $roles = Role::pluck('name', 'id');
+        $permissions = Permission::all('name', 'id');
+
+        return view('users.edit', compact('user', 'roles', 'permissions'));
+    }
+
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'name' => 'required|min:2',

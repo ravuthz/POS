@@ -11,10 +11,10 @@
     @include('crud.alert')
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             @if (view()->exists($view_include_form))
-                <div class="box">
-                    <div class="box-header">
+                <div class="panel panel-default">
+                    <div class="panel-body">
                         @php $form_model = $__data[$item_name] @endphp
                         {!! BootForm::open([
                             'files' => true,
@@ -23,6 +23,12 @@
                             'update' => $route_prefix . '.update'
                         ]) !!}
                             @include($view_include_form)
+                            <button class="btn btn-primary" type="submit">
+                                <i class="glyphicon glyphicon-floppy-saved"></i>&nbsp;&nbsp;Update
+                            </button>
+                            <a href="{{ route($route_prefix . '.index') }}" class="btn btn-default pull-right">
+                                <i class="glyphicon glyphicon-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Back
+                            </a>
                         {!! BootForm::close() !!}
                     </div>
                 </div>

@@ -14,6 +14,9 @@ trait CrudsControllerTrait
     protected $model = null;
     protected $crudSize = 10;
 
+    /**
+     * @throws Exception
+     */
     private function initialize()
     {
         $fields = ['itemName', 'listName', 'modelPath', 'viewPrefix', 'routePrefix'];

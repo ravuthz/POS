@@ -57,28 +57,28 @@ class UserRolePermissionTableSeeder extends Seeder
         $admin = User::create([
             'name' => 'adminz',
             'email' => 'adminz@gmail.com',
-            'password' => bcrypt('123123')
+            'password' => '123123'
         ]);
         $admin->assignRole('admin');
 
         $author = User::create([
             'name' => 'seller',
             'email' => 'seller@gmail.com',
-            'password' => bcrypt('123123')
+            'password' => '123123'
         ]);
         $author->assignRole('seller');
 
         $editor = User::create([
             'name' => 'customer',
             'email' => 'customer@gmail.com',
-            'password' => bcrypt('123123')
+            'password' => '123123'
         ]);
         $editor->assignRole('customer');
 
         $other = User::create([
             'name' => 'other',
             'email' => 'other@gmail.com',
-            'password' => bcrypt('123123')
+            'password' => '123123'
         ]);
     }
 
