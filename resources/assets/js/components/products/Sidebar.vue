@@ -66,6 +66,11 @@
 <script>
 
     export default{
+        props: {
+            items: {
+                type: Array
+            }
+        },
         data () {
             return {
                 fields: [
@@ -97,7 +102,6 @@
                     }
                 ],
                 showRightSidebar: false,
-                items: [],
                 total: 0.00,
                 productName: null,
             }
