@@ -28,7 +28,7 @@
 <div class="row">
     <div class="col-md-12">
         @if(isset($user))
-            @include('shared._permissions', ['closed' => 'true', 'model' => $user ])
+            @include('shared.permission-panel', ['closed' => 'true', 'model' => $user ])
         @endif
     </div>
 </div>

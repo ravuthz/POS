@@ -98,4 +98,13 @@ class User extends Authenticatable
         $this->syncRoles($roles);
         return $this;
     }
+
+    public static function fixedUser($name)
+    {
+        return User::create([
+            'name' => $name,
+            'email' => $name . '@gmail.com',
+            'password' => '123123'
+        ]);
+    }
 }
