@@ -2,76 +2,57 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\Authorizable;
-use Illuminate\Http\Request;
+use App\Traits\CrudsControllerTrait;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     use Authorizable;
+    use CrudsControllerTrait;
 
-    public function index()
+    protected $itemName = 'user';
+    protected $listName = 'users';
+    protected $modelPath = User::class;
+    protected $viewPrefix = 'admin.users';
+    protected $routePrefix = 'users';
+
+    public function __construct()
     {
-        $result = User::latest()->paginate();
-        return view('users.index', compact('result'));
-    }
-
-    public function create()
-    {
-        $roles = Role::pluck('name', 'id');
-        return view('users.create', compact('roles'));
-    }
-
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required|min:2',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            'roles' => 'required|min:1'
-        ]);
-
-        $user = User::create($request->except('roles', 'permissions'));
-        $this->syncPermissions($request, $user);
-
-        return redirect()->route('users.index')
-            ->with('success', 'User was created successfully :D');
-    }
-
-    public function edit($id)
-    {
-        $user = User::find($id);
-        $roles = Role::pluck('name', 'id');
-        $permissions = Permission::all('name', 'id');
-
-        return view('users.edit', compact('user', 'roles', 'permissions'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'name' => 'required|min:2',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'roles' => 'required|min:1'
-        ]);
-
-        $user = User::findOrFail($id);
-        $user->fill($request->except('roles', 'permissions', 'password'));
-
-        if ($request->get('password')) {
-            $user->password = $request->get('password');
+        try {
+            $this->initialize();
+            $this->setPageTitle("User");
+            $this->setSiteTitle("Users");
+            $this->data['roles'] = Role::pluck('name', 'id');
+            $this->data['permissions'] = Permission::all('name', 'id');
+        } catch (Exception $e) {
+            Log::debug($e);
         }
-
-        $this->syncPermissions($request, $user);
-        $user->save();
-        return redirect()->route('users.index')
-            ->with('success', 'User was updated successfully :D');
     }
 
+    /**
+     * Override CrudController getFilterData
+     * query all data with search form
+     * @param null $request
+     * @return mixed
+     */
+    public function getFilterData($request = null)
+    {
+        $name = $request->get('name', '');
+        return User::searchName($name)->latest()->paginate(10);
+    }
+
+    /**
+     * Override CrudController destroy
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         if (Auth::user()->id == $id) {
@@ -84,22 +65,5 @@ class UserController extends Controller
 
         return redirect()->back()
             ->with('success', 'The user with id = ' . $id . ' delete successfully :D');
-    }
-
-    private function syncPermissions(Request $request, $user)
-    {
-        $roles = $request->get('roles', []);
-        $permissions = $request->get('permissions', []);
-
-        $roles = Role::find($roles);
-
-        if (!$user->hasAllRoles($roles)) {
-            $user->permissions()->sync([]);
-        } else {
-            $user->syncPermissions($permissions);
-        }
-
-        $user->syncRoles($roles);
-        return $user;
     }
 }

@@ -4,7 +4,7 @@
 
 @section('content_header')
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             <h3>
                 {{ $page_title }}
                 <a href="{{ route($route_prefix . '.create') }}" class="btn btn-sm btn-primary pull-right">
@@ -21,9 +21,9 @@
 
     @if(view()->exists($view_include_search))
         <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
                     {!! BootForm::open(['route' => $route_prefix . '.index', 'method' => 'get']) !!}
                         @include($view_include_search)
                     {!! BootForm::close() !!}
@@ -34,10 +34,10 @@
     @endif
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             @if(view()->exists($view_include_table))
-                <div class="box">
-                    <div class="box-header">
+                <div class="panel panel-default">
+                    <div class="panel-body">
                         @include($view_include_table)
                     </div>
                 </div>
@@ -50,8 +50,6 @@
     </div>
 
 @stop
-
- 
 
 @section('js')
     <script type="text/javascript">

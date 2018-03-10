@@ -10,7 +10,9 @@
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
                     <h4 class="modal-title" id="roleModalLabel">Role</h4>
                 </div>
                 <div class="modal-body">
@@ -37,30 +39,28 @@
             <h3>Roles</h3>
         </div>
         <div class="col-md-7 page-action text-right">
-            @can('add_roles')
-                <a href="#" class="btn btn-sm btn-success pull-right" data-toggle="modal" data-target="#roleModal"> <i class="glyphicon glyphicon-plus"></i> New</a>
+            @can('CREATE_ROLE')
+                <a href="#" class="btn btn-sm btn-success pull-right" data-toggle="modal" data-target="#roleModal">
+                    <i class="glyphicon glyphicon-plus"></i>&nbsp;New
+                </a>
             @endcan
         </div>
     </div>
 
     @forelse ($roles as $role)
         {!! Form::model($role, ['method' => 'PUT', 'route' => ['roles.update',  $role->id ], 'class' => 'm-b']) !!}
+            @if($role->name === 'Admin')
+                @include('shared.permissions', [
+                              'title' => title_case($role->name .' Permissions'),
+                              'options' => ['disabled'] ])
+            @else
+                @include('shared.permission-panel', [
+                      'title' => title_case($role->name .' Permissions'),
+                      'model' => $role ])
 
-        @if($role->name === 'Admin')
-            @include('shared._permissions', [
-                          'title' => $role->name .' Permissions',
-                          'options' => ['disabled'] ])
-        @else
-            @include('shared._permissions', [
-                          'title' => $role->name .' Permissions',
-                          'model' => $role ])
-            @can('edit_roles')
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-            @endcan
-        @endif
 
+            @endif
         {!! Form::close() !!}
-
     @empty
         <p>No Roles defined, please run <code>php artisan db:seed</code> to seed some dummy data.</p>
     @endforelse
