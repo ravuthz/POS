@@ -5,7 +5,7 @@
             <div class="container-fluid">
                 <div class="navbar-header">
                     <div class="row">
-                        <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-lg-1 col-md-2"  @click="showRightSidebar = !showRightSidebar">
+                        <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-lg-1 col-md-2"  @click="topCloseClick">
                             <span></span>
                             <span></span>
                             <span></span>
@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 col-xs-6"  v-for="product in products">
+                    <div class="col-lg-3 col-md-4 col-xs-6"  v-for="product in getAllProductsFromStore">
                         <div class="card" @click="addItem(product)">
                             <span class="badge">{{ product.sale_price }}</span>
                             <img class="card-img-top" :src="product.image">
@@ -39,46 +39,34 @@
 <script>
 
     export default {
-        props: {
-            showRightSidebar: {
-                type: Boolean
-            },
-            products: {
-                type: Array
-            },
-            items: {
-                type: Array
+        props:{
+            items:{
+                type:Array
             }
         },
         data(){
             return {
+                products: [],
                 productName: null,
+                showRightSidebar: false,
                 currentPage: 1,
                 perPage: 12,
                 productName: null,
                 totalRows: null
+            }
+        },
+        created() {
+            // this.loadProducts();
+            this.$store.dispatch('listProduct');
+
+        },
+        computed: {
+            getAllProductsFromStore() {
+                this.products = this.$store.getters.products;
+                return this.products;
             }
         },
         methods:{
-            setStorage(key, value) {
-                var item = JSON.stringify(value);
-                window.localStorage.setItem(key, item);
-            },
-            getStorage(key, defaultValue) {
-                var item = window.localStorage.getItem(key);
-                if (item) {
-                    return JSON.parse(item);
-                } else {
-                    return defaultValue;
-                }
-            },
-            loadItemsStorage() {
-                let oldItems = this.getStorage('items', []);
-                if (oldItems.length > 0 && this.items.length <= 0) {
-                    this.items = oldItems;
-                }
-                this.updateItemsStorage();
-            },
             queryParams(url, query = {}) {
                 let params = [];
                 for (let q in query) {
@@ -101,154 +89,22 @@
                     this.products = res.data.data;
                 });
             },
-            addItem(product) {
-                let found = this.items.find(item => item.id == product.id);
-
-                if (found) {
-                    found.qty += 1;
-                } else {
-                    product.qty = 1;
-                    this.items.push(product);
-                }
-                this.sumItemsPriceTotal();
-                this.updateItemsStorage();
-            },
             searchProduct: function(name) {
                 this.loadProducts({page: 1, size: 12, filter: name});
             },
             changePage (pageNum) {
                 this.loadProducts({page: pageNum, size: 12});
             },
-            sumItemsPriceTotal() {
-                let total = 0;
-                this.items.map(item => {
-                    item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
-                    total += item.subTotal;
-                });
-                this.total = total;
+            topCloseClick() {
+                this.showRightSidebar = !this.showRightSidebar;
+                this.$emit('onTopCloseClick', this.showRightSidebar);
             },
-             updateItemsStorage() {
-                this.setStorage('items', this.items);
-            }
+            addItem(product) {
+                // this.$emit('onItemClick', product);
+                this.$store.dispatch('addItem', product);
+                this.$store.dispatch('totalItemPrice');
+            },
         }
-       /* data () {
-            return {
-                fields: [
-                    {
-                        key: 'no',
-                        label: '#'
-                    }
-                    ,
-                    {
-                        key:'name',
-                    },
-                    {
-                        key:'sale_price',
-                        label: 'Price',
-                        class: 'text-right'
-                    },
-                    {
-                        key:'qty',
-                        class: 'text-right'
-                    },
-                    {
-                        key:'subtotal',
-                        class: 'text-right'
-                    },
-                    {
-                        key: 'actions',
-                        label: ' ',
-                        class: 'text-right'
-                    }
-                ],
-                showRightSidebar: false,
-                products: [],
-                items: [],
-                total: 0.00,
-                currentPage: 1,
-                perPage: 12,
-                productName: null,
-                totalRows: null
-            }
-        },
-        mounted() {
-            this.loadProducts({page: 1, size: 12});
-            this.loadItemsStorage();
-            this.sumItemsPriceTotal();
-        },
-        methods: {
-            setStorage(key, value) {
-                var item = JSON.stringify(value);
-                window.localStorage.setItem(key, item);
-            },
-            getStorage(key, defaultValue) {
-                var item = window.localStorage.getItem(key);
-                if (item) {
-                    return JSON.parse(item);
-                } else {
-                    return defaultValue;
-                }
-            },
-            loadItemsStorage() {
-                let oldItems = this.getStorage('items', []);
-                if (oldItems.length > 0 && this.items.length <= 0) {
-                    this.items = oldItems;
-                }
-                this.updateItemsStorage();
-            },
-            queryParams(url, query = {}) {
-                let params = [];
-                for (let q in query) {
-                    if (query.hasOwnProperty(q)) {
-                        params.push(q + '=' + query[q]);
-                        console.log("query params: ", q, query[q]);
-                    }
-                }
-                if (params.length > 0) {
-                    url += '?';
-                    url += params.join('&');
-                }
-                return url;
-            },
-            loadProducts(query = {}) {
-                let url = this.queryParams('/api/products', query);
-
-                axios.get(url).then(res => {
-                    this.totalRows = res.data.meta.total;
-                    this.products = res.data.data;
-                });
-            },
-            addItem(product) {
-                let found = this.items.find(item => item.id == product.id);
-
-                if (found) {
-                    found.qty += 1;
-                } else {
-                    product.qty = 1;
-                    this.items.push(product);
-                }
-                this.sumItemsPriceTotal();
-                this.updateItemsStorage();
-            },
-            searchProduct: function(name) {
-                this.loadProducts({page: 1, size: 12, filter: name});
-            },
-            changePage (pageNum) {
-                this.loadProducts({page: pageNum, size: 12});
-            },
-            sumItemsPriceTotal() {
-                let total = 0;
-                this.items.map(item => {
-                    item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
-                    total += item.subTotal;
-                });
-                this.total = total;
-            },
-            updateItemsStorage() {
-                this.setStorage('items', this.items);
-            },
-
-        }*/
     }
 
 </script>

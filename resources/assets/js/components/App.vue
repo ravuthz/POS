@@ -2,14 +2,15 @@
     <div class="wrapper">
         <!-- Sidebar Holder -->
         <sidebar
-            v-bind:items="items"
+            :items="items"
+            v-model="showSideBar"
+            @clearAllItems="clearAllItems"
         ></sidebar>
 
         <!-- Page Content Holder -->
         <productlist
-            v-bind:showRightSidebar="showRightSidebar"
-            v-bind:products="products"
-            v-bind:items="items"
+            @onTopCloseClick="onTopCloseClick"
+            @onItemClick="addItemToSideBar"
         ></productlist>
     </div>
 </template>
@@ -47,16 +48,16 @@
                         class: 'text-right'
                     }
                 ],
-                showRightSidebar: false,
+                showSideBar: false,
                 products: [],
                 items: [],
+                item: null,
                 total: 0.00
             }
         },
         mounted() {
-            this.loadProducts({page: 1, size: 12});
             this.loadItemsStorage();
-            this.sumItemsPriceTotal();
+            // this.sumItemsPriceTotal();
         },
         methods: {
             setStorage(key, value) {
@@ -78,28 +79,6 @@
                 }
                 this.updateItemsStorage();
             },
-            queryParams(url, query = {}) {
-                let params = [];
-                for (let q in query) {
-                    if (query.hasOwnProperty(q)) {
-                        params.push(q + '=' + query[q]);
-                        console.log("query params: ", q, query[q]);
-                    }
-                }
-                if (params.length > 0) {
-                    url += '?';
-                    url += params.join('&');
-                }
-                return url;
-            },
-            loadProducts(query = {}) {
-                let url = this.queryParams('/api/products', query);
-
-                axios.get(url).then(res => {
-                    this.totalRows = res.data.meta.total;
-                    this.products = res.data.data;
-                });
-            },
             addItem(product) {
                 let found = this.items.find(item => item.id == product.id);
 
@@ -109,7 +88,7 @@
                     product.qty = 1;
                     this.items.push(product);
                 }
-                this.sumItemsPriceTotal();
+                // this.sumItemsPriceTotal();
                 this.updateItemsStorage();
             },
             searchProduct: function(name) {
@@ -118,16 +97,28 @@
             changePage (pageNum) {
                 this.loadProducts({page: pageNum, size: 12});
             },
-            sumItemsPriceTotal() {
-                let total = 0;
-                this.items.map(item => {
-                    item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
-                    total += item.subTotal;
-                });
-                this.total = total;
-            },
+            // sumItemsPriceTotal() {
+            //     let total = 0;
+            //     this.items.map(item => {
+            //         item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
+            //         total += item.subTotal;
+            //     });
+            //     this.total = total;
+            // },
             updateItemsStorage() {
                 this.setStorage('items', this.items);
+            },
+            onTopCloseClick(value) {
+                this.showSideBar = value;
+
+            },
+            addItemToSideBar(value) {
+                this.addItem(value);
+            },
+            clearAllItems() {
+                this.items = [];
+                localStorage.clear();
+                // this.sumItemsPriceTotal();
             },
         }
     }

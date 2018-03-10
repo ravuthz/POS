@@ -1,5 +1,5 @@
 <template>
-    <nav id="sidebar" v-bind:class="{ active : showRightSidebar }">
+    <nav id="sidebar" v-bind:class="{ active : value }">
         <div class="sidebar-header">
             <div class="container-fluid">
                 <section class="row">
@@ -14,7 +14,7 @@
                 </section>
             </div>
         </div>
-        <b-table :items="items" :fields="fields" :value.sync="items">
+        <b-table :items="loadItems" :fields="fields" :value.sync="items">
             <template slot="no" slot-scope="data">
                 {{ data.index + 1 }}
             </template>
@@ -67,9 +67,10 @@
 
     export default{
         props: {
-            items: {
-                type: Array
-            }
+            value: true,
+            // items:{
+            //     type:Array
+            // }
         },
         data () {
             return {
@@ -101,16 +102,29 @@
                         class: 'text-right'
                     }
                 ],
+                sidebarItems:[],
                 showRightSidebar: false,
+                items: [],
                 total: 0.00,
                 productName: null,
             }
         },
+        computed: {
+            loadItems() {
+                this.items = this.$store.getters.items;
+                this.total = this.$store.getters.total;
+                return this.items;
+            },
+        },
         mounted() {
-            this.loadItemsStorage();
+            console.log("maru : ",this.items)
             this.sumItemsPriceTotal();
         },
         methods: {
+            // beforeMount () {
+            //     alert(12);
+            //     this.sidebarItems = this.items;
+            // },
             setStorage(key, value) {
                 var item = JSON.stringify(value);
                 window.localStorage.setItem(key, item);
@@ -122,13 +136,6 @@
                 } else {
                     return defaultValue;
                 }
-            },
-            loadItemsStorage() {
-                let oldItems = this.getStorage('items', []);
-                if (oldItems.length > 0 && this.items.length <= 0) {
-                    this.items = oldItems;
-                }
-                this.updateItemsStorage();
             },
             updateItemsStorage() {
                 this.setStorage('items', this.items);
@@ -142,21 +149,12 @@
                 this.total = total;
             },
             removeItem(product) {
-                let found = this.items.findIndex(item => item.id == product.id);
-                console.log("found: ", found)
-                if (found >= 0) {
-                    this.items.splice(found, 1);
-                }
-                this.sumItemsPriceTotal();
-                this.updateItemsStorage();
+                this.$store.dispatch('removeItem', product);
+                this.total = this.$store.dispatch('totalItemPrice');
             },
             changeQty(product) {
-                let found = this.items.find(item => item.id == product.id);
-                if (found) {
-                    found.qty = parseInt(product.qty);
-                }
-                this.sumItemsPriceTotal();
-                this.updateItemsStorage();
+                this.$store.dispatch('updateItem', product);
+                this.total = this.$store.dispatch('totalItemPrice');
             },
             createSaleProduct() {
                 let data = {
@@ -172,10 +170,7 @@
                 // this.items = [];
             },
             clearSaleProduct: function() {
-                console.log("clearSaleProduct : ", this.items);
-                this.items = [];
-                localStorage.clear();
-                this.sumItemsPriceTotal();
+                this.$store.dispatch('clearAllItems');
             }
         }
     }

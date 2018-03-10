@@ -15,6 +15,8 @@ import BootstrapVue from 'bootstrap-vue';
 import App from './components/App.vue';
 import Dashboard from './components/dashboard/Home.vue';
 
+import store from './store';
+
 Vue.use(VueRouter);
 Vue.use(Vue2Filters)
 Vue.use(BootstrapVue);
@@ -45,5 +47,6 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     components: { App },
+    store,
     router
 });
