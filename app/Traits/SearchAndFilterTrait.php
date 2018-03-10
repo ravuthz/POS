@@ -23,7 +23,7 @@ trait SearchAndFilterTrait
 
     public function scopeGetNamePageSort($query, $request)
     {
-        $size = $request->get('size', '12');
+        $size = $request->get('size', '9');
         $sort = $request->get('sort', 'null');
         $desc = $request->get('desc', 'false');
         $filter = $request->get('filter', 'null');

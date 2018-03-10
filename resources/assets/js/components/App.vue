@@ -1,120 +1,21 @@
 <template>
     <div class="wrapper">
         <!-- Sidebar Holder -->
-        <nav id="sidebar" v-bind:class="{ active : showRightSidebar }">
-            <div class="sidebar-header">
-                <h3>Simple POS</h3>
-                <b-table striped hover :items="items" :fields="fields" :value.sync="items">
-                    <template slot="no" slot-scope="data">
-                        {{ data.index + 1 }}
-                    </template>
-                    <template slot="sale_price" slot-scope="data">
-                        {{ data.item.sale_price | currency('R ') }}
-                    </template>
-                    <template slot="qty" slot-scope="data">
-                        <b-form-input v-model="data.item.qty" type="text" @change="changeQty(data.item)"></b-form-input>
-                    </template>
-                    <template slot="subtotal" slot-scope="data">
-                        {{ data.item.subTotal | currency('R ') }}
-                    </template>
-                    <template slot="actions" slot-scope="data">
-                        <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                        <b-button size="sm"  v-b-modal.removeItem  @click="itemRemove=data.item" class="mr-1 btn-danger">
-                          x
-                        </b-button>
-                    </template>
-                </b-table>
-                <div class="clearfix total">
-                    <span class="float-left">Total</span>
-                    <span class="float-right">{{ total | currency('R ') }}</span>
-                </div>
-                <div class="row">
-                    <div class="buttonPos">
-                      <b-button v-b-modal.sellItem class="buttonPrint">Sale</b-button>
-                    </div>
-                    <div class="buttonPos">
-                      <b-button class="buttonPrint" @click="updateSaleProduct">Update</b-button>
-                    </div>
-                    <div class="buttonPos" v-if="!items">
-                        <b-link class="btn btn-secondary buttonPrint" href="/sales">Sold Products</b-link>
-                    </div>
-                    <div class="buttonPos">
-                      <b-button class="buttonPrint" v-b-modal.clearAllItem >Clear</b-button>
-                    </div>
-                    <div class="buttonPos">
-                      <b-link href="/logout" class="btn btn-secondary buttonPrint">Logout</b-link>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <sidebar
+            :items="items"
+            v-model="showSideBar"
+            @clearAllItems="clearAllItems"
+        ></sidebar>
 
         <!-- Page Content Holder -->
-        <div id="content">
-
-            <router-view></router-view>
-
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <div class="row">
-                            <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-lg-1 col-md-2"  @click="showRightSidebar = !showRightSidebar">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </button>
-                            <div class="col-lg-11 col-md-10 rightSearch">
-                                <b-form-input placeholder="Search product here..." v-model="productName" @keyup.native="searchProduct(productName)"></b-form-input>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-xs-6"  v-for="product in products">
-                            <div class="card" @click="addItem(product)">
-                                <span class="badge">{{ product.sale_price }}</span>
-                                <img class="card-img-top" :src="product.image">
-                                <div class="card-block">
-                                    <p class="card-text">{{ product.name }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <template>
-                        <div>
-                            <b-pagination size="md" @change="changePage" :total-rows="totalRows" v-model="currentPage" :per-page="perPage"></b-pagination>
-                      </div>
-                    </template>
-                </div>
-            </nav>
-
-            <!-- Modal Component -->
-            <b-modal id="removeItem"
-                title="Item"
-                @ok="removeItem(itemRemove)">
-                Do you want to delete this item?
-            </b-modal>
-
-            <b-modal id="clearAllItem"
-                title="Clear"
-                @ok="clearSaleProduct()">
-                Do you want to clear all item?
-            </b-modal>
-
-            <b-modal id="sellItem"
-                title="Sale"
-                ok-title="Save & Print"
-                @ok="createSaleProduct()">
-                Accept sale?
-
-            </b-modal>
-        </div>
-
+        <productlist
+            @onTopCloseClick="onTopCloseClick"
+            @onItemClick="addItemToSideBar"
+        ></productlist>
     </div>
 </template>
 
 <script>
-
-    let Vue = require('vue');
 
     export default{
         data () {
@@ -147,20 +48,16 @@
                         class: 'text-right'
                     }
                 ],
-                showRightSidebar: false,
+                showSideBar: false,
                 products: [],
                 items: [],
-                total: 0.00,
-                currentPage: 1,
-                perPage: 12,
-                productName: null,
-                totalRows: null
+                item: null,
+                total: 0.00
             }
         },
         mounted() {
-            this.loadProducts({page: 1, size: 12});
             this.loadItemsStorage();
-            this.sumItemsPriceTotal();
+            // this.sumItemsPriceTotal();
         },
         methods: {
             setStorage(key, value) {
@@ -175,28 +72,6 @@
                     return defaultValue;
                 }
             },
-            queryParams(url, query = {}) {
-                let params = [];
-                for (let q in query) {
-                    if (query.hasOwnProperty(q)) {
-                        params.push(q + '=' + query[q]);
-                        console.log("query params: ", q, query[q]);
-                    }
-                }
-                if (params.length > 0) {
-                    url += '?';
-                    url += params.join('&');
-                }
-                return url;
-            },
-            loadProducts(query = {}) {
-                let url = this.queryParams('/api/products', query);
-
-                axios.get(url).then(res => {
-                    this.totalRows = res.data.meta.total;
-                    this.products = res.data.data;
-                });
-            },
             loadItemsStorage() {
                 let oldItems = this.getStorage('items', []);
                 if (oldItems.length > 0 && this.items.length <= 0) {
@@ -204,18 +79,6 @@
                 }
                 this.updateItemsStorage();
             },
-            updateItemsStorage() {
-                this.setStorage('items', this.items);
-            },
-            sumItemsPriceTotal() {
-                let total = 0;
-                this.items.map(item => {
-                    item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
-                    total += item.subTotal;
-                });
-                this.total = total;
-            },
-
             addItem(product) {
                 let found = this.items.find(item => item.id == product.id);
 
@@ -225,24 +88,7 @@
                     product.qty = 1;
                     this.items.push(product);
                 }
-                this.sumItemsPriceTotal();
-                this.updateItemsStorage();
-            },
-            removeItem(product) {
-                let found = this.items.findIndex(item => item.id == product.id);
-                console.log("found: ", found)
-                if (found >= 0) {
-                    this.items.splice(found, 1);
-                }
-                this.sumItemsPriceTotal();
-                this.updateItemsStorage();
-            },
-            changeQty(product) {
-                let found = this.items.find(item => item.id == product.id);
-                if (found) {
-                    found.qty = parseInt(product.qty);
-                }
-                this.sumItemsPriceTotal();
+                // this.sumItemsPriceTotal();
                 this.updateItemsStorage();
             },
             searchProduct: function(name) {
@@ -251,35 +97,29 @@
             changePage (pageNum) {
                 this.loadProducts({page: pageNum, size: 12});
             },
-
-            createSaleProduct() {
-                let data = {
-                    items: this.items,
-                    total: this.total
-                };
-
-                axios.post('/api/sales', data).then(res => {
-                    console.log("Order: ", res.data);
-                });
-                this.clearSaleProduct();
-                // this.setStorage('items', []);
-                // this.items = [];
+            // sumItemsPriceTotal() {
+            //     let total = 0;
+            //     this.items.map(item => {
+            //         item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
+            //         total += item.subTotal;
+            //     });
+            //     this.total = total;
+            // },
+            updateItemsStorage() {
+                this.setStorage('items', this.items);
             },
-            updateSaleProduct() {
-                let data = {
-                    items: this.items,
-                    total: this.total
-                };
+            onTopCloseClick(value) {
+                this.showSideBar = value;
 
-                axios.put('/api/sales/1', data).then(res => {
-                    console.log("Order: ", res.data);
-                });
             },
-            clearSaleProduct: function() {
-                this.items= [];
+            addItemToSideBar(value) {
+                this.addItem(value);
+            },
+            clearAllItems() {
+                this.items = [];
                 localStorage.clear();
-                this.sumItemsPriceTotal();
-            }
+                // this.sumItemsPriceTotal();
+            },
         }
     }
 
