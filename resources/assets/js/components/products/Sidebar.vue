@@ -117,7 +117,6 @@
             },
         },
         mounted() {
-            console.log("maru : ",this.items)
             this.sumItemsPriceTotal();
         },
         methods: {
