@@ -81,7 +81,7 @@ export default new Vuex.Store({
         console.log("listParam: ", query);
         ctx.commit('LIST_PRODUCTS', query);
     },
-    totalItemPrice() {
+    totalItemPrice(ctx) {
       ctx.commit('TOTAL_ITEM_PRICE');
     }
   },
