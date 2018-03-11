@@ -54,7 +54,6 @@ export default new Vuex.Store({
       return state.total;
     },
     LIST_PRODUCTS(state, query) {
-        console.log("name store", query);
         getAllProducts(query).then(res => {
             state.products = res.data.data;
             state.totalRows = res.data.meta.total;
@@ -78,7 +77,6 @@ export default new Vuex.Store({
       ctx.commit('CLEAR_ALL_ITEMS');
     },
     listProduct(ctx, query = {}) {
-        console.log("listParam: ", query);
         ctx.commit('LIST_PRODUCTS', query);
     },
     totalItemPrice(ctx) {

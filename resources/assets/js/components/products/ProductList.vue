@@ -70,7 +70,6 @@
                 for (let q in query) {
                     if (query.hasOwnProperty(q)) {
                         params.push(q + '=' + query[q]);
-                        console.log("query params: ", q, query[q]);
                     }
                 }
                 if (params.length > 0) {
