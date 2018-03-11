@@ -17,7 +17,11 @@ class RoleController extends Controller
     protected $itemName = 'role';
     protected $listName = 'roles';
     protected $modelPath = Role::class;
+<<<<<<< HEAD
     protected $viewPrefix = 'roles';
+=======
+    protected $viewPrefix = 'admin.roles';
+>>>>>>> e924bb970cd7bfd1f80755a58e2ac52be68b2887
     protected $routePrefix = 'roles';
 
     public function __construct()

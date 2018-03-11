@@ -29,4 +29,19 @@ class PermissionController extends Controller
             Log::debug($e);
         }
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Override CrudController getFilterData
+     * query all data with search form
+     * @param null $request
+     * @return mixed
+     */
+    public function getFilterData($request = null)
+    {
+        $name = $request->get('name', '');
+        return Permission::search('name', $name)->latest()->paginate(10);
+    }
+>>>>>>> e924bb970cd7bfd1f80755a58e2ac52be68b2887
 }

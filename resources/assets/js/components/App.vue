@@ -79,38 +79,11 @@
                 }
                 this.updateItemsStorage();
             },
-            addItem(product) {
-                let found = this.items.find(item => item.id == product.id);
-
-                if (found) {
-                    found.qty += 1;
-                } else {
-                    product.qty = 1;
-                    this.items.push(product);
-                }
-                // this.sumItemsPriceTotal();
-                this.updateItemsStorage();
-            },
-            searchProduct: function(name) {
-                this.loadProducts({page: 1, size: 12, filter: name});
-            },
-            changePage (pageNum) {
-                this.loadProducts({page: pageNum, size: 12});
-            },
-            // sumItemsPriceTotal() {
-            //     let total = 0;
-            //     this.items.map(item => {
-            //         item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
-            //         total += item.subTotal;
-            //     });
-            //     this.total = total;
-            // },
             updateItemsStorage() {
                 this.setStorage('items', this.items);
             },
             onTopCloseClick(value) {
                 this.showSideBar = value;
-
             },
             addItemToSideBar(value) {
                 this.addItem(value);

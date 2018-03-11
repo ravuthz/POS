@@ -10,11 +10,13 @@ export default new Vuex.Store({
     products: [],
     items: [],
     total: 0,
+    totalRows: null
   },
   getters: {
     products: state => state.products,
     items: state => state.items,
     total: state => state.total,
+    totalRows: state => state.totalRows,
   },
   mutations: {
     ADD_ITEM(state, item) {
@@ -49,12 +51,13 @@ export default new Vuex.Store({
         total += parseFloat(each.subTotal);
       });
       state.total = total;
-      console.log("TOTAL_ITEM_PRICE: ", this.total);
       return state.total;
     },
-    LIST_PRODUCTS(state) {
-      getAllProducts({ page: 1, size: 5}).then(res => {
-        state.products = res.data.data;
+    LIST_PRODUCTS(state, query) {
+        console.log("name store", query);
+        getAllProducts(query).then(res => {
+            state.products = res.data.data;
+            state.totalRows = res.data.meta.total;
       });
     },
   },
@@ -74,10 +77,11 @@ export default new Vuex.Store({
     clearAllItems(ctx) {
       ctx.commit('CLEAR_ALL_ITEMS');
     },
-    listProduct(ctx) {
-      ctx.commit('LIST_PRODUCTS');
+    listProduct(ctx, query = {}) {
+        console.log("listParam: ", query);
+        ctx.commit('LIST_PRODUCTS', query);
     },
-    totalItemPrice() {
+    totalItemPrice(ctx) {
       ctx.commit('TOTAL_ITEM_PRICE');
     }
   },

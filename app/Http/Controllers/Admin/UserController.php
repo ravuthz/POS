@@ -20,7 +20,11 @@ class UserController extends Controller
     protected $itemName = 'user';
     protected $listName = 'users';
     protected $modelPath = User::class;
+<<<<<<< HEAD
     protected $viewPrefix = 'users';
+=======
+    protected $viewPrefix = 'admin.users';
+>>>>>>> e924bb970cd7bfd1f80755a58e2ac52be68b2887
     protected $routePrefix = 'users';
 
     public function __construct()
