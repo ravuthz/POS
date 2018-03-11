@@ -61,15 +61,21 @@ a {
   color: #000;
   transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
   transform-origin: bottom left;
-  height: 65vh;
-  overflow: auto;
   &.active {
     margin-left: -450px;
     transform: rotateY(100deg);
   }
   .sidebar-header {
     padding: 20px;
-    background: #fefefe;
+    height: 11vh;
+  }
+  .sidebar-content {
+    height: 74vh;
+    overflow: auto;
+  }
+  .sidebar-footer {
+    height: 15vh;
+    background: green;
   }
   ul {
     &.components {
@@ -164,7 +170,6 @@ a {
 
 #content {
   padding: 20px;
-  min-height: 90vh;
   transition: all 0.3s;
   overflow: auto;
 }
@@ -207,7 +212,7 @@ a {
     max-width: 250px;
     margin-left: -250px;
     height: 100vh;
-    overflow: auto;
+    //overflow: auto;
     transform: rotateY(90deg);
     &.active {
       margin-left: 0;
@@ -237,42 +242,46 @@ a {
   }
 }
 
-.footerSidebar{
-    margin: 0;
-    padding-top: 15px;
-    position: fixed;
-    bottom: 0;
-    width: 450px;
-}
-.buttonPrint{
-    padding: 30px;
-    margin:10px;
-    background: #1b17f5;
-}
-.total{
-    padding: 10px 5px;
-    background: #4d6f60;
-}
-/* .rightSearch{
-    position: absolute;
-    right: 0;
-} */
-.navbar-header{
-    width: 100%;
-}
-.table th, .table td{
-    padding: 0;
+.buttonPrint {
+  padding: 30px;
+  margin: 10px;
+  background: #1b17f5;
 }
 
-.text-right .form-control{
-    margin-left: 10px;
-    margin-right: -255px;
-    width: 70%;
-    padding: 0;
-    background-color: #fefefe;
-    border: 0;
+.btn-sale {
+  margin-bottom: 30px !important;
+  border-radius: 0px !important;
 }
-.mr-1{
+
+.btn-total {
+  border-radius: 0px !important;
+}
+
+.navbar-header {
+  width: 100%;
+}
+
+.table th, .table td {
+  padding: 0;
+}
+
+.text-right .form-control {
+  margin-left: 10px;
+  margin-right: -255px;
+  width: 70%;
+  padding: 0;
+  background-color: #fefefe;
+  border: 0;
+}
+
+.mr-1 {
   margin-bottom: 2px;
   margin-top: 1px;
+}
+
+.btn-xl {
+  padding: 0.85rem 1.70rem;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  border-radius: 0;
 }

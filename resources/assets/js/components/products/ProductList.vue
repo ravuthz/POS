@@ -1,6 +1,7 @@
 <template>
     <div id="content">
         <router-view></router-view>
+
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
