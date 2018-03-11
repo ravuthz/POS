@@ -29,7 +29,7 @@
 
                 <template>
                     <div>
-                        <b-pagination size="md" @change="changePage" :total-rows="totalRows" v-model="currentPage" :per-page="perPage"></b-pagination>
+                        <b-pagination size="md" @change="changePage" :total-rows="totalRows" :per-page="perPage"></b-pagination>
                   </div>
                 </template>
             </div>
@@ -47,22 +47,20 @@
         data(){
             return {
                 products: [],
-                productName: null,
                 showRightSidebar: false,
-                currentPage: 1,
                 perPage: 12,
                 productName: null,
-                totalRows: null
+                totalRows: null,
             }
         },
         created() {
-            // this.loadProducts();
-            this.$store.dispatch('listProduct');
+            this.$store.dispatch('listProduct', 1);
 
         },
         computed: {
             getAllProductsFromStore() {
                 this.products = this.$store.getters.products;
+                this.totalRows = this.$store.getters.totalRows;
                 return this.products;
             }
         },
@@ -81,26 +79,17 @@
                 }
                 return url;
             },
-            loadProducts(query = {}) {
-                let url = this.queryParams('/api/products', query);
-
-                axios.get(url).then(res => {
-                    this.totalRows = res.data.meta.total;
-                    this.products = res.data.data;
-                });
-            },
             searchProduct: function(name) {
-                this.loadProducts({page: 1, size: 12, filter: name});
+                this.$store.dispatch('listProduct',{filter: name});
             },
             changePage (pageNum) {
-                this.loadProducts({page: pageNum, size: 12});
+                this.$store.dispatch('listProduct', {page: pageNum});
             },
             topCloseClick() {
                 this.showRightSidebar = !this.showRightSidebar;
                 this.$emit('onTopCloseClick', this.showRightSidebar);
             },
             addItem(product) {
-                // this.$emit('onItemClick', product);
                 this.$store.dispatch('addItem', product);
                 this.$store.dispatch('totalItemPrice');
             },

@@ -121,10 +121,6 @@
             this.sumItemsPriceTotal();
         },
         methods: {
-            // beforeMount () {
-            //     alert(12);
-            //     this.sidebarItems = this.items;
-            // },
             setStorage(key, value) {
                 var item = JSON.stringify(value);
                 window.localStorage.setItem(key, item);
