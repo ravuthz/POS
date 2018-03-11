@@ -2,8 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\CrudsModelTrait;
+use App\Traits\SearchAndFilterTrait;
+
 class Permission extends \Spatie\Permission\Models\Permission
 {
+    use CrudsModelTrait, SearchAndFilterTrait;
+
+    protected $fillable = [
+        'name', 'guard_name'
+    ];
+
+    public $rules = [
+
+    ];
+
     public static function defaultPermissions()
     {
         return [

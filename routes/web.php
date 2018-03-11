@@ -33,25 +33,25 @@ Route::group([
 
 Route::group([
     'prefix'     => 'adminz',
-    'middleware' => ['auth', 'crud.permissions']
-], function () {
-    Route::get('/', 'AdminController@index');
-    Route::resource('products', 'ProductController');
-    Route::resource('categories', 'CategoryController');
-    Route::resource('stocks', 'StockController');
-    Route::resource('orders', 'OrderController');
-
-});
-
-Route::group([
-    'prefix'     => 'adminz',
     'middleware' => ['auth', 'role:admin']
 ], function () {
+    Route::get('/', 'AdminController@index');
     Route::resource('users', 'Admin\UserController');
     Route::resource('roles', 'Admin\RoleController');
     Route::resource('permissions', 'Admin\PermissionController');
     Route::resource('settingtypes', 'SettingTypeController');
     Route::resource('settingitems', 'SettingItemController');
+});
+
+Route::group([
+    'prefix'     => 'adminz',
+    'middleware' => ['auth', 'crud.permissions']
+], function () {
+    Route::resource('products', 'ProductController');
+    Route::resource('categories', 'CategoryController');
+    Route::resource('stocks', 'StockController');
+    Route::resource('orders', 'OrderController');
+
 });
 
 Route::get('/seller/{vue_capture?}', function () {

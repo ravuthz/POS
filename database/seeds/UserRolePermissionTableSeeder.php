@@ -14,72 +14,69 @@ class UserRolePermissionTableSeeder extends Seeder
      */
     public function run()
     {
-        $roleAdmin = Role::create(['name' => 'admin']);
-        $roleSeller = Role::create(['name' => 'seller']);
-        $roleCustomer = Role::create(['name' => 'customer']);
+        // Create some users
+        $admin = User::fixedUser('admin');
+        $seller = User::fixedUser('seller');
+        $customer = User::fixedUser('customer');
 
-//        $permissions = Permission::defaultPermissions();
-//        foreach ($permissions as $perms) {
-//            Permission::firstOrCreate(['name' => $perms]);
-//        }
+        // Create default roles
+        $roles = Role::defaultRoles();
+        foreach ($roles as $role) {
+            Role::create(['name' => $role]);
+        }
 
-        $user = $this->crudPermission('user');
-        $category = $this->crudPermission('category');
-        $product = $this->crudPermission('product');
-        $order = $this->crudPermission('order');
-        $stock = $this->crudPermission('stock');
-        $settingItem = $this->crudPermission('settingitem');
-        $settingType = $this->crudPermission('settingtype');
-        $role = $this->crudPermission('role');
+        // Create default permissions
+        $permissions = Permission::defaultPermissions();
+        foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission]);
+        }
 
-        $roleAdmin->givePermissionTo(
-            Permission::create(['name' => 'DETAIL_ADMIN'])
-        );
-        $roleAdmin->givePermissionTo(array_values($user));
-        $roleAdmin->givePermissionTo(array_values($category));
-        $roleAdmin->givePermissionTo(array_values($product));
-        $roleAdmin->givePermissionTo(array_values($order));
-        $roleAdmin->givePermissionTo(array_values($stock));
-        $roleAdmin->givePermissionTo(array_values($settingItem));
-        $roleAdmin->givePermissionTo(array_values($settingType));
-        $roleAdmin->givePermissionTo(array_values($role));
+        // Create other permissions
+        $this->crudPermission('category');
+        $this->crudPermission('product');
+        $this->crudPermission('order');
+        $this->crudPermission('stock');
+        $this->crudPermission('settingitem');
+        $this->crudPermission('settingtype');
 
-        $roleSeller->givePermissionTo(array_values($order));
-        $roleSeller->givePermissionTo(array_values($stock));
+        $roleAdmin = Role::whereName('admin')->first();
+        $roleSeller = Role::whereName('seller')->first();
+        $roleCustomer = Role::whereName('customer')->first();
 
-        $roleCustomer->givePermissionTo(
-            $user['detail'],
-            $category['detail'],
-            $product['detail'],
-            $order['detail']
-        );
+        // Assign all permissions to admin role
+        if ($roleAdmin) {
+            $permissions = Permission::all();
+            dump("Role Admin's Permission");
+            dump($permissions->toArray());
+            $roleAdmin->syncPermissions($permissions);
+        }
 
-        $admin = User::create([
-            'name' => 'adminz',
-            'email' => 'adminz@gmail.com',
-            'password' => bcrypt('123123')
-        ]);
+        // Assign some permissions to seller role
+        if ($roleSeller) {
+            $permissions = Permission
+                ::where('name', 'like', '%_PRODUCT')
+                ->orWhere('name', 'like', '%_CATEGORY')
+                ->orWhere('name', 'like', '%_ORDER')
+                ->orWhere('name', 'like', '%_STOCK')
+                ->get();
+            dump("Role Seller's Permission");
+            dump($permissions->toArray());
+            $roleSeller->givePermissionTo($permissions);
+        }
+
+        // Assign all detail permissions to customer role
+        if ($roleCustomer) {
+            $permissions = Permission::where('name', 'like', 'DETAIL_%')->get();
+            dump("Role Customer's Permission");
+            dump($permissions->toArray());
+            $roleCustomer->syncPermissions($permissions);
+        }
+
+        // Assign roles to users
         $admin->assignRole('admin');
+        $seller->assignRole('seller');
+        $customer->assignRole('customer');
 
-        $author = User::create([
-            'name' => 'seller',
-            'email' => 'seller@gmail.com',
-            'password' => bcrypt('123123')
-        ]);
-        $author->assignRole('seller');
-
-        $editor = User::create([
-            'name' => 'customer',
-            'email' => 'customer@gmail.com',
-            'password' => bcrypt('123123')
-        ]);
-        $editor->assignRole('customer');
-
-        $other = User::create([
-            'name' => 'other',
-            'email' => 'other@gmail.com',
-            'password' => bcrypt('123123')
-        ]);
     }
 
     protected function crudPermission($name)

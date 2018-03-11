@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\CrudsModelTrait;
+use App\Traits\SearchAndFilterTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use Notifiable, HasRoles;
+    use CrudsModelTrait, SearchAndFilterTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +30,13 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token'
+    ];
+
+    public $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,{id}',
+        'password' => 'required|string|min:6|confirmed',
+        'roles' => 'required|min:1'
     ];
 
     public function scopeGetCustomer($query)
@@ -47,4 +58,53 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'created_by');
     }
 
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    /**
+     * Override CrudModel
+     * @param null $request
+     */
+    public function saveOrUpdate($request)
+    {
+        $data = $request->except('roles', 'permissions', 'password');
+        if (!$request->isMethod('post')) {
+            if ($request->get('password')) {
+                $this->password = $request->get('password');
+            }
+        } else {
+            $this->password = $request->get('password');
+        }
+
+        $this->fill($data)->save();
+        $this->syncPermissions($request);
+    }
+
+    private function syncPermissions(Request $request)
+    {
+        $roles = $request->get('roles', []);
+        $permissions = $request->get('permissions', []);
+
+        $roles = Role::find($roles);
+
+        if (!$this->hasAllRoles($roles)) {
+            $this->permissions()->sync([]);
+        } else {
+            $this->syncPermissions($permissions);
+        }
+
+        $this->syncRoles($roles);
+        return $this;
+    }
+
+    public static function fixedUser($name)
+    {
+        return User::create([
+            'name' => $name,
+            'email' => $name . '@gmail.com',
+            'password' => '123123'
+        ]);
+    }
 }

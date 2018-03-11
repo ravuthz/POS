@@ -13,7 +13,7 @@ return [
     |
      */
 
-    'title' => 'AdminLTE 2',
+    'title' => 'AdminZee',
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
      */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Admin</b>Zee',
 
-    'logo_mini' => '<b>A</b>LT',
+    'logo_mini' => '<b>A</b>Z',
 
     /*
     |--------------------------------------------------------------------------
@@ -114,6 +114,7 @@ return [
         //     'url'  => 'admin/blog',
         //     'can'  => 'manage-blog',
         // ],
+        'SALES',
         [
             'text' => 'Category',
             'url'  => 'adminz/categories',
@@ -130,67 +131,34 @@ return [
             'icon' => 'list-ol'
         ],
         [
-            'text' => 'Setting Item',
-            'url'  => 'adminz/settingitems',
-            'icon' => 'file'
-        ],
-        [
-            'text' => 'Setting Type',
-            'url'  => 'adminz/settingtypes',
-            'icon' => 'file'
-        ],
-        [
             'text' => 'Stock',
             'url'  => 'adminz/stocks',
             'icon' => 'home'
         ],
         'ACCOUNT SETTINGS',
         [
-            'text' => 'Role',
-            'url'  => 'adminz/roles',
-            'icon' => 'ban'
-        ],
-        [
             'text' => 'Change Password',
             'url'  => 'adminz/settings',
             'icon' => 'lock'
         ],
+        'ADMIN & SETTINGS',
+        ['text' => 'Users', 'url' => 'adminz/users', 'icon' => 'users', 'can' => 'DETAIL_USER'],
+        ['text' => 'Roles', 'url'  => 'adminz/roles', 'icon' => 'ban', 'can' => 'DETAIL_ROLE'],
+        ['text' => 'Permissions', 'url'  => 'adminz/permissions', 'icon' => 'lock', 'can' => 'DETAIL_PERMISSION'],
         [
-            'text'    => 'Multilevel',
+            'text'    => 'Settings',
             'icon'    => 'share',
             'submenu' => [
                 [
-                    'text' => 'Level One',
-                    'url'  => '#'
+                    'text' => 'Setting Item',
+                    'url'  => 'adminz/settingitems',
+                    'icon' => 'file'
                 ],
                 [
-                    'text'    => 'Level One',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Level Two',
-                            'url'  => '#'
-                        ],
-                        [
-                            'text'    => 'Level Two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#'
-                                ],
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#'
-                                ]
-                            ]
-                        ]
-                    ]
+                    'text' => 'Setting Type',
+                    'url'  => 'adminz/settingtypes',
+                    'icon' => 'file'
                 ],
-                [
-                    'text' => 'Level One',
-                    'url'  => '#'
-                ]
             ]
         ]
     ],

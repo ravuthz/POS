@@ -7,118 +7,63 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\Authorizable;
-use Illuminate\Http\Request;
+use App\Traits\CrudsControllerTrait;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     use Authorizable;
+    use CrudsControllerTrait;
 
-    public function index()
+    protected $itemName = 'user';
+    protected $listName = 'users';
+    protected $modelPath = User::class;
+    protected $viewPrefix = 'admin.users';
+    protected $routePrefix = 'users';
+
+    public function __construct()
     {
-        $result = User::latest()->paginate();
-        return view('users.index', compact('result'));
-    }
-
-    public function create()
-    {
-        $roles = Role::pluck('name', 'id');
-        return view('users.create', compact('roles'));
-    }
-
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'bail|required|min:2',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            'roles' => 'required|min:1'
-        ]);
-
-        // hash password
-        $request->merge(['password' => bcrypt($request->get('password'))]);
-
-        // Create the user
-        if ($user = User::create($request->except('roles', 'permissions'))) {
-            $this->syncPermissions($request, $user);
-            flash('User has been created.');
-        } else {
-            flash()->error('Unable to create user.');
+        try {
+            $this->initialize();
+            $this->setPageTitle("User");
+            $this->setSiteTitle("Users");
+            $this->data['roles'] = Role::pluck('name', 'id');
+            $this->data['permissions'] = Permission::all('name', 'id');
+        } catch (Exception $e) {
+            Log::debug($e);
         }
-
-        return redirect()->route('users.index');
     }
 
-    public function edit($id)
+    /**
+     * Override CrudController getFilterData
+     * query all data with search form
+     * @param null $request
+     * @return mixed
+     */
+    public function getFilterData($request = null)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name', 'id');
-        $permissions = Permission::all('name', 'id');
-
-        return view('users.edit', compact('user', 'roles', 'permissions'));
+        $name = $request->get('name', '');
+        return User::searchName($name)->latest()->paginate(10);
     }
 
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'name' => 'bail|required|min:2',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'roles' => 'required|min:1'
-        ]);
-
-        // Get the user
-        $user = User::findOrFail($id);
-
-        // Update user
-        $user->fill($request->except('roles', 'permissions', 'password'));
-
-        // check for password change
-        if ($request->get('password')) {
-            $user->password = bcrypt($request->get('password'));
-        }
-
-        // Handle the user roles
-        $this->syncPermissions($request, $user);
-
-        $user->save();
-        flash()->success('User has been updated.');
-        return redirect()->route('users.index');
-    }
-
+    /**
+     * Override CrudController destroy
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         if (Auth::user()->id == $id) {
-            flash()->warning('Deletion of currently logged in user is not allowed :(')->important();
-            return redirect()->back();
+            return redirect()->back()
+                ->with('warning', 'Deletion of currently logged in user is not allowed :(');
         }
 
-        if (User::findOrFail($id)->delete()) {
-            flash()->success('User has been deleted');
-        } else {
-            flash()->success('User not deleted');
-        }
+        $user = User::findOrFail($id);
+        $user->delete();
 
-        return redirect()->back();
-    }
-
-    private function syncPermissions(Request $request, $user)
-    {
-        // Get the submitted roles
-        $roles = $request->get('roles', []);
-        $permissions = $request->get('permissions', []);
-
-        // Get the roles
-        $roles = Role::find($roles);
-
-        // check for current role changes
-        if (!$user->hasAllRoles($roles)) {
-            // reset all direct permissions for user
-            $user->permissions()->sync([]);
-        } else {
-            // handle permissions
-            $user->syncPermissions($permissions);
-        }
-
-        $user->syncRoles($roles);
-        return $user;
+        return redirect()->back()
+            ->with('success', 'The user with id = ' . $id . ' delete successfully :D');
     }
 }
