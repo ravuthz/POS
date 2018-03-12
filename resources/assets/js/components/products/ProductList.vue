@@ -47,7 +47,6 @@
         },
         data(){
             return {
-                products: [],
                 showRightSidebar: false,
                 perPage: 12,
                 productName: null,
@@ -55,8 +54,7 @@
             }
         },
         created() {
-            this.$store.dispatch('listProduct', 1);
-
+            this.$store.dispatch('listProduct', {size: this.perPage});
         },
         computed: {
             getAllProductsFromStore() {
@@ -66,24 +64,11 @@
             }
         },
         methods:{
-            queryParams(url, query = {}) {
-                let params = [];
-                for (let q in query) {
-                    if (query.hasOwnProperty(q)) {
-                        params.push(q + '=' + query[q]);
-                    }
-                }
-                if (params.length > 0) {
-                    url += '?';
-                    url += params.join('&');
-                }
-                return url;
-            },
             searchProduct: function(name) {
-                this.$store.dispatch('listProduct',{filter: name});
+                this.$store.dispatch('listProduct',{size: this.perPage, filter: name});
             },
-            changePage (pageNum) {
-                this.$store.dispatch('listProduct', {page: pageNum});
+            changePage (pageNum, productName) {
+                this.$store.dispatch('listProduct', {page: pageNum, size: this.perPage, filter: this.productName});
             },
             topCloseClick() {
                 this.showRightSidebar = !this.showRightSidebar;

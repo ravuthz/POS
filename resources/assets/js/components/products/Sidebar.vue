@@ -47,40 +47,106 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <b-button v-b-modal.sellItem class="btn btn-xl btn-default">Sale</b-button>
+                    <b-button v-b-modal.sellItem  class="btn btn-xl btn-default">Sale</b-button>
                 </div>
             </div>
         </div>
 
         <b-modal centered  id="removeItem"
             title="Item"
+            ok-title="Delete"
             @ok="removeItem(itemRemove)">
-            Do you want to delete this item?
+            Do you want to delete this item <p style="color:red">{{ itemRemove.name }}?</p>
         </b-modal>
 
         <b-modal centered  id="clearAllItem"
             title="Clear"
+            ok-title="Clear"
             @ok="clearSaleProduct()">
             Do you want to clear all item?
         </b-modal>
 
-        <b-modal centered  id="sellItem"
-            title="Sale"
-            ok-title="Save & Print"
-            @ok="createSaleProduct()">
-            Accept sale?
-        </b-modal>
+        <b-modal
+        id="sellItem"
+        title="Sale"
+        ok-title="Save & Print"
+        @ok="createSaleProduct()">
+        <div class="container-fluid" id="printPlace">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h5>RECEIPT</h5>
+                </div>
+            </div>
+
+            <table class="table table-condensed table-borderless">
+                <thead>
+                    <tr>
+                        <th>
+                            <span class="khmer">#</span>
+                        </th>
+                        <th>
+                            <span class="khmer text-right">Name</span>
+                        </th>
+                        <th class="text-center">
+                            <span class="khmer">Price</span>
+                        </th>
+                        <th class="text-right">
+                            <span class="khmer">Qty</span>
+                        <th class="text-right">
+                            <span class="khmer">Amount</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in items">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ item.name }}</td>
+                        <td class="text-center">{{ item.sale_price }}</td>
+                        <td class="text-right">{{ item.qty }}</td>
+                        <td class="text-right">{{ item.subTotal | currency('R ') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-condensed table-borderless">
+                <tr>
+                    <th class="big-line" colspan="3"></th>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="khmer">សរុបចុងក្រោយ​</span>
+                    </td>
+                    <td class="text-right">Total</td>
+                    <td class="text-right">‎{{ total | currency('R ') }}</td>
+                </tr>
+            </table>
+
+            <div class="row">
+                <div class="hidden-print col-xs-12 text-center">
+                    <p class="khmer">សូមអរគុណ​! សូមអញ្ជើញមកម្តងទៀត​</p>
+                </div>
+            </div>
+
+        </div>
+    </b-modal>
+
+    <!--     <app-print
+            :items="items"
+            :total="total"
+        ></app-print>
+ -->
+
     </nav>
 </template>
 
 <script>
-
+    // import Print from './Print';
     export default{
+      /*  components:{
+            'app-print': Print,
+        },*/
         props: {
             value: true,
-            // items:{
-            //     type:Array
-            // }
         },
         data () {
             return {
@@ -112,11 +178,11 @@
                         class: 'text-right'
                     }
                 ],
-                sidebarItems:[],
-                showRightSidebar: false,
                 items: [],
                 total: 0.00,
-                productName: null,
+                itemRemove: {
+                    name: null
+                }
             }
         },
         computed: {
@@ -125,9 +191,6 @@
                 this.total = this.$store.getters.total;
                 return this.items;
             },
-        },
-        mounted() {
-            this.sumItemsPriceTotal();
         },
         methods: {
             setStorage(key, value) {
@@ -145,14 +208,6 @@
             updateItemsStorage() {
                 this.setStorage('items', this.items);
             },
-            sumItemsPriceTotal() {
-                let total = 0;
-                this.items.map(item => {
-                    item.subTotal = parseInt(item.qty) * parseFloat(item.sale_price);
-                    total += item.subTotal;
-                });
-                this.total = total;
-            },
             removeItem(product) {
                 this.$store.dispatch('removeItem', product);
                 this.total = this.$store.dispatch('totalItemPrice');
@@ -162,15 +217,23 @@
                 this.total = this.$store.dispatch('totalItemPrice');
             },
             createSaleProduct() {
-                let data = {
+                var printContents = document.getElementById("printPlace").innerHTML;
+                var originalContents = document.body.innerHTML;
+                document.body.innerHTML = printContents;
+
+                window.print();
+
+                document.body.innerHTML = originalContents;
+                /*let data = {
                     items: this.items,
                     total: this.total
                 };
 
                 axios.post('/api/sales', data).then(res => {
                     console.log("Order: ", res.data);
-                });
+                });*/
                 this.clearSaleProduct();
+                window.location.href = "/seller";
                 // this.setStorage('items', []);
                 // this.items = [];
             },

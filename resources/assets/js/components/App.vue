@@ -1,5 +1,6 @@
 <template>
     <div class="wrapper">
+
         <!-- Sidebar Holder -->
         <sidebar
             :items="items"
@@ -49,7 +50,6 @@
                     }
                 ],
                 showSideBar: false,
-                products: [],
                 items: [],
                 item: null,
                 total: 0.00
