@@ -1,6 +1,10 @@
 <div class="row">
     <div class="col-md-5">
+<<<<<<< HEAD
+        <h3 class="modal-title">{{ $permission->total() }} {{ str_plural('Permission', $permission->count()) }} </h3>
+=======
         <h3 class="modal-title">{{ $permissions->total() }} {{ str_plural('Permission', $permissions->count()) }} </h3>
+>>>>>>> e924bb970cd7bfd1f80755a58e2ac52be68b2887
     </div>
     <div class="col-md-7 page-action text-right">
         @can('CREATE_PERMISSION')
@@ -26,7 +30,11 @@
         </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
+        @foreach($permission as $item)
+=======
         @foreach($permissions as $item)
+>>>>>>> e924bb970cd7bfd1f80755a58e2ac52be68b2887
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->name }}</td>
@@ -60,6 +68,10 @@
     </table>
 
     <div class="text-center">
+<<<<<<< HEAD
+        {{ $permission->links() }}
+=======
         {{ $permissions->links() }}
+>>>>>>> e924bb970cd7bfd1f80755a58e2ac52be68b2887
     </div>
 </div>

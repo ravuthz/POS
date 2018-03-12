@@ -1,46 +1,57 @@
 <template>
     <nav id="sidebar" v-bind:class="{ active : value }">
         <div class="sidebar-header">
-            <div class="container-fluid">
-                <section class="row">
-                    <div class="col-md-8">
-                        <h1>Simple POS</h1>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="btn-group float-right mt-2" role="group">
-                             <b-button size="lg" v-b-modal.clearAllItem class="float-right"><i class="fa fa-trash"></i></b-button>
-                        </div>
-                    </div>
-                </section>
+            <section class="row">
+                <div class="col-md-9">
+                    <h1>Simple POS</h1>
+                </div>
+                <div class="col-md-3">
+                     <b-button size="lg" v-b-modal.clearAllItem class="btn-sale float-right">
+                         <i class="fa fa-trash"></i>
+                     </b-button>
+                </div>
+            </section>
+        </div>
+
+        <div class="sidebar-content">
+            <b-table :items="loadItems" :fields="fields" :value.sync="items">
+                <template slot="no" slot-scope="data">
+                    {{ data.index + 1 }}
+                </template>
+                <template slot="sale_price" slot-scope="data">
+                    {{ data.item.sale_price | currency('R ') }}
+                </template>
+                <template slot="qty" slot-scope="data">
+                    <b-form-input v-model="data.item.qty" type="text" @change="changeQty(data.item)"></b-form-input>
+                </template>
+                <template slot="subtotal" slot-scope="data">
+                    {{ data.item.subTotal | currency('R ') }}
+                </template>
+                <template slot="actions" slot-scope="data">
+                    <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
+                    <b-button size="sm"  v-b-modal.removeItem  @click="itemRemove=data.item" class="mr-1 btn-danger">
+                        <i class="fa fa-trash"></i>
+                    </b-button>
+                </template>
+            </b-table>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-lg btn-block btn-total">
+                        <span class="float-left">Total</span>
+                        <span class="float-right">{{ total | currency('R ') }}</span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <b-button v-b-modal.sellItem class="btn btn-xl btn-default">Sale</b-button>
+                </div>
             </div>
         </div>
-        <b-table :items="loadItems" :fields="fields" :value.sync="items">
-            <template slot="no" slot-scope="data">
-                {{ data.index + 1 }}
-            </template>
-            <template slot="sale_price" slot-scope="data">
-                {{ data.item.sale_price | currency('R ') }}
-            </template>
-            <template slot="qty" slot-scope="data">
-                <b-form-input v-model="data.item.qty" type="text" @change="changeQty(data.item)"></b-form-input>
-            </template>
-            <template slot="subtotal" slot-scope="data">
-                {{ data.item.subTotal | currency('R ') }}
-            </template>
-            <template slot="actions" slot-scope="data">
-                <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                <b-button size="sm"  v-b-modal.removeItem  @click="itemRemove=data.item" class="mr-1 btn-danger">
-                    <i class="fa fa-trash"></i>
-                </b-button>
-            </template>
-        </b-table>
-        <div class="footerSidebar row" >
-            <div class="col-lg-12 total">
-                <span class="float-left">Total</span>
-                <span class="float-right">{{ total | currency('R ') }}</span>
-            </div>
-            <b-button v-b-modal.sellItem class="buttonPrint">Sale</b-button>
-        </div>
+
         <b-modal centered  id="removeItem"
             title="Item"
             @ok="removeItem(itemRemove)">
@@ -58,7 +69,6 @@
             ok-title="Save & Print"
             @ok="createSaleProduct()">
             Accept sale?
-
         </b-modal>
     </nav>
 </template>
