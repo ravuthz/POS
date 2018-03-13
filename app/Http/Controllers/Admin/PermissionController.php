@@ -29,8 +29,6 @@ class PermissionController extends Controller
             Log::debug($e);
         }
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Override CrudController getFilterData
@@ -43,5 +41,4 @@ class PermissionController extends Controller
         $name = $request->get('name', '');
         return Permission::search('name', $name)->latest()->paginate(10);
     }
->>>>>>> e924bb970cd7bfd1f80755a58e2ac52be68b2887
 }

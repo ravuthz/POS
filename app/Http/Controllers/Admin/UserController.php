@@ -20,11 +20,7 @@ class UserController extends Controller
     protected $itemName = 'user';
     protected $listName = 'users';
     protected $modelPath = User::class;
-<<<<<<< HEAD
-    protected $viewPrefix = 'users';
-=======
     protected $viewPrefix = 'admin.users';
->>>>>>> e924bb970cd7bfd1f80755a58e2ac52be68b2887
     protected $routePrefix = 'users';
 
     public function __construct()
@@ -61,13 +57,13 @@ class UserController extends Controller
     {
         if (Auth::user()->id == $id) {
             return redirect()->back()
-                ->with('warning', 'Deletion of currently logged in user is not allowed :(');
+                             ->with('warning', 'Deletion of currently logged in user is not allowed :(');
         }
 
         $user = User::findOrFail($id);
         $user->delete();
 
         return redirect()->back()
-            ->with('success', 'The user with id = ' . $id . ' delete successfully :D');
+                         ->with('success', 'The user with id = ' . $id . ' delete successfully :D');
     }
 }
