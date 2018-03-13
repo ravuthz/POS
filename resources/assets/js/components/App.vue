@@ -112,6 +112,6 @@
         font-size: 14px;
     }
     .navbar{
-        background: #e5e5e5;
+        background: #fff;
     }
 </style>

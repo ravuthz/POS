@@ -24,7 +24,7 @@ a {
 
 .navbar {
   padding: 15px 10px;
-  background: #fefefe;;
+  background: #fff;
   border: none;
   border-radius: 0;
   margin-bottom: 40px;
@@ -177,7 +177,7 @@ a {
 #sidebarCollapse {
   width: 40px;
   height: 40px;
-  background: #e5e5e5;;
+  background: #fff;
   span {
     width: 80%;
     height: 2px;
@@ -259,6 +259,7 @@ a {
 
 .navbar-header {
   width: 100%;
+  background: #fff;
 }
 
 .table th, .table td {
@@ -284,4 +285,7 @@ a {
   font-size: 1.5rem;
   line-height: 1.5;
   border-radius: 0;
+}
+.bg-light {
+    background-color: #fff !important;
 }
