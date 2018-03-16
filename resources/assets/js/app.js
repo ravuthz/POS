@@ -24,7 +24,7 @@ Vue.use(BootstrapVue);
 Vue.component('crud-table', require('./components/core/CrudTable.vue'));
 Vue.component('sidebar', require('./components/products/Sidebar.vue'));
 Vue.component('productlist', require('./components/products/ProductList.vue'));
-
+Vue.component('small-print', require('./components/products/Print.vue'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

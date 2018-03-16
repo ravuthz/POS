@@ -2,24 +2,40 @@
     <div class="wrapper">
 
         <!-- Sidebar Holder -->
-        <sidebar
-            :items="items"
-            v-model="showSideBar"
-            @clearAllItems="clearAllItems"
-        ></sidebar>
+        <div class="d-print-none">
+            <!--<div class="row">-->
+                <!--<div class="col-md-3">-->
+                    <sidebar
+                            :items="items"
+                            v-model="showSideBar"
+                            @clearAllItems="clearAllItems"
+                    ></sidebar>
+                <!--</div>-->
+                <!--<div class="col-md-9">-->
 
-        <!-- Page Content Holder -->
-        <productlist
-            @onTopCloseClick="onTopCloseClick"
-            @onItemClick="addItemToSideBar"
-        ></productlist>
+                    <!-- Page Content Holder -->
+                    <productlist
+                            @onTopCloseClick="onTopCloseClick"
+                            @onItemClick="addItemToSideBar"
+                    ></productlist>
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+
+        <div class="d-none d-print-block">
+            <small-print
+                    :items="items"
+                    :total="total"
+            ></small-print>
+        </div>
+
     </div>
 </template>
 
 <script>
 
-    export default{
-        data () {
+    export default {
+        data() {
             return {
                 fields: [
                     {
@@ -28,19 +44,19 @@
                     }
                     ,
                     {
-                        key:'name',
+                        key: 'name',
                     },
                     {
-                        key:'sale_price',
+                        key: 'sale_price',
                         label: 'Price',
                         class: 'text-right'
                     },
                     {
-                        key:'qty',
+                        key: 'qty',
                         class: 'text-right'
                     },
                     {
-                        key:'subtotal',
+                        key: 'subtotal',
                         class: 'text-right'
                     },
                     {
@@ -99,19 +115,22 @@
 </script>
 
 <style type="text/css">
-    .card{
-        cursor:pointer;
+    .card {
+        cursor: pointer;
         padding: 15px;
         margin: 15px 0px;
     }
-    .badge{
+
+    .badge {
         background-color: white;
         position: absolute;
         right: 5px;
         color: red;
         font-size: 14px;
     }
-    .navbar{
+
+    .navbar {
         background: #fff;
     }
+
 </style>

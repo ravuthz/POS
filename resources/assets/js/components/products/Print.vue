@@ -1,17 +1,166 @@
 <template>
-    <div>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" screen="print">
+    <div class="container-fluid1" style="background-color: #0c5460">
+        <div class="d-none d-print-block">
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-center">
+                        <a href="https://twitter.com/tahirtaous">
+                            <img src="logo.png"> Logo here
+                        </a>
+                    </h1>
+                </div>
+            </div>
 
-</div>
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        <p class="khmer">ផ្ទះ 16C​​ ផ្លូវ 105 កែង 198 សង្កាត់បឹងព្រលឹត</p>
+                        <p class="khmer">ខណ្ឌ៧មករា ភ្នំពេញ</p>
+                        <p>Tel: 016 768 778 / 099 768 778</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <h5 class="text-center">RECEIPT</h5>
+                </div>
+            </div>
+
+            <table class="table table-borderless">
+                <tr>
+                    <td width="50%">Cashier : Someaka</td>
+                    <td class="text-right">Date :</td>
+                    <td class="text-right">09/03/2018 18:27</td>
+                </tr>
+                <tr>
+                    <td width="50%">Table : 33</td>
+                    <td class="text-right">N<sup>o</sup> :</td>
+                    <td class="text-right">000067</td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div class="d-print-block">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        <span class="khmer">មុខម្ហូប</span>
+                        <br>Food
+                    </th>
+                    <th>
+                        <span class="khmer">ចុះថ្លៃ</span>
+                        <br>Dis.
+                    </th>
+                    <th class="text-center">
+                        <span class="khmer">ចំនួន</span>
+                        <br>Qty
+                    </th>
+                    <th class="text-right">
+                        <span class="khmer">តំលៃ</span>
+                        <br>Price
+                    </th>
+                    <th class="text-right">
+                        <span class="khmer">សរុប</span>
+                        <br>Amount
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <a href="#">Mix Juice Frappe</a>
+                    </td>
+                    <td>20%</td>
+                    <td class="text-center">1</td>
+                    <td class="text-right">2.30</td>
+                    <td class="text-right">$1.84</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#">Mix Juice Frappe</a>
+                    </td>
+                    <td>20%</td>
+                    <td class="text-center">1</td>
+                    <td class="text-right">2.30</td>
+                    <td class="text-right">$1.84</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#">Mix Juice Frappe</a>
+                    </td>
+                    <td>20%</td>
+                    <td class="text-center">1</td>
+                    <td class="text-right">2.30</td>
+                    <td class="text-right">$1.84</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-none d-print-block">
+            <table class="table table-condensed table-borderless">
+                <tr>
+                    <th class="big-line" colspan="3"></th>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="khmer">ចុះថ្លៃតាមមុខ</span>
+                    </td>
+                    <td class="text-right">Dis. by item (USD):</td>
+                    <td class="text-right">($0.46)</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="khmer">សរុបចុងក្រោយ​</span>
+                    </td>
+                    <td class="text-right">Grand Total (USD):</td>
+                    <td class="text-right">$1.84</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="khmer">សរុបចុងក្រោយ​</span>
+                    </td>
+                    <td class="text-right">Grand Total (Riel):</td>
+                    <td class="text-right">‎៛7,600</td>
+                </tr>
+                <tr>
+                    <td class="border-top border-left"><span class="khmer"><strong>ប្រាក់ទទួល</strong></span></td>
+                    <td class="border-top text-right"><strong>(USD):</strong></td>
+                    <td class="border-top border-right text-right"><strong>$0.00</strong></td>
+                </tr>
+                <tr>
+                    <td class="border-bottom border-left"><span class="khmer"><strong>ប្រាក់ទទួល</strong></span></td>
+                    <td class="border-bottom text-right"><strong>Recieved (Riel):</strong></td>
+                    <td class="border-bottom border-right text-right"><strong>‎៛20,000</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="khmer">ប្រាក់អាប់</span>
+                    </td>
+                    <td class="text-right">Change (Reil):</td>
+                    <td class="text-right">‎៛12,400</td>
+                </tr>
+            </table>
+
+            <div class="row">
+                <div class="col text-center">
+                    <p class="khmer">សូមអរគុណ​! សូមអញ្ជើញមកម្តងទៀត​</p>
+                    <p>Thank you, Please come again.</p>
+                    <a href="https://www.devkh.com">www.devkh.com</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </template>
 
 <script>
-
-    // require('../../../../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss')
-
-    export default{
+    export default {
         props: {
-            items:{
+            items: {
                 type: Array
             },
             total: {
@@ -40,7 +189,7 @@
                 // this.setStorage('items', []);
                 // this.items = [];
             },
-            clearSaleProduct: function() {
+            clearSaleProduct: function () {
                 this.$store.dispatch('clearAllItems');
             }
         }
@@ -49,24 +198,12 @@
 </script>
 
 <style type="text/css">
-
     @import url(http://fonts.googleapis.com/css?family=Bree+Serif);
-
-    /*
-        Roll Paper => 80 x 297 mm
-
-        @page {
-            size: A4;
-            size: A4 landscape;
-            margin: 20;
-        }
-
-    */
 
     @media print {
         @page {
             size: 80mm 297mm;
-            margin: 3mm;
+            /*margin: 3mm;*/
         }
     }
 
@@ -80,14 +217,14 @@
         font-family: 'Bree Serif', serif;
     }
 
-    .table>thead>tr>td,
-    .table>tbody>tr>td,
-    .table>tfoot>tr>td,
-    .table>thead>tr>th {
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td,
+    .table > thead > tr > th {
         padding: 0;
     }
 
-    .table-borderless>tbody>tr>td {
+    .table-borderless > tbody > tr > td {
         border-top: 0;
     }
 
@@ -117,4 +254,9 @@
     .khmer {
         font-family: 'Khmer OS Battambang', 'Battambang ';
     }
+
+    .container-fluid {
+        width: 100% !important;
+    }
+
 </style>
