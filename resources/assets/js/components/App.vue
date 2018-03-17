@@ -1,26 +1,15 @@
 <template>
     <div class="wrapper">
+        <sidebar class="d-print-none"
+                :items="items"
+                v-model="showSideBar"
+                @clearAllItems="clearAllItems"
+        ></sidebar>
 
-        <!-- Sidebar Holder -->
-        <div class="d-print-none">
-            <!--<div class="row">-->
-                <!--<div class="col-md-3">-->
-                    <sidebar
-                            :items="items"
-                            v-model="showSideBar"
-                            @clearAllItems="clearAllItems"
-                    ></sidebar>
-                <!--</div>-->
-                <!--<div class="col-md-9">-->
-
-                    <!-- Page Content Holder -->
-                    <productlist
-                            @onTopCloseClick="onTopCloseClick"
-                            @onItemClick="addItemToSideBar"
-                    ></productlist>
-                <!--</div>-->
-            <!--</div>-->
-        </div>
+        <productlist class="d-print-none"
+                @onTopCloseClick="onTopCloseClick"
+                @onItemClick="addItemToSideBar"
+        ></productlist>
 
         <div class="d-none d-print-block">
             <small-print

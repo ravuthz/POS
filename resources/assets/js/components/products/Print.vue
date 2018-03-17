@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid1" style="background-color: #0c5460">
+    <div class="container-fluid" style="background-color: #0c5460">
         <div class="d-none d-print-block">
             <div class="row">
                 <div class="col">
@@ -203,7 +203,7 @@
     @media print {
         @page {
             size: 80mm 297mm;
-            /*margin: 3mm;*/
+            margin-right: 0;
         }
     }
 
@@ -256,7 +256,7 @@
     }
 
     .container-fluid {
-        width: 100% !important;
+        width: 400px !important;
     }
 
 </style>
