@@ -51,7 +51,21 @@ export default new Vuex.Store({
                 total += parseFloat(each.subTotal);
             });
             state.total = total;
+
+            if (state.items.length > 0) {
+                localStorage.setItem('items', JSON.stringify(state.items));
+            }
+
             return state.total;
+        },
+        LIST_ITEMS(state) {
+            if (state.items.length <= 0) {
+                let items = localStorage.getItem('items');
+                if (items) {
+                    items = JSON.parse(items);
+                }
+                state.items = items;
+            }
         },
         LIST_PRODUCTS(state, query) {
             getAllProducts(query).then(res => {
@@ -76,6 +90,9 @@ export default new Vuex.Store({
         },
         clearAllItems(ctx) {
             ctx.commit('CLEAR_ALL_ITEMS');
+        },
+        listItems(ctx) {
+            ctx.commit('LIST_ITEMS');
         },
         listProduct(ctx, query = {}) {
             console.log('query', query);

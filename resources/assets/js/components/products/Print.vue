@@ -1,21 +1,11 @@
 <template>
     <div class="container-fluid" style="background-color: #0c5460">
         <div class="d-none d-print-block">
-            <div class="row">
-                <div class="col">
-                    <h1 class="text-center">
-                        <a href="https://twitter.com/tahirtaous">
-                            <img src="logo.png"> Logo here
-                        </a>
-                    </h1>
-                </div>
-            </div>
 
             <div class="row">
                 <div class="col">
                     <div class="text-center">
-                        <p class="khmer">ផ្ទះ 16C​​ ផ្លូវ 105 កែង 198 សង្កាត់បឹងព្រលឹត</p>
-                        <p class="khmer">ខណ្ឌ៧មករា ភ្នំពេញ</p>
+                        <p class="khmer">POS</p>
                         <p>Tel: 016 768 778 / 099 768 778</p>
                     </div>
                 </div>
@@ -26,20 +16,6 @@
                     <h5 class="text-center">RECEIPT</h5>
                 </div>
             </div>
-
-            <table class="table table-borderless">
-                <tr>
-                    <td width="50%">Cashier : Someaka</td>
-                    <td class="text-right">Date :</td>
-                    <td class="text-right">09/03/2018 18:27</td>
-                </tr>
-                <tr>
-                    <td width="50%">Table : 33</td>
-                    <td class="text-right">N<sup>o</sup> :</td>
-                    <td class="text-right">000067</td>
-                </tr>
-            </table>
-
         </div>
 
         <div class="d-print-block">
@@ -47,101 +23,50 @@
                 <thead>
                 <tr>
                     <th>
-                        <span class="khmer">មុខម្ហូប</span>
-                        <br>Food
+                        <span class="khmer">#</span>
                     </th>
                     <th>
-                        <span class="khmer">ចុះថ្លៃ</span>
-                        <br>Dis.
+                        <!-- <span class="khmer">ចុះថ្លៃ</span> -->
+                        <br>NAME
                     </th>
                     <th class="text-center">
-                        <span class="khmer">ចំនួន</span>
-                        <br>Qty
+                        <!-- <span class="khmer">ចំនួន</span> -->
+                        <br>PRICE
                     </th>
                     <th class="text-right">
-                        <span class="khmer">តំលៃ</span>
-                        <br>Price
+                        <!-- <span class="khmer">តំលៃ</span> -->
+                        <br>QTY
                     </th>
                     <th class="text-right">
-                        <span class="khmer">សរុប</span>
+                        <!-- <span class="khmer">សរុប</span> -->
                         <br>Amount
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr v-for="(item,index) in items">
                     <td>
-                        <a href="#">Mix Juice Frappe</a>
+                        {{ index }}
                     </td>
-                    <td>20%</td>
-                    <td class="text-center">1</td>
-                    <td class="text-right">2.30</td>
-                    <td class="text-right">$1.84</td>
+                    <td>{{ item.name }}</td>
+                    <td class="text-center">{{ item.sale_price }}</td>
+                    <td class="text-right">{{ item.qty }}</td>
+                    <td class="text-right">{{ item.subTotal }}</td>
                 </tr>
-                <tr>
-                    <td>
-                        <a href="#">Mix Juice Frappe</a>
-                    </td>
-                    <td>20%</td>
-                    <td class="text-center">1</td>
-                    <td class="text-right">2.30</td>
-                    <td class="text-right">$1.84</td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="#">Mix Juice Frappe</a>
-                    </td>
-                    <td>20%</td>
-                    <td class="text-center">1</td>
-                    <td class="text-right">2.30</td>
-                    <td class="text-right">$1.84</td>
-                </tr>
+
                 </tbody>
             </table>
         </div>
 
         <div class="d-none d-print-block">
+            <div>{{ reversedMessage }}</div>
             <table class="table table-condensed table-borderless">
-                <tr>
-                    <th class="big-line" colspan="3"></th>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="khmer">ចុះថ្លៃតាមមុខ</span>
-                    </td>
-                    <td class="text-right">Dis. by item (USD):</td>
-                    <td class="text-right">($0.46)</td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="khmer">សរុបចុងក្រោយ​</span>
-                    </td>
-                    <td class="text-right">Grand Total (USD):</td>
-                    <td class="text-right">$1.84</td>
-                </tr>
                 <tr>
                     <td>
                         <span class="khmer">សរុបចុងក្រោយ​</span>
                     </td>
                     <td class="text-right">Grand Total (Riel):</td>
-                    <td class="text-right">‎៛7,600</td>
-                </tr>
-                <tr>
-                    <td class="border-top border-left"><span class="khmer"><strong>ប្រាក់ទទួល</strong></span></td>
-                    <td class="border-top text-right"><strong>(USD):</strong></td>
-                    <td class="border-top border-right text-right"><strong>$0.00</strong></td>
-                </tr>
-                <tr>
-                    <td class="border-bottom border-left"><span class="khmer"><strong>ប្រាក់ទទួល</strong></span></td>
-                    <td class="border-bottom text-right"><strong>Recieved (Riel):</strong></td>
-                    <td class="border-bottom border-right text-right"><strong>‎៛20,000</strong></td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="khmer">ប្រាក់អាប់</span>
-                    </td>
-                    <td class="text-right">Change (Reil):</td>
-                    <td class="text-right">‎៛12,400</td>
+                    <td class="text-right">{{ total }}</td>
                 </tr>
             </table>
 
@@ -167,30 +92,10 @@
                 type: Number
             }
         },
-        methods: {
-            createSaleProduct() {
-                var printContents = document.getElementById("printPlace").innerHTML;
-                var originalContents = document.body.innerHTML;
-                document.body.innerHTML = printContents;
-
-                window.print();
-
-                document.body.innerHTML = originalContents;
-                /*let data = {
-                    items: this.items,
-                    total: this.total
-                };
-
-                axios.post('/api/sales', data).then(res => {
-                    console.log("Order: ", res.data);
-                });*/
-                this.clearSaleProduct();
-                window.location.href = "/seller";
-                // this.setStorage('items', []);
-                // this.items = [];
-            },
-            clearSaleProduct: function () {
-                this.$store.dispatch('clearAllItems');
+        computed: {
+            reversedMessage: function () {
+              // `this` points to the vm instance
+              console.log("this.items dfasd", this.items)
             }
         }
     }

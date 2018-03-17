@@ -104,33 +104,6 @@ a {
   }
 }
 
-a {
-  &[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
-  }
-  &[data-toggle="collapse"] {
-    position: relative;
-  }
-  &[aria-expanded="false"]::before {
-    content: '\e259';
-    display: block;
-    position: absolute;
-    right: 20px;
-    font-family: 'Glyphicons Halflings';
-    font-size: 0.6em;
-  }
-  &[aria-expanded="true"]::before {
-    content: '\e259';
-    display: block;
-    position: absolute;
-    right: 20px;
-    font-family: 'Glyphicons Halflings';
-    font-size: 0.6em;
-    content: '\e260';
-  }
-}
-
 ul {
   ul a {
     font-size: 0.9em !important;

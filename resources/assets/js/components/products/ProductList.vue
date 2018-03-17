@@ -1,28 +1,6 @@
 <template>
     <div id="content">
         <router-view></router-view>
-        <!-- <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <div class="row">
-                        <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }" class="navbar-btn col-lg-1 col-md-2"  @click="topCloseClick">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                        <div class="col-lg-5 col-md-5">
-                            <b-form-input placeholder="Search product here..." v-model="productName" @keyup.native="searchProduct(productName)"></b-form-input>
-                        </div>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav> -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }"
                     class="navbar-btn col-lg-1 col-md-2" @click="topCloseClick">
@@ -115,7 +93,6 @@
             },
             addItem(product) {
                 this.$store.dispatch('addItem', product);
-                this.$store.dispatch('totalItemPrice');
             },
         }
     }

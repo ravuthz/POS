@@ -14,7 +14,7 @@
 
         @foreach($product_list as $item)
             <tr>
-                <td><img src="/images/{{ $item->image }}" alt="{{ $item->image }}" width="100px" height="100px"></td>
+                <td><img src="/uploads/{{ $item->image }}" alt="{{ $item->image }}" class="img-thumbnail" width="100px"></td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->name_kh }}</td>
                 <td>{{ $item->slug }}</td>

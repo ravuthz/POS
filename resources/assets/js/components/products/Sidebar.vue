@@ -8,7 +8,7 @@
                     <h1>Simple POS</h1>
                 </div>
                 <div class="col-md-3">
-                    <b-button size="lg" v-b-modal.clearAllItem class="btn-sale float-right">
+                    <b-button size="lg" v-b-modal.clearAllItem class="btn-sale float-right" :disabled="items.length < 1">
                         <i class="fa fa-trash"></i>
                     </b-button>
                 </div>
@@ -49,7 +49,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <b-button v-b-modal.sellItem class="btn btn-xl btn-default">Sale</b-button>
+                    <b-button v-b-modal.sellItem class="btn btn-xl btn-default" :disabled="items.length < 1">Sale</b-button>
                 </div>
             </div>
         </div>
@@ -68,67 +68,32 @@
             Do you want to clear all item?
         </b-modal>
 
-        <b-modal
+        <b-modal centered
                 id="sellItem"
                 title="Sale"
                 ok-title="Save & Print"
                 @ok="createSaleProduct()">
-            <div class="container-fluid" id="printPlace">
-                <div class="row">
-                    <div class="col-xs-12 text-center">
-                        <h5>RECEIPT</h5>
-                    </div>
+                <b-table :items="loadItems" :fields="fields" :value.sync="items">
+                <template slot="no" slot-scope="data">
+                    {{ data.index + 1 }}
+                </template>
+                <template slot="sale_price" slot-scope="data">
+                    {{ data.item.sale_price | currency('R ') }}
+                </template>
+                <template slot="qty" slot-scope="data">
+                    <b-form-input v-model="data.item.qty" type="text" @change="changeQty(data.item)"></b-form-input>
+                </template>
+                <template slot="subtotal" slot-scope="data">
+                    {{ data.item.subTotal | currency('R ') }}
+                </template>
+            </b-table>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-lg btn-block btn-total">
+                        <span class="float-left">Total</span>
+                        <span class="float-right">{{ total | currency('R ') }}</span>
+                    </button>
                 </div>
-
-                <table class="table table-condensed table-borderless">
-                    <thead>
-                    <tr>
-                        <th>
-                            <span class="khmer">#</span>
-                        </th>
-                        <th>
-                            <span class="khmer text-right">Name</span>
-                        </th>
-                        <th class="text-center">
-                            <span class="khmer">Price</span>
-                        </th>
-                        <th class="text-right">
-                            <span class="khmer">Qty</span>
-                        <th class="text-right">
-                            <span class="khmer">Amount</span>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(item, index) in items">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ item.name }}</td>
-                        <td class="text-center">{{ item.sale_price }}</td>
-                        <td class="text-right">{{ item.qty }}</td>
-                        <td class="text-right">{{ item.subTotal | currency('R ') }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <table class="table table-condensed table-borderless">
-                    <tr>
-                        <th class="big-line" colspan="3"></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="khmer">សរុបចុងក្រោយ​</span>
-                        </td>
-                        <td class="text-right">Total</td>
-                        <td class="text-right">‎{{ total | currency('R ') }}</td>
-                    </tr>
-                </table>
-
-                <div class="row">
-                    <div class="hidden-print col-xs-12 text-center">
-                        <p class="khmer">សូមអរគុណ​! សូមអញ្ជើញមកម្តងទៀត​</p>
-                    </div>
-                </div>
-
             </div>
         </b-modal>
 
@@ -179,6 +144,10 @@
                 }
             }
         },
+        created() {
+            console.log("mounted: listItems");
+            this.$store.dispatch('listItems');
+        },
         computed: {
             loadItems() {
                 this.items = this.$store.getters.items;
@@ -211,10 +180,6 @@
                 this.total = this.$store.dispatch('totalItemPrice');
             },
             createSaleProduct() {
-                var printContents = document.getElementById("printPlace").innerHTML;
-                var originalContents = document.body.innerHTML;
-                document.body.innerHTML = printContents;
-
                 window.print();
 
                 document.body.innerHTML = originalContents;

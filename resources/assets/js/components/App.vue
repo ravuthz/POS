@@ -1,23 +1,16 @@
 <template>
     <div class="wrapper">
         <sidebar class="d-print-none"
-                :items="items"
-                v-model="showSideBar"
-                @clearAllItems="clearAllItems"
         ></sidebar>
 
         <productlist class="d-print-none"
-                @onTopCloseClick="onTopCloseClick"
-                @onItemClick="addItemToSideBar"
         ></productlist>
-
         <div class="d-none d-print-block">
             <small-print
                     :items="items"
                     :total="total"
             ></small-print>
         </div>
-
     </div>
 </template>
 
@@ -60,45 +53,7 @@
                 total: 0.00
             }
         },
-        mounted() {
-            this.loadItemsStorage();
-            // this.sumItemsPriceTotal();
-        },
-        methods: {
-            setStorage(key, value) {
-                var item = JSON.stringify(value);
-                window.localStorage.setItem(key, item);
-            },
-            getStorage(key, defaultValue) {
-                var item = window.localStorage.getItem(key);
-                if (item) {
-                    return JSON.parse(item);
-                } else {
-                    return defaultValue;
-                }
-            },
-            loadItemsStorage() {
-                let oldItems = this.getStorage('items', []);
-                if (oldItems.length > 0 && this.items.length <= 0) {
-                    this.items = oldItems;
-                }
-                this.updateItemsStorage();
-            },
-            updateItemsStorage() {
-                this.setStorage('items', this.items);
-            },
-            onTopCloseClick(value) {
-                this.showSideBar = value;
-            },
-            addItemToSideBar(value) {
-                this.addItem(value);
-            },
-            clearAllItems() {
-                this.items = [];
-                localStorage.clear();
-                // this.sumItemsPriceTotal();
-            },
-        }
+
     }
 
 </script>
