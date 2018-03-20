@@ -8,7 +8,8 @@
                     <h1>Simple POS</h1>
                 </div>
                 <div class="col-md-3">
-                    <b-button size="lg" v-b-modal.clearAllItem class="btn-sale float-right" :disabled="items.length < 1">
+                    <b-button size="lg" v-b-modal.clearAllItem class="btn-sale float-right"
+                              :disabled="items.length < 1">
                         <i class="fa fa-trash"></i>
                     </b-button>
                 </div>
@@ -49,7 +50,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <b-button v-b-modal.sellItem class="btn btn-xl btn-default" :disabled="items.length < 1">Sale</b-button>
+                    <b-button v-b-modal.sellItem class="btn btn-xl btn-default" :disabled="items.length < 1">Sale
+                    </b-button>
                 </div>
             </div>
         </div>
@@ -69,11 +71,11 @@
         </b-modal>
 
         <b-modal centered
-                id="sellItem"
-                title="Sale"
-                ok-title="Save & Print"
-                @ok="createSaleProduct()">
-                <b-table :items="loadItems" :fields="fields" :value.sync="items">
+                 id="sellItem"
+                 title="Sale"
+                 ok-title="Save & Print"
+                 @ok="createSaleProduct()">
+            <b-table :items="loadItems" :fields="fields" :value.sync="items">
                 <template slot="no" slot-scope="data">
                     {{ data.index + 1 }}
                 </template>
@@ -102,41 +104,41 @@
 </template>
 
 <script>
-    export default {
+    const tableFields = [
+        {
+            key: 'no',
+            label: '#'
+        },
+        {
+            key: 'name',
+        },
+        {
+            key: 'sale_price',
+            label: 'Price',
+            class: 'text-right'
+        },
+        {
+            key: 'qty',
+            class: 'text-right'
+        },
+        {
+            key: 'subtotal',
+            class: 'text-right'
+        },
+        {
+            key: 'actions',
+            label: ' ',
+            class: 'text-right'
+        }
+    ];
 
+    export default {
         props: {
             value: true,
         },
         data() {
             return {
-                fields: [
-                    {
-                        key: 'no',
-                        label: '#'
-                    }
-                    ,
-                    {
-                        key: 'name',
-                    },
-                    {
-                        key: 'sale_price',
-                        label: 'Price',
-                        class: 'text-right'
-                    },
-                    {
-                        key: 'qty',
-                        class: 'text-right'
-                    },
-                    {
-                        key: 'subtotal',
-                        class: 'text-right'
-                    },
-                    {
-                        key: 'actions',
-                        label: ' ',
-                        class: 'text-right'
-                    }
-                ],
+                fields: tableFields,
                 items: [],
                 total: 0.00,
                 itemRemove: {
@@ -145,7 +147,6 @@
             }
         },
         created() {
-            console.log("mounted: listItems");
             this.$store.dispatch('listItems');
         },
         computed: {
@@ -156,45 +157,15 @@
             },
         },
         methods: {
-            setStorage(key, value) {
-                var item = JSON.stringify(value);
-                window.localStorage.setItem(key, item);
-            },
-            getStorage(key, defaultValue) {
-                var item = window.localStorage.getItem(key);
-                if (item) {
-                    return JSON.parse(item);
-                } else {
-                    return defaultValue;
-                }
-            },
-            updateItemsStorage() {
-                this.setStorage('items', this.items);
-            },
             removeItem(product) {
                 this.$store.dispatch('removeItem', product);
-                this.total = this.$store.dispatch('totalItemPrice');
             },
             changeQty(product) {
                 this.$store.dispatch('updateItem', product);
-                this.total = this.$store.dispatch('totalItemPrice');
             },
             createSaleProduct() {
                 window.print();
-
-                document.body.innerHTML = originalContents;
-                /*let data = {
-                    items: this.items,
-                    total: this.total
-                };
-
-                axios.post('/api/sales', data).then(res => {
-                    console.log("Order: ", res.data);
-                });*/
-                this.clearSaleProduct();
-                window.location.href = "/seller";
-                // this.setStorage('items', []);
-                // this.items = [];
+                // this.clearSaleProduct();
             },
             clearSaleProduct: function () {
                 this.$store.dispatch('clearAllItems');

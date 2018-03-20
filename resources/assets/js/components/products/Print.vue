@@ -1,11 +1,11 @@
 <template>
-    <div class="container-fluid" style="background-color: #0c5460">
+    <div class="container-fluid">
         <div class="d-none d-print-block">
 
             <div class="row">
                 <div class="col">
                     <div class="text-center">
-                        <p class="khmer">POS</p>
+                        <h3>Maru POS</h3>
                         <p>Tel: 016 768 778 / 099 768 778</p>
                     </div>
                 </div>
@@ -13,7 +13,9 @@
 
             <div class="row">
                 <div class="col">
-                    <h5 class="text-center">RECEIPT</h5>
+                    <h5 class="text-center">
+                        <b>RECEIPT</b>
+                    </h5>
                 </div>
             </div>
         </div>
@@ -26,40 +28,34 @@
                         <span class="khmer">#</span>
                     </th>
                     <th>
-                        <!-- <span class="khmer">ចុះថ្លៃ</span> -->
-                        <br>NAME
+                        NAME
                     </th>
                     <th class="text-center">
-                        <!-- <span class="khmer">ចំនួន</span> -->
-                        <br>PRICE
+                        PRICE
                     </th>
                     <th class="text-right">
-                        <!-- <span class="khmer">តំលៃ</span> -->
-                        <br>QTY
+                        QTY
                     </th>
                     <th class="text-right">
-                        <!-- <span class="khmer">សរុប</span> -->
-                        <br>Amount
+                        Amount
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(item,index) in items">
-                    <td>
-                        {{ index }}
-                    </td>
-                    <td>{{ item.name }}</td>
-                    <td class="text-center">{{ item.sale_price }}</td>
-                    <td class="text-right">{{ item.qty }}</td>
-                    <td class="text-right">{{ item.subTotal }}</td>
-                </tr>
-
+                    <tr v-for="(item, index) in loadItems">
+                        <td>
+                            {{ index + 1}}
+                        </td>
+                        <td>{{ item.name }}</td>
+                        <td class="text-center">{{ item.sale_price }}</td>
+                        <td class="text-right">{{ item.qty }}</td>
+                        <td class="text-right">{{ item.subTotal }}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="d-none d-print-block">
-            <div>{{ reversedMessage }}</div>
             <table class="table table-condensed table-borderless">
                 <tr>
                     <td>
@@ -92,10 +88,14 @@
                 type: Number
             }
         },
+        created() {
+            this.$store.dispatch('listItems');
+        },
         computed: {
-            reversedMessage: function () {
-              // `this` points to the vm instance
-              console.log("this.items dfasd", this.items)
+            loadItems() {
+                this.items = this.$store.getters.items;
+                this.total = this.$store.getters.total;
+                return this.items;
             }
         }
     }
@@ -108,7 +108,11 @@
     @media print {
         @page {
             size: 80mm 297mm;
-            margin-right: 0;
+            margin: 3mm;
+        }
+
+        .container-fluid {
+            min-width: 420px !important;
         }
     }
 
@@ -133,35 +137,8 @@
         border-top: 0;
     }
 
-    .border-top {
-        border-top: 1px solid #dddddd !important;
-    }
-
-    .border-bottom {
-        border-bottom: 1px solid #dddddd !important;
-    }
-
-    .border-left1 {
-        padding-left: 6px !important;
-        border-left: 1px solid #dddddd !important;
-    }
-
-    .border-right1 {
-        padding-right: 6px !important;
-        border-right: 1px solid #dddddd !important;
-    }
-
-    .big-line {
-        border-top: 2px solid #dddddd !important;
-        border-bottom: 0px;
-    }
-
     .khmer {
-        font-family: 'Khmer OS Battambang', 'Battambang ';
-    }
-
-    .container-fluid {
-        width: 400px !important;
+        font-family: 'Khmer OS Battambang', 'Battambang';
     }
 
 </style>

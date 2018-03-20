@@ -43,6 +43,7 @@ export default new Vuex.Store({
         CLEAR_ALL_ITEMS(state) {
             state.items = [];
             state.total = 0;
+            localStorage.removeItem('items');
         },
         TOTAL_ITEM_PRICE(state) {
             let total = 0;
@@ -55,7 +56,6 @@ export default new Vuex.Store({
             if (state.items.length > 0) {
                 localStorage.setItem('items', JSON.stringify(state.items));
             }
-
             return state.total;
         },
         LIST_ITEMS(state) {
@@ -63,6 +63,8 @@ export default new Vuex.Store({
                 let items = localStorage.getItem('items');
                 if (items) {
                     items = JSON.parse(items);
+                } else {
+                    items = [];
                 }
                 state.items = items;
             }
@@ -95,7 +97,6 @@ export default new Vuex.Store({
             ctx.commit('LIST_ITEMS');
         },
         listProduct(ctx, query = {}) {
-            console.log('query', query);
             ctx.commit('LIST_PRODUCTS', query);
         },
         totalItemPrice(ctx) {
