@@ -1,15 +1,11 @@
 <template>
     <div class="wrapper">
-        <sidebar class="d-print-none"
-        ></sidebar>
+        <sidebar class="d-print-none" v-model="showSideBar"></sidebar>
 
-        <productlist class="d-print-none"
-        ></productlist>
+        <productlist class="d-print-none" @onTopCloseClick="topCloseClick"></productlist>
+
         <div class="d-none d-print-block">
-            <small-print
-                    :items="items"
-                    :total="total"
-            ></small-print>
+            <small-print class="d-none d-print-block"></small-print>
         </div>
     </div>
 </template>
@@ -19,62 +15,15 @@
     export default {
         data() {
             return {
-                fields: [
-                    {
-                        key: 'no',
-                        label: '#'
-                    }
-                    ,
-                    {
-                        key: 'name',
-                    },
-                    {
-                        key: 'sale_price',
-                        label: 'Price',
-                        class: 'text-right'
-                    },
-                    {
-                        key: 'qty',
-                        class: 'text-right'
-                    },
-                    {
-                        key: 'subtotal',
-                        class: 'text-right'
-                    },
-                    {
-                        key: 'actions',
-                        label: ' ',
-                        class: 'text-right'
-                    }
-                ],
-                showSideBar: false,
-                items: [],
-                item: null,
-                total: 0.00
+                showSideBar: false
             }
         },
-
+        methods: {
+            topCloseClick(event) {
+                this.showSideBar = event;
+                console.log("App.topCloseClick, $event: ", event);
+            }
+        }
     }
 
 </script>
-
-<style type="text/css">
-    .card {
-        cursor: pointer;
-        padding: 15px;
-        margin: 15px 0px;
-    }
-
-    .badge {
-        background-color: white;
-        position: absolute;
-        right: 5px;
-        color: red;
-        font-size: 14px;
-    }
-
-    .navbar {
-        background: #fff;
-    }
-
-</style>

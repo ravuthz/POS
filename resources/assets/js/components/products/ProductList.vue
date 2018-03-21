@@ -90,6 +90,7 @@
             topCloseClick() {
                 this.showRightSidebar = !this.showRightSidebar;
                 this.$emit('onTopCloseClick', this.showRightSidebar);
+                console.log("ProductList.topCloseClick: $emit.onTopCloseClick");
             },
             addItem(product) {
                 this.$store.dispatch('addItem', product);
