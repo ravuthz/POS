@@ -74,7 +74,7 @@ export default new Vuex.Store({
                 state.products = res.data.data;
                 state.totalRows = res.data.meta.total;
             });
-        },
+        }
     },
     actions: {
         addItem(ctx, item) {
