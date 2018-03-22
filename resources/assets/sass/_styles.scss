@@ -75,7 +75,7 @@ a {
   }
   .sidebar-footer {
     height: 15vh;
-    background: green;
+    background: #fefefe;
   }
   ul {
     &.components {
@@ -244,7 +244,7 @@ a {
   margin-right: -255px;
   width: 70%;
   padding: 0;
-  background-color: #fefefe;
+  background-color: #f1efef;
   border: 0;
 }
 
@@ -261,4 +261,8 @@ a {
 }
 .bg-light {
     background-color: #fff !important;
+}
+.btn-footer {
+  background: #0062cc;
+  margin-top: 5px;
 }

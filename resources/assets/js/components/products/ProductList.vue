@@ -22,7 +22,6 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/logout">Logout</a>
-                            <div class="dropdown-divider"></div>
                         </div>
                     </li>
                 </ul>

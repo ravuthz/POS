@@ -80,14 +80,6 @@
 
 <script>
     export default {
-        props: {
-            items: {
-                type: Array
-            },
-            total: {
-                type: Number
-            }
-        },
         created() {
             this.$store.dispatch('listItems');
         },

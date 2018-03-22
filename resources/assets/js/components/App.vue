@@ -21,7 +21,6 @@
         methods: {
             topCloseClick(event) {
                 this.showSideBar = event;
-                console.log("App.topCloseClick, $event: ", event);
             }
         }
     }

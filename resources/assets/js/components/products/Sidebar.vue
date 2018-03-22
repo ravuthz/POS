@@ -1,5 +1,4 @@
 <template>
-
     <nav id="sidebar" v-bind:class="{ active : value }">
 
         <div class="sidebar-header">
@@ -50,7 +49,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <b-button v-b-modal.sellItem class="btn btn-xl btn-default" :disabled="items.length < 1">Sale
+                    <b-button v-b-modal.sellItem class="btn btn-xl btn-footer" :disabled="items.length < 1">Sale
                     </b-button>
                 </div>
             </div>
