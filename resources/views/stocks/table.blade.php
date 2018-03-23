@@ -15,7 +15,9 @@
                 <td>{{ $item->id }}</td>
                 <td>{{ optional($item->product)->name }}</td>
                 <td>{{ $item->quantity }}</td>
-                <td>{{ $item->type }}</td>
+                <td>
+                   {{ (optional($item->stock)->movement == 0 ? 'OUT' : 'IN') }}
+                </td>
                 <td class="text-center">
                     <a href="{{ route($route_prefix . '.edit', $item) }}" class="btn btn-sm btn-success btn-edit-row">
                         <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;Modify

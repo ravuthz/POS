@@ -12,7 +12,6 @@
         </tr>
     </thead>
     <tbody>
-
         @foreach($product_list as $item)
             <tr>
                 <td><img src="/uploads/{{ $item->image }}" alt="{{ $item->image }}" class="img-thumbnail" width="100px"></td>

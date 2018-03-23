@@ -22,5 +22,12 @@ class StockController extends Controller
         $this->setPageTitle("Stock");
         $this->setSiteTitle("Stocks");
         $this->data['products'] = Product::pluck('name', 'id');
+        $this->data['stocks'] = Product::pluck('name', 'id', 'movement');
     }
+
+    public function create()
+    {
+        return view('stocks/form');
+    }
+
 }
