@@ -92,9 +92,11 @@ export default new Vuex.Store({
         },
         clearAllItems(ctx) {
             ctx.commit('CLEAR_ALL_ITEMS');
+            ctx.commit('TOTAL_ITEM_PRICE');
         },
         listItems(ctx) {
             ctx.commit('LIST_ITEMS');
+            ctx.commit('TOTAL_ITEM_PRICE');
         },
         listProduct(ctx, query = {}) {
             ctx.commit('LIST_PRODUCTS', query);

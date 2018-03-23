@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -11,13 +10,13 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue';
-import App from './App.vue';
-import router from './router'
 
+import App from './components/App.vue';
 import store from './store';
+import router from './route';
 
 Vue.use(VueRouter);
-Vue.use(Vue2Filters)
+Vue.use(Vue2Filters);
 Vue.use(BootstrapVue);
 
 /**
@@ -27,7 +26,7 @@ Vue.use(BootstrapVue);
  */
 const app = new Vue({
     el: '#app',
-    components: { App },
+    components: {App},
     store,
     router
 });
