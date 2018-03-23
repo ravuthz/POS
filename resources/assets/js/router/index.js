@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Pos from '../views/pos/index.vue'
-import Stock from '../views/stock/index.vue'
+import Stock from '../views/stock/form.vue'
 
 Vue.use(VueRouter)
 
