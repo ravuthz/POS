@@ -13,7 +13,7 @@
         @foreach($stock_list as $item)
             <tr>
                 <td>{{ $item->id }}</td>
-                <td>{{ $item->product_id }}</td>
+                <td>{{ optional($item->product)->name }}</td>
                 <td>{{ $item->quantity }}</td>
                 <td>{{ $item->type }}</td>
                 <td class="text-center">

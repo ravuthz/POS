@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Stock;
+use App\Models\Product;
+use App\Models\StockMovement;
 use App\Traits\CrudsControllerTrait;
 
 class StockController extends Controller
@@ -12,7 +13,7 @@ class StockController extends Controller
     protected $itemName = 'stock_item';
     protected $listName = 'stock_list';
 
-    protected $modelPath = Stock::class;
+    protected $modelPath = StockMovement::class;
     protected $viewPrefix = 'stocks.';
     protected $routePrefix = 'stocks';
     public function __construct()
@@ -20,5 +21,6 @@ class StockController extends Controller
         $this->initialize();
         $this->setPageTitle("Stock");
         $this->setSiteTitle("Stocks");
+        $this->data['products'] = Product::pluck('name', 'id');
     }
 }

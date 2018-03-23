@@ -269,7 +269,12 @@ a {
  .badge {
     background-color: white;
     position: absolute;
-    right: 0;
+    right: 5px;
     color: red;
     font-size: 14px;
  }
+.card {
+    cursor: pointer;
+    padding: 15px;
+    margin: 15px 0px;
+}

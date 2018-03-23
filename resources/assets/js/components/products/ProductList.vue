@@ -36,7 +36,7 @@
             <div class="col-lg-3 col-md-4 col-xs-6" v-for="product in getAllProductsFromStore">
                 <div class="card" @click="addItem(product)">
                     <span class="badge">{{ product.sale_price }}</span>
-                    <img class="card-img-top" :src="product.image">
+                    <img class="card-img-top" :src="`uploads/${product.image}`">
                     <div class="card-block">
                         <p class="card-text">{{ product.name }}</p>
                     </div>

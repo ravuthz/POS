@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>Image</th>
+            <th>Category</th>
             <th>Name</th>
             <th>Name KH</th>
             <th>Slug</th>
@@ -15,6 +16,7 @@
         @foreach($product_list as $item)
             <tr>
                 <td><img src="/uploads/{{ $item->image }}" alt="{{ $item->image }}" class="img-thumbnail" width="100px"></td>
+                <td>{{ optional($item->category)->name }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->name_kh }}</td>
                 <td>{{ $item->slug }}</td>

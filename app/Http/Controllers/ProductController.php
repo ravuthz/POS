@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Traits\CrudsControllerTrait;
 
@@ -20,6 +21,7 @@ class ProductController extends Controller
         $this->initialize();
         $this->setSiteTitle('Product');
         $this->setPageTitle('Products');
+        $this->data['categories'] = Category::pluck('name', 'id');
     }
 
     // Override query all data with search form

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        {!! BootForm::text('product_id') !!}
+        {!! BootForm::select('product_id', 'Product', $products) !!}
     </div>
 
     <div class="col-md-6">

@@ -6,7 +6,11 @@
         {!! BootForm::text('name_kh') !!}
     </div>
 </div>
-
+<div class="row">
+    <div class="col-md-6">
+        {!! BootForm::select('category_id', 'Category', $categories) !!}
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6">
         {!! BootForm::text('buy_price') !!}
