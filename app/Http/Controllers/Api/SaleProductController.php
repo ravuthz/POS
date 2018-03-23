@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Stock;
+use App\Models\StockMovement;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,10 +38,9 @@ class SaleProductController extends Controller
         $items = $request->get('items', []);
 
         if (count($items) > 0) {
-            $order = Order::create([
-                'ordered_by' => optional(User::getCustomer())->id,
-                'ordered_at' => Carbon::now()
-            ]);
+//            $order = Order::create([
+//                'type' => 1, // 1=book, 2=paid, 0=cancel
+//            ]);
 
             $stock = Stock::create([
                 'movement' => 1
@@ -52,17 +52,18 @@ class SaleProductController extends Controller
                 $product = Product::find($item['id']);
 
                 if ($product) {
-                    $itemDetails = new ItemDetails();
+//                    $itemDetails = new ItemDetails();
+                    $itemDetails = new StockMovement();
                     $itemDetails->product()->associate($product);
                     $itemDetails->price = $item['sale_price'];
                     $itemDetails->quantity = $item['qty'];
 
-                    $order->items()->save($itemDetails);
+//                    $order->items()->save($itemDetails);
                     $stock->items()->save($itemDetails);
                 }
             }
 
-            $sale->order()->associate($order);
+//            $sale->order()->associate($order);
             $sale->stock()->associate($stock);
             $sale->save();
         }
@@ -95,11 +96,15 @@ class SaleProductController extends Controller
 
         if (count($items) > 0 && $sale) {
             foreach ($items as $item) {
-                $itemDetails = ItemDetails
-                    ::where('order_id', $sale->order->id)
-                    ->where('stock_id', $sale->stock->id)
-                    ->where('product_id', $item['id'])
-                    ->first();
+//                $itemDetails = ItemDetails
+//                    ::where('order_id', $sale->order->id)
+//                    ->where('stock_id', $sale->stock->id)
+//                    ->where('product_id', $item['id'])
+//                    ->first();
+
+                $itemDetails = StockMovement::where('stock_id', $sale->stock->id)
+                    ->where('product_id', $item['id'])->first();
+
                 if ($itemDetails) {
                     $itemDetails->price = $item['sale_price'];
                     $itemDetails->quantity = $item['qty'];

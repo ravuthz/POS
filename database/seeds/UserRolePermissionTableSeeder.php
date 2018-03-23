@@ -46,8 +46,8 @@ class UserRolePermissionTableSeeder extends Seeder
         // Assign all permissions to admin role
         if ($roleAdmin) {
             $permissions = Permission::all();
-            dump("Role Admin's Permission");
-            dump($permissions->toArray());
+//            dump("Role Admin's Permission");
+//            dump($permissions->toArray());
             $roleAdmin->syncPermissions($permissions);
         }
 
@@ -59,16 +59,16 @@ class UserRolePermissionTableSeeder extends Seeder
                 ->orWhere('name', 'like', '%_ORDER')
                 ->orWhere('name', 'like', '%_STOCK')
                 ->get();
-            dump("Role Seller's Permission");
-            dump($permissions->toArray());
+//            dump("Role Seller's Permission");
+//            dump($permissions->toArray());
             $roleSeller->givePermissionTo($permissions);
         }
 
         // Assign all detail permissions to customer role
         if ($roleCustomer) {
             $permissions = Permission::where('name', 'like', 'DETAIL_%')->get();
-            dump("Role Customer's Permission");
-            dump($permissions->toArray());
+//            dump("Role Customer's Permission");
+//            dump($permissions->toArray());
             $roleCustomer->syncPermissions($permissions);
         }
 

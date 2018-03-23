@@ -80,11 +80,11 @@ image -> $table->string('avatar')->default('default-name.jpg');
 quantity->default(0)
 
 
-
 php artisan make:factory ProductFactory
 php artisan make:seeder ProductsTableSeeder
 php artisan make:test App\Models\ProductTest
 
+php artisan make:test SaleProductApiTest
 
 cp .env.example .env.testing
 mysql -u root -p -e "create database laravel_pos_test"
@@ -92,5 +92,10 @@ mysql -u root -p -e "create database laravel_pos_test"
 php artisan migrate --env=testing
 
 vendor\bin\phpunit
+vendor\bin\phpunit tests\Feature\SaleProductApiTest.php
 
 vendor/bin/phpunit
+
+
+php artisan make:controller Admin\OrderController
+

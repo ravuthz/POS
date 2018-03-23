@@ -11,10 +11,10 @@ class Order extends Model
     use SoftDeletes, FieldsAuditTrait;
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['ordered_by', 'ordered_at'];
+    protected $fillable = ['type'];
 
     public function items()
     {
-        return $this->hasMany(ItemDetails::class);
+        return $this->hasMany(OrderProduct::class);
     }
 }

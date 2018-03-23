@@ -103,6 +103,8 @@
 </template>
 
 <script>
+    import { createSaleItems , updateSaleItems } from '../../api.js';
+
     const tableFields = [
         {
             key: 'no',
@@ -163,8 +165,12 @@
                 this.$store.dispatch('updateItem', product);
             },
             createSaleProduct() {
-                window.print();
+                // window.print();
                 // this.clearSaleProduct();
+                let items = this.items;
+
+                // createSaleItems({ items }); // for create sale items
+                // updateSaleItems(4, { items }); // for update sale items
             },
             clearSaleProduct: function () {
                 this.$store.dispatch('clearAllItems');

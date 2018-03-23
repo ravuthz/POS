@@ -15,6 +15,6 @@ class Stock extends Model
 
     public function items()
     {
-        return $this->hasMany(ItemDetails::class);
+        return $this->hasMany(StockMovement::class);
     }
 }
