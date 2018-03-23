@@ -7,15 +7,14 @@
 require('./bootstrap');
 
 import Vue from 'vue';
-import VueRouter from 'vue-router';
 import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue';
 
 import App from './components/App.vue';
+import i18n from './i18n';
 import store from './store';
 import router from './route';
 
-Vue.use(VueRouter);
 Vue.use(Vue2Filters);
 Vue.use(BootstrapVue);
 
@@ -27,6 +26,7 @@ Vue.use(BootstrapVue);
 const app = new Vue({
     el: '#app',
     components: {App},
+    i18n,
     store,
     router
 });

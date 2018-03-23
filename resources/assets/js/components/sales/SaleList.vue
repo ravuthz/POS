@@ -1,5 +1,8 @@
 <template>
     <div class="wrapper">
+        {{ $t("maru") }} <br/>
+        {{ $t("cheat") }} <br/>
+        {{ $t("vuthz") }} <br/>
         <sidebar class="d-print-none" v-model="showSideBar"></sidebar>
 
         <productlist class="d-print-none" @onTopCloseClick="topCloseClick"></productlist>
