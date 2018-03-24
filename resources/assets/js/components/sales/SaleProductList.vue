@@ -66,9 +66,9 @@
                 showRightSidebar: false,
             }
         },
-        created() {
+        /*created() {
             this.$store.dispatch('listProduct', {size: this.perPage});
-        },
+        },*/
         computed: {
             getAllProductsFromStore() {
                 this.products = this.$store.getters.products;

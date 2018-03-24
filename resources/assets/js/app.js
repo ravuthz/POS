@@ -12,7 +12,7 @@ import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue';
 
 import App from './components/App.vue';
-import store from './store';
+import store from './store/product.js';
 import router from './route';
 
 Vue.use(VueRouter);
