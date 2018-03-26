@@ -17,4 +17,11 @@ class Stock extends Model
     {
         return $this->hasMany(StockMovement::class);
     }
+
+    public function scopeGetItemProducts($query)
+    {
+        $query->with(['items' => function($item) {
+            $item->with('product');
+        }]);
+    }
 }

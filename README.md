@@ -84,6 +84,11 @@ php artisan make:factory ProductFactory
 php artisan make:seeder ProductsTableSeeder
 php artisan make:test App\Models\ProductTest
 
+php artisan make:resource StockResource
+php artisan make:resource StockCollection --collection
+
+php artisan make:seeder StocksTableSeeder
+
 php artisan make:test SaleProductApiTest
 
 cp .env.example .env.testing
