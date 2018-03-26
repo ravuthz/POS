@@ -30,7 +30,7 @@
                     <tbody>
                         <tr v-for="(item, index) in stock.items">
                             <td>{{ index }}</td>
-                            <td>{{ item.product }}</td>
+                            <td>{{ item.product_id }}</td>
                             <td>{{ item.price | currency('R ') }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.amount | currency('R ') }}</td>
@@ -62,6 +62,7 @@
                 .then((res) => {
                     this.stock = res.data.stock
                     this.movement = this.stock.movement == 0 ? "OUT" : "IN"
+                    console.log(this.stock);
                 })
         }
     }
