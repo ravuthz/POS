@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import { getAllProducts } from './api';
+import { getAllProducts } from '../api';
 
 Vue.use(Vuex);
 

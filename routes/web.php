@@ -28,7 +28,7 @@ Route::group([
     Route::apiResource('products', 'ProductController');
     Route::get('sales-products', 'ProductController@sales');
     Route::apiResource('sales', 'SaleProductController');
-
+    Route::resource('stocks', 'StockController');
 });
 
 Route::group([
