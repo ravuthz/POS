@@ -235,7 +235,7 @@ a {
   background: #fff;
 }
 
-.table th, .table td {
+.sidebar-content .table th, .sidebar-content .table td {
   padding: 0;
 }
 
@@ -266,15 +266,25 @@ a {
   background: #0062cc;
   margin-top: 5px;
 }
- .badge {
+.badge {
     background-color: white;
     position: absolute;
     right: 5px;
     color: red;
     font-size: 14px;
  }
+
 .card {
     cursor: pointer;
     padding: 15px;
     margin: 15px 0px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.container .card {
+    cursor: default;
 }

@@ -8,13 +8,19 @@
                      <router-link :to="`/seller/stocks/`" class="btn btn-secondary">
                             Cancel
                     </router-link>
-                    <button class="btn btn-primary" @click="onSave">Save</button>
+                    <router-link :to="`/seller/stocks/${stock.id}/edit`" class="btn btn-primary">
+                            Edit
+                    </router-link>
                 </div>
             </div>
-           <div class="card-body">
+            <div class="card-body">
+                <h5 class="card-title">Stock Id: {{ stock.id }}</h5>
+                <p class="card-text" >Movement: {{ movement }}</p>
+                <p class="card-text">Created Ad: {{ stock.created_at }}</p>
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th scope="col">#</th>
                             <th scope="col">Product</th>
                             <th scope="col">Price</th>
                             <th scope="col">Quantity</th>
@@ -23,28 +29,40 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in stock.items">
-                            <td>{{ item.product_id }}</td>
+                            <td>{{ index }}</td>
+                            <td>{{ item.product }}</td>
                             <td>{{ item.price | currency('R ') }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.amount | currency('R ') }}</td>
                         </tr>
                     </tbody>
                 </table>
-           </div>
+            </div>
         </div>
 
     </div>
 </template>
-<script type="text/javascript">
-import Navbar from '../partials/navbar.vue'
+
+<script>
+    import Navbar from '../partials/navbar.vue'
+    import { getStock } from '../../api.js'
+
     export default {
         components: {
             Navbar
         },
-        methods: {
-            onSave() {
-                alert(1);
+        data() {
+            return {
+                stock: {},
+                movement: null
             }
+        },
+        created() {
+            getStock(`/api/stocks/${this.$route.params.id}`)
+                .then((res) => {
+                    this.stock = res.data.stock
+                    this.movement = this.stock.movement == 0 ? "OUT" : "IN"
+                })
         }
     }
 </script>

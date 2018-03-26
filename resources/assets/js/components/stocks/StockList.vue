@@ -4,19 +4,31 @@
         <form>
             <p class="h4 text-center mb-4">List Stock</p>
             <div class="row">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Movement</th>
+                            <th scope="col">Created At</th>
+                            <th scope="col">Created By</th>
+                            <th scope="col">Updated At</th>
+                            <th scope="col">Updated By</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="stock in stocks">
-                            <td>{{ stock.product_id }}</td>
-                            <td>{{ stock.price }}</td>
-                            <td>{{ stock.quantity }}</td>
+                        <tr v-for="(stock, index) in stocks">
+                            <td>{{ index }}</td>
+                            <td>{{ stock.movement }}</td>
+                            <td>{{ stock.created_by }}</td>
+                            <td>{{ stock.created_at }}</td>
+                            <td>{{ stock.updated_by }}</td>
+                            <td>{{ stock.updated_at }}</td>
+                            <td>
+                                <router-link :to="`/seller/stocks/${stock.id}`" class="btn btn-info">
+                                    Detail
+                                </router-link>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -28,7 +40,7 @@
 
 <script>
     import Navbar from '../partials/navbar.vue'
-    import { getAllStock } from '../../api.js'
+    import { getStock } from '../../api.js'
     export default {
         components: {
             Navbar
@@ -40,10 +52,9 @@
             }
         },
         created() {
-            getAllStock(`/api/stocks`)
+            getStock(`/api/stocks`)
                 .then((res) => {
                     this.stocks = res.data.stocks
-                    console.log(this.stocks)
                 })
         }
     }
