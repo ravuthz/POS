@@ -15,10 +15,11 @@ class StockResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'movement' => $this->movement,
-            'items' => $this->items,
-            'amount' => $this->amount
+            'id'         => $this->id,
+            'movement'   => $this->movement,
+            'items'      => $this->items,
+            'amount'     => $this->amount,
+            'created_at' => $this->created_at->format('d m Y')
         ];
     }
 }

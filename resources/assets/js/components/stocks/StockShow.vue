@@ -15,7 +15,7 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Stock Id: {{ stock.id }}</h5>
-                <p class="card-text" >Movement: {{ movement }}</p>
+                <p class="card-text" >Movement: {{ stock.movement === 0 ? 'OUT' : 'IN'}}</p>
                 <p class="card-text">Created Ad: {{ stock.created_at }}</p>
                 <table class="table table-hover">
                     <thead>
@@ -29,8 +29,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in stock.items">
-                            <td>{{ index }}</td>
-                            <td>{{ item.product_id }}</td>
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ item.product.name }}</td>
                             <td>{{ item.price | currency('R ') }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.amount | currency('R ') }}</td>
@@ -54,15 +54,12 @@
         data() {
             return {
                 stock: {},
-                movement: null
             }
         },
         created() {
             getStock(`/api/stocks/${this.$route.params.id}`)
                 .then((res) => {
-                    this.stock = res.data.stock
-                    this.movement = this.stock.movement == 0 ? "OUT" : "IN"
-                    console.log(this.stock);
+                    this.stock = res.data.data
                 })
         }
     }

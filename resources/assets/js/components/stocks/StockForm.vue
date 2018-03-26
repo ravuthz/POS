@@ -23,9 +23,9 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in stock.items">
-                            <td>{{ item.product_id }}</td>
+                            <typeahead :url="productURL" :initialize="item.product" @input="onProduct(index, $event)" />
                             <td>{{ item.price | currency('R ') }}</td>
-                            <td>{{ item.quantity }}</td>
+                            <td><input type="text" class="form-control" v-model="item.quantity"></td>
                             <td>{{ item.amount | currency('R ') }}</td>
                         </tr>
                     </tbody>
@@ -36,17 +36,45 @@
     </div>
 </template>
 <script type="text/javascript">
-import Navbar from '../partials/navbar.vue'
+    import { Typeahead } from '../typeahead'
+    import Navbar from '../partials/navbar.vue'
+    import { getStock } from '../../api.js'
+
+    function initialize(to) {
+        let urls = {
+            'create': `/api/stocks/create`,
+            'edit': `/api/stocks/${to.params.id}/edit`
+        }
+
+        return (urls[to.meta.mode] || urls['create'])
+    }
+
     export default {
         components: {
-            Navbar
+            Navbar,
+            Typeahead
+        },
+        data() {
+                return {
+                    stock: {},
+                    productURL: '/api/products',
+                }
         },
         methods: {
             onSave() {
                 alert(1);
+            },
+            onProduct(index, e){
+
             }
+        },
+        created() {
+            getStock(`/api/stocks/${this.$route.params.id}`)
+                .then((res) => {
+                    this.stock = res.data.data
+                })
         }
-    }
+}
 </script>
 
 <style scoped>

@@ -18,8 +18,9 @@
                     </thead>
                     <tbody>
                         <tr v-for="(stock, index) in stocks">
-                            <td>{{ index }}</td>
-                            <td>{{ stock.movement }}</td>
+                            <td>{{ index + 1 }}</td>
+                            <td v-if="stock.movement === 0">OUT</td>
+                            <td v-else>IN</td>
                             <td>{{ stock.created_by }}</td>
                             <td>{{ stock.created_at }}</td>
                             <td>{{ stock.updated_by }}</td>
@@ -54,7 +55,8 @@
         created() {
             getStock(`/api/stocks`)
                 .then((res) => {
-                    this.stocks = res.data.stocks
+                    this.stocks = res.data.data
+
                 })
         }
     }
