@@ -1,12 +1,17 @@
 <template>
     <div class="container">
         <navbar></navbar>
-        <form>
-            <p class="h4 text-center mb-4">List Stock</p>
-            <div>
-                <button class="btn" >Create</button>
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Stock Detail</span>
+                <div>
+                     <router-link :to="`/seller/stocks/create`" class="btn btn-secondary">
+                            Create
+                    </router-link>
+                </div>
+
             </div>
-            <div class="row">
+            <div class="card-body">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -37,7 +42,7 @@
                     </tbody>
                 </table>
             </div>
-        </form>
+        </div>
     </div>
 
 </template>
@@ -66,5 +71,4 @@
 </script>
 
 <style scoped>
-
 </style>

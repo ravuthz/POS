@@ -33,7 +33,7 @@
                             <td>{{ item.product.name }}</td>
                             <td>{{ item.price | currency('R ') }}</td>
                             <td>{{ item.quantity }}</td>
-                            <td>{{ item.amount | currency('R ') }}</td>
+                            <td>{{ item.quantity * item.price | currency('R ') }}</td>
                         </tr>
                     </tbody>
                 </table>

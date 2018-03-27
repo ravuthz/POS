@@ -23,9 +23,11 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in stock.items">
-                            <typeahead :url="productURL" :initialize="item.product" @input="onProduct(index, $event)" />
+                            <td>
+                                <typeahead :url="productURL" :initialize="item.product" @input="onProduct(index, $event)" />
+                            </td>
                             <td>{{ item.price | currency('R ') }}</td>
-                            <td><input type="text" class="form-control" v-model="item.quantity"></td>
+                            <td><input type="text" class="typeahead-input" v-model="item.quantity"></td>
                             <td>{{ Number(item.quantity) * Number(item.price) | currency('R ') }}</td>
                         </tr>
                     </tbody>
@@ -70,7 +72,9 @@
         data() {
                 return {
                     form: {},
-                    stock: {},
+                    stock: {
+                        items: []
+                    },
                     productURL: '/api/products'
                 }
         },
