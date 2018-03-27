@@ -12,6 +12,18 @@
                 </div>
             </div>
            <div class="card-body">
+                <div class="form-group row">
+                    <label for="example-date-input" class="col-2 col-form-label">Movement</label>
+                    <div class="col-10">
+                        <p class="form-control" >{{ stock.movement === 0 ? 'OUT' : 'IN'}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="example-date-input" class="col-2 col-form-label">Created At</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" v-model="stock.created_at" disabled="disabled">
+                    </div>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>

@@ -5,7 +5,7 @@
             <div class="card-header">
                 <span class="card-title">Stock Detail</span>
                 <div>
-                     <router-link :to="`/seller/stocks/create`" class="btn btn-secondary">
+                     <router-link :to="`/seller/stocks/create`" class="btn btn-primary">
                             Create
                     </router-link>
                 </div>

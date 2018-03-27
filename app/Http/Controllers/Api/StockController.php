@@ -20,4 +20,5 @@ class StockController extends Controller
         $stock = Stock::getItemProducts()->findOrFail($id);
         return new StockResource($stock);
     }
+
 }
