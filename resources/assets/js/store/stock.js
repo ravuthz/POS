@@ -10,7 +10,6 @@ export default new Vuex.Store({
         stocks: [],
     }
     getter: {
-        alert(2);
         stocks: state => state.products
     },
     mutations: {

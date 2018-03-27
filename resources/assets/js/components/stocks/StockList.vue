@@ -3,6 +3,9 @@
         <navbar></navbar>
         <form>
             <p class="h4 text-center mb-4">List Stock</p>
+            <div>
+                <button class="btn" >Create</button>
+            </div>
             <div class="row">
                 <table class="table table-hover">
                     <thead>

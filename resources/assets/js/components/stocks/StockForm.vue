@@ -12,7 +12,7 @@
                 </div>
             </div>
            <div class="card-body">
-                <table class="table table-hover">
+                <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Product</th>
@@ -26,16 +26,29 @@
                             <typeahead :url="productURL" :initialize="item.product" @input="onProduct(index, $event)" />
                             <td>{{ item.price | currency('R ') }}</td>
                             <td><input type="text" class="form-control" v-model="item.quantity"></td>
-                            <td>{{ item.amount | currency('R ') }}</td>
+                            <td>{{ Number(item.quantity) * Number(item.price) | currency('R ') }}</td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <button class="btn btn-sm"
+                             @click="addNewLine">Add New Item</button>
+                        </td>
+                        <td class="form-summary">Sub Total</td>
+                        <td>{{ subTotal | currency('R ')}}</td>
+                    </tr>
+
+                </tfoot>
                 </table>
            </div>
+        </div>
         </div>
 
     </div>
 </template>
 <script type="text/javascript">
+    import Vue from 'vue'
     import { Typeahead } from '../typeahead'
     import Navbar from '../partials/navbar.vue'
     import { getStock } from '../../api.js'
@@ -56,9 +69,23 @@
         },
         data() {
                 return {
+                    form: {},
                     stock: {},
-                    productURL: '/api/products',
+                    productURL: '/api/products'
                 }
+        },
+        created() {
+            getStock(`/api/stocks/${this.$route.params.id}`)
+                .then((res) => {
+                    this.stock = res.data.data
+                })
+        },
+        computed: {
+            subTotal() {
+               return this.stock.items.reduce((carry, item) => {
+                    return carry + (Number(item.price) * Number(item.quantity))
+                }, 0)
+            }
         },
         methods: {
             onSave() {
@@ -66,14 +93,23 @@
             },
             onProduct(index, e){
 
-            }
-        },
-        created() {
-            getStock(`/api/stocks/${this.$route.params.id}`)
-                .then((res) => {
-                    this.stock = res.data.data
+                const product = e.target.value
+                Vue.set(this.stock.items[index], 'product', product)
+                Vue.set(this.stock.items[index], 'product_id', product.id)
+                Vue.set(this.stock.items[index], 'price', product.sale_price)
+            },
+            addNewLine() {
+                this.stock.items.push({
+                    product_id: null,
+                    product: null,
+                    unit_price: 0,
+                    quantity: 1
                 })
+                console.log(this.stock.items);
+            }
         }
+
+
 }
 </script>
 

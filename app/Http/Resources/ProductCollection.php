@@ -16,11 +16,12 @@ class ProductCollection extends ResourceCollection
     {
         return $this->collection->transform(function ($item) {
             return [
-                'id' => $item->id,
-                'slug' => $item->slug,
-                'name' => $item->name,
-                'image' => $item->image,
-                'status' => $item->status,
+                'id'         => $item->id,
+                'slug'       => $item->slug,
+                'name'       => $item->name,
+                'name_kh'    => $item->name_kh,
+                'image'      => $item->image,
+                'status'     => $item->status,
                 'sale_price' => $item->sale_price
             ];
         });

@@ -1,32 +1,27 @@
 <template>
     <div :class="[isOpen ? 'typeahead typeahead-open' : 'typeahead']">
-        <div class="typeahead-inner">
-            <div class="form-control typeahead-selected" :tabindex="tabindex" ref="toggle" @click="onToggle" @keydown="onKey">
-                <span>{{ selectedText }}</span>
-            </div>
-            <transition name="fade" mode="out-in">
-                <div class="typeahead-dropdown" v-if="isOpen">
-                    <div class="typeahead-input_wrap">
-                        <input type="text" class="typeahead-input" autocomplete="off" placeholder="Search..."
-                            ref="search" @blur="onBlur"
-                            @input="onSearch"
-                            @keydown.esc="onEsc"
-                            @keydown.up="onUpkey"
-                            @keydown.down="onDownkey"
-                            @keydown.enter="onEnterKey"
-                        >
-                    </div>
-                    <ul class="typeahead-list" v-if="results.length">
-                        <li class="typeahead-item" v-for="(result, index) in results" :key="result.id">
-                            <a :class="['typeahead-link', selectIndex === index ? 'typeahead-active' : '']"
+        <div class="form-group">
+            <input class="form-control" :tabindex="tabindex" ref="toggle" @click="onToggle" @keydown="onKey" v-model="selectedText">
+            <div class="dropdown show typeahead-dropdown" v-if="isOpen">
+                <div class="typeahead-input_wrap">
+                <input type="text" class="typeahead-input" autocomplete="off" placeholder="Search..." id="dropdownMenuLink" data-toggle="dropdown"
+                    ref="search"
+                    @blur="onBlur"
+                    @input="onSearch"
+                    @keydown.esc="onEsc"
+                    @keydown.up="onUpkey"
+                    @keydown.down="onDownkey"
+                    @keydown.enter="onEnterKey"
+                >
+                </div>
+                <div aria-labelledby="dropdownMenuLink" v-if="results.length">
+                        <li class="dropdown-item" v-for="(result, index) in results" :key="result.id"
                             @mousedown.prevent="select(result)"
                             @mouseover.prevent="onMouse(index)">
-                                {{ result.name }}
-                            </a>
+                            {{ result.name }}
                         </li>
-                    </ul>
                 </div>
-            </transition>
+            </div>
         </div>
     </div>
 
@@ -57,7 +52,7 @@
         },
         computed: {
             selectedText() {
-                return this.initialize && this.initialize.text ? this.initialize.text : 'Type or click to select'
+                return this.initialize ? this.initialize.name_kh : 'Type or click to select'
             }
         },
         methods: {
@@ -82,9 +77,8 @@
                 })
             },
             fetchData(q) {
-                getAllProducts(this.url)
+                getAllProducts({filter: q})
                     .then((res) => {
-                        console.log(res);
                         Vue.set(this.$data, 'results', res.data.data)
                     })
             },

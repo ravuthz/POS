@@ -18,15 +18,6 @@ class StockController extends Controller
     public function show($id)
     {
         $stock = Stock::getItemProducts()->findOrFail($id);
-
-        $amount = 0;
-        foreach ($stock->items as $item) {
-            $item->amount = $item->price * $item->quantity;
-            $amount += $item->amount;
-        }
-
-        $stock->amount = $amount;
-
         return new StockResource($stock);
     }
 }
