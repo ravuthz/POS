@@ -2,12 +2,11 @@
 
 namespace App\Traits;
 
-use Auth;
 use App\Models\User;
+use Auth;
 
 trait FieldsAuditTrait
 {
-
     protected static function boot()
     {
         parent::boot();
@@ -25,16 +24,19 @@ trait FieldsAuditTrait
             return $model->save() ? true : false;
         });
     }
-    
-    public function createdBy() {
+
+    public function createdBy()
+    {
         return $this->belongsTo(User::class, 'created_by');
     }
-    
-    public function updatedBy() {
+
+    public function updatedBy()
+    {
         return $this->belongsTo(User::class, 'updated_by');
     }
-    
-    public function deletedBy() {
+
+    public function deletedBy()
+    {
         return $this->belongsTo(User::class, 'deleted_by');
     }
 

@@ -7,7 +7,7 @@ export const createSaleItems = (options = {}) => axios.post(API_SALE, options);
 export const updateSaleItems = (id, options = {}) => axios.patch(API_SALE + '/' + id, options);
 export const deleteSaleItems = (id) => axios.delete(API_SALE + '/' + id);
 
-export function getStock(url, params) {
+export function get(url, params) {
     return axios({
         method: 'GET',
         url: url,
@@ -15,3 +15,11 @@ export function getStock(url, params) {
     })
 }
 
+
+export function post(url, data) {
+    return axios({
+        method: 'POST',
+        url: url,
+        data: data
+    })
+}

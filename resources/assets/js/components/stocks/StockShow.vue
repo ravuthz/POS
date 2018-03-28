@@ -45,7 +45,7 @@
 
 <script>
     import Navbar from '../partials/navbar.vue'
-    import { getStock } from '../../api.js'
+    import { get } from '../../api.js'
 
     export default {
         components: {
@@ -57,7 +57,7 @@
             }
         },
         created() {
-            getStock(`/api/stocks/${this.$route.params.id}`)
+            get(`/api/stocks/${this.$route.params.id}`)
                 .then((res) => {
                     this.stock = res.data.data
                 })

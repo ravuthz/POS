@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Stock extends Model
 {
     use SoftDeletes, FieldsAuditTrait;
+
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['order_id', 'movement'];
+    protected $fillable = ['movement'];
 
     public function items()
     {
@@ -20,7 +21,7 @@ class Stock extends Model
 
     public function scopeGetItemProducts($query)
     {
-        $query->with(['items' => function($item) {
+        $query->with(['items' => function ($item) {
             $item->with('product');
         }]);
     }

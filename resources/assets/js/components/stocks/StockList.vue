@@ -49,7 +49,7 @@
 
 <script>
     import Navbar from '../partials/navbar.vue'
-    import { getStock } from '../../api.js'
+    import { get } from '../../api.js'
     export default {
         components: {
             Navbar
@@ -61,7 +61,7 @@
             }
         },
         created() {
-            getStock(`/api/stocks`)
+            get(`/api/stocks`)
                 .then((res) => {
                     this.stocks = res.data.data
 

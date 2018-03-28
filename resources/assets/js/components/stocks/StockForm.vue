@@ -3,15 +3,16 @@
         <navbar></navbar>
         <div class="card">
             <div class="card-header">
-                <span class="card-title">Stock Detail</span>
+                <span class="card-title">{{ action }} Stock</span>
                 <div>
                      <router-link :to="`/seller/stocks/`" class="btn btn-secondary">
                             Cancel
                     </router-link>
-                    <button class="btn btn-primary" @click="onSave">Save</button>
+                    <button class="btn btn-primary" :disabled="isProcessing"  @click="onSave">Save</button>
                 </div>
             </div>
            <div class="card-body">
+                <div v-if="action === 'Update'">
                 <div class="form-group row">
                     <label for="example-date-input" class="col-2 col-form-label">Movement</label>
                     <div class="col-10">
@@ -23,6 +24,7 @@
                     <div class="col-10">
                         <input class="form-control" type="text" v-model="stock.created_at" disabled="disabled">
                     </div>
+                </div>
                 </div>
                 <table class="table">
                     <thead>
@@ -36,7 +38,10 @@
                     <tbody>
                         <tr v-for="(item, index) in stock.items">
                             <td>
-                                <typeahead :url="productURL" :initialize="item.product" @input="onProduct(index, $event)" />
+                                <typeahead :initialize="item.product" @input="onProduct(index, $event)" />
+                                <small class="error-control" v-if="errors[`items.${index}.product_id`]">
+                                    {{errors[`items.${index}.product_id`][0] }}
+                                </small>
                             </td>
                             <td>{{ item.price | currency('R ') }}</td>
                             <td><input type="text" class="typeahead-input" v-model="item.quantity"></td>
@@ -65,7 +70,7 @@
     import Vue from 'vue'
     import { Typeahead } from '../typeahead'
     import Navbar from '../partials/navbar.vue'
-    import { getStock } from '../../api.js'
+    import { get, post } from '../../api.js'
 
     function initialize(to) {
         let urls = {
@@ -87,11 +92,23 @@
                     stock: {
                         items: []
                     },
-                    productURL: '/api/products'
+                    initialLizeURL: `/api/stocks/create`,
+                    action: 'Create',
+                    store: '/api/stocks',
+                    errors: {},
+                    isProcessing : true,
+                    method: 'POST'
                 }
         },
         created() {
-            getStock(`/api/stocks/${this.$route.params.id}`)
+            if(this.$route.meta.mode ==='edit') {
+                this.initialLizeURL = `/api/stocks/${this.$route.params.id}/edit`
+                this.store = `/api/stocks/${this.$route.params.id}`
+                this.action = 'Update'
+                this.method = 'PUT'
+
+            }
+            get(this.initialLizeURL)
                 .then((res) => {
                     this.stock = res.data.data
                 })
@@ -105,7 +122,23 @@
         },
         methods: {
             onSave() {
-                alert(1);
+                this.errors = {}
+                this.isProcessing = true
+                console.log(this.stock)
+                post(this.store, this.stock)
+                    .then((res) => {
+                        if(res.data.saved) {
+                            Flash.setSuccess(res.data.message)
+                            this.$router.push(`/recipes/${res.data.id}`)
+                        }
+                    })
+                    .catch((err) => {
+                        if(err.response.status === 422) {
+                            this.errors = err.response.data.errors
+                            console.log(this.errors)
+                        }
+                        this.isProcessing = false
+                    })
             },
             onProduct(index, e){
 
@@ -115,13 +148,13 @@
                 Vue.set(this.stock.items[index], 'price', product.sale_price)
             },
             addNewLine() {
+                this.isProcessing = false
                 this.stock.items.push({
                     product_id: null,
                     product: null,
                     unit_price: 0,
                     quantity: 1
                 })
-                console.log(this.stock.items);
             }
         }
 
@@ -136,5 +169,8 @@
 .card-title {
     font-size: 18px;
     line-height: 24px;
+}
+.error-control{
+    color: red;
 }
 </style>

@@ -35,9 +35,6 @@
             initialize: {
                 default: null
             },
-            url: {
-                required: true
-            },
             tabindex: {
                 default: 0
             }
