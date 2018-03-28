@@ -54,8 +54,13 @@ Route::group([
 
 });
 
-Route::get('/seller/{vue_capture?}', function () {
-    return view('vue');
-})->where('vue_capture', '[\/\w\.-]*');
+Route::group([
+    'prefix'     => 'seller',
+    'middleware' => ['auth']
+], function () {
+    Route::get('/{vue_capture?}', function () {
+        return view('vue');
+    })->where('vue_capture', '[\/\w\.-]*');
+});
 
 Auth::routes();

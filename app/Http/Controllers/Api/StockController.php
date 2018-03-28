@@ -36,7 +36,7 @@ class StockController extends Controller
         ]);
         $request['movement'] = 1;
 
-        Stock::create();
+        Stock::create($request->all());
 
     }
 
