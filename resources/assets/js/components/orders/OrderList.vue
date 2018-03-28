@@ -4,7 +4,7 @@
             <div class="card-text">
                 <b-row>
                     <b-col lg="2" md="3" xs="6">
-                        <b-button variant="primary">{{ $t('buttons.addNew')}}</b-button>
+                        <b-button variant="primary">{{ $t('buttons.addNew') }}</b-button>
                     </b-col>
                     <b-col offset-lg="6" lg="4" offset-md="4" md="5" xs="12">
                         <search-bar
@@ -41,8 +41,7 @@
                 </b-table>
                 <b-row v-if="orders.length > 0">
                     <b-col lg="3" md="6" xs="12">
-                        <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"
-                                      @input="onPageChange"/>
+                        <b-pagination :total-rows="totalRows" :per-page="getPerPage" v-model="currentPage" />
                     </b-col>
                     <b-col offset-lg="6" lg="3" offset-md="3" md="6" xs="12">
                         <b-form-group horizontal :label="$t('labels.perPage')">
@@ -87,6 +86,12 @@
                 filter: null,
             }
         },
+        computed: {
+            getPerPage() {
+                this.currentPage = 1;
+                return this.perPage;
+            },
+        },
         beforeCreate() {
             getOrderTypes().then(res => this.orderTypes = res.data.data);
         },
@@ -115,9 +120,6 @@
             },
             onSearch(text) {
                 this.filter = text;
-            },
-            onPageChange(page) {
-                this.currentPage = 1;
             }
         }
     }
