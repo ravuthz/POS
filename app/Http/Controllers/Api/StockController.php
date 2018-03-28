@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\StockCollection;
 use App\Http\Resources\StockResource;
 use App\Models\Stock;
+use App\Models\StockMovement;
 use Illuminate\Http\Request;
 
 class StockController extends Controller
@@ -36,8 +37,20 @@ class StockController extends Controller
         ]);
         $request['movement'] = 1;
 
-        Stock::create($request->all());
+        $items = [];
+        foreach ($request->items as $item) {
+            $items[] = new StockMovement($item);
+        }
 
+        $stock = new Stock($request->all());
+        $stock->save();
+        $stock->items()->saveMany($items);
+
+        return response()->json([
+            'saved'   => true,
+            'id'      => $stock->id,
+            'message' => 'You have successfully created NEW stock!'
+        ]);
     }
 
     public function show($id)

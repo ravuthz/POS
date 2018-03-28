@@ -49,7 +49,7 @@
         },
         computed: {
             selectedText() {
-                return this.initialize ? this.initialize.name_kh : 'Type or click to select'
+                return this.initialize ? this.initialize.name : 'Type or click to select'
             }
         },
         methods: {

@@ -1,14 +1,15 @@
 <template>
     <div class="container">
         <navbar></navbar>
+
         <div class="card">
             <div class="card-header">
                 <span class="card-title">{{ action }} Stock</span>
                 <div>
                      <router-link :to="`/seller/stocks/`" class="btn btn-secondary">
-                            Cancel
+                            Back
                     </router-link>
-                    <button class="btn btn-primary" :disabled="isProcessing"  @click="onSave">Save</button>
+                    <button class="btn btn-primary" :disabled="stock.items < 1"  @click="onSave">Save</button>
                 </div>
             </div>
            <div class="card-body">
@@ -33,6 +34,7 @@
                             <th scope="col">Price</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Amout</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,6 +48,11 @@
                             <td>{{ item.price | currency('R ') }}</td>
                             <td><input type="text" class="typeahead-input" v-model="item.quantity"></td>
                             <td>{{ Number(item.quantity) * Number(item.price) | currency('R ') }}</td>
+                            <td>
+                                <b-button size="sm" v-b-modal.removeItem @click="removeItem(index)" class="mr-1 btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </b-button>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -71,6 +78,7 @@
     import { Typeahead } from '../typeahead'
     import Navbar from '../partials/navbar.vue'
     import { get, post } from '../../api.js'
+    import Flash from '../../helpers/flash'
 
     function initialize(to) {
         let urls = {
@@ -96,7 +104,6 @@
                     action: 'Create',
                     store: '/api/stocks',
                     errors: {},
-                    isProcessing : true,
                     method: 'POST'
                 }
         },
@@ -123,13 +130,12 @@
         methods: {
             onSave() {
                 this.errors = {}
-                this.isProcessing = true
-                console.log(this.stock)
                 post(this.store, this.stock)
                     .then((res) => {
                         if(res.data.saved) {
+                            console.log(res.data.message)
                             Flash.setSuccess(res.data.message)
-                            this.$router.push(`/recipes/${res.data.id}`)
+                            this.$router.push(`/seller/stocks/${res.data.id}`)
                         }
                     })
                     .catch((err) => {
@@ -137,24 +143,24 @@
                             this.errors = err.response.data.errors
                             console.log(this.errors)
                         }
-                        this.isProcessing = false
                     })
             },
             onProduct(index, e){
-
                 const product = e.target.value
                 Vue.set(this.stock.items[index], 'product', product)
                 Vue.set(this.stock.items[index], 'product_id', product.id)
                 Vue.set(this.stock.items[index], 'price', product.sale_price)
             },
             addNewLine() {
-                this.isProcessing = false
                 this.stock.items.push({
                     product_id: null,
                     product: null,
-                    unit_price: 0,
+                    price: 0,
                     quantity: 1
                 })
+            },
+            removeItem(index) {
+                this.stock.items.splice(index, 1)
             }
         }
 

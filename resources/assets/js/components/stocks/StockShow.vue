@@ -1,6 +1,12 @@
 <template>
     <div class="container">
         <navbar></navbar>
+        <div class="falert alert-success" v-if="flash.success">
+            {{ flash.success }}
+        </div>
+        <div class="alert alert-danger" v-if="flash.error">
+            {{ flash.error }}
+        </div>
         <div class="card">
             <div class="card-header">
                 <span class="card-title">Stock Detail</span>
@@ -46,6 +52,7 @@
 <script>
     import Navbar from '../partials/navbar.vue'
     import { get } from '../../api.js'
+    import Flash from '../../helpers/flash'
 
     export default {
         components: {
@@ -54,6 +61,7 @@
         data() {
             return {
                 stock: {},
+                flash: Flash.state,
             }
         },
         created() {
