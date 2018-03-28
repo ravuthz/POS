@@ -81,13 +81,20 @@ quantity->default(0)
 
 
 php artisan make:factory ProductFactory
-php artisan make:seeder ProductsTableSeeder
-php artisan make:test App\Models\ProductTest
+php artisan make:seeder 
+php artisan make:test App\Models\ProductTestProductsTableSeeder
 
+php artisan make:seeder StocksTableSeeder
 php artisan make:resource StockResource
 php artisan make:resource StockCollection --collection
 
-php artisan make:seeder StocksTableSeeder
+php artisan make:seeder OrdersTableSeeder
+php artisan make:resource OrderResource
+php artisan make:resource OrderCollection --collection
+
+php artisan make:controller OrdersController
+php artisan make:test OrderProductApiTest
+
 
 php artisan make:test SaleProductApiTest
 
@@ -95,9 +102,11 @@ cp .env.example .env.testing
 mysql -u root -p -e "create database laravel_pos_test"
 
 php artisan migrate --env=testing
+php artisan migrate:fresh --seed --env=testing
 
 vendor\bin\phpunit
 vendor\bin\phpunit tests\Feature\SaleProductApiTest.php
+vendor\bin\phpunit tests\Feature\OrderProductApiTest.php
 
 vendor/bin/phpunit
 

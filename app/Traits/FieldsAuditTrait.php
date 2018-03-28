@@ -40,4 +40,14 @@ trait FieldsAuditTrait
         return $this->belongsTo(User::class, 'deleted_by');
     }
 
+    public function createdDate($format = 'd/m/Y')
+    {
+        return $this->created_at->format($format);
+    }
+
+    public function createdUser($field = 'name')
+    {
+        return $this->createdBy->$field;
+    }
+
 }

@@ -28,6 +28,10 @@ Route::group([
     Route::apiResource('products', 'ProductController');
     Route::get('sales-products', 'ProductController@sales');
     Route::apiResource('sales', 'SaleProductController');
+    Route::get('order-types', function () {
+        return ['data' => ['Cancel', 'Booked', 'Other']];
+    });
+    Route::apiResource('orders', 'OrderController');
     Route::resource('stocks', 'StockController');
 });
 

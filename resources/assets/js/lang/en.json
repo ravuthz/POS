@@ -1,5 +1,34 @@
 {
-  "maru": "free kick",
-  "cheat": "sad want to drink",
-  "vuthz": "meet crushes"
+  "orders": {
+    "list": "Orders Listing",
+    "show": "Details Order",
+    "create": "Create New Order",
+    "update": "Update Exist Order"
+  },
+
+  "buttons": {
+    "addNew": "Add New",
+    "create": "Create",
+    "update": "Update",
+    "delete": "Delete",
+    "detail": "Detail",
+    "modify": "Modify",
+    "save": "Save",
+    "back": "Go Back",
+    "clear": "Clear",
+    "cancel": "Cancel"
+  },
+
+  "labels": {
+    "search": "Type to search",
+    "perPage": "Per Page",
+
+    "orderId": "Order Id",
+    "orderType": "Order Type",
+    "orderIdType": "Order #{id} was {type}",
+
+    "createdAt": "Created at",
+    "createdBy": "Created by",
+    "createdAtBy": "<strong>Created at</strong> {at}, <strong>by</strong> {by}"
+  }
 }
