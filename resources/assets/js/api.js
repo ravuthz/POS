@@ -1,5 +1,7 @@
 export const API_SALE = '/api/sales';
 export const API_PRODUCT = '/api/products';
+export const API_ORDER_TYPE = '/api/order-types';
+export const API_ORDER = '/api/orders';
 export const API_STOCK = '/api/stocks';
 
 export const getAllProducts = (params = {}) => axios.get(API_PRODUCT, { params });
@@ -15,7 +17,6 @@ export function get(url, params) {
     })
 }
 
-
 export function post(url, data) {
     return axios({
         method: 'POST',
@@ -23,3 +24,7 @@ export function post(url, data) {
         data: data
     })
 }
+
+export const getOrderTypes = () => axios.get(API_ORDER_TYPE);
+export const getAllOrders = (params = {}) => axios.get(API_ORDER, { params });
+export const getOnlyOrder = (id) => axios.get(`${API_ORDER}/${id}`);

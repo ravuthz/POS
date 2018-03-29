@@ -1,20 +1,42 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import SaleList from './components/sales/SaleList';
-import StockList from './components/stocks/StockList';
-import StockForm from './components/stocks/StockForm';
+
+import MainLayout from './components/layouts/MainLayout';
+
+import OrderForm from './components/orders/OrderForm';
+import OrderShow from './components/orders/OrderShow';
+import OrderList from './components/orders/OrderList';
+
 import StockShow from './components/stocks/StockShow';
+import StockForm from './components/stocks/StockForm';
+import StockList from './components/stocks/StockList';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
     mode: 'history',
+    base: '/seller',
     routes: [
-        {path: '/seller', component: SaleList},
-        {path: '/seller/stocks', component: StockList},
-        {path: '/seller/stocks/create', component: StockForm, meta: {mode: 'create'}},
-        {path: '/seller/stocks/:id/edit', component: StockForm, meta: {mode: 'edit'}},
-        {path: '/seller/stocks/:id', component: StockShow}
+        {path: '/', component: SaleList},
+
+        {
+            path: '/orders',
+            component: MainLayout,
+            children: [
+                {name: 'orders.list', path: '', component: OrderList},
+                {name: 'orders.show', path: ':id', component: OrderShow},
+                {name: 'orders.create', path: 'create', component: OrderForm, meta: { mode: 'create'}},
+                {name: 'orders.update', path: ':id/edit', component: OrderForm, meta: { mode: 'update'}},
+            ]
+
+        },
+
+        {path: '/stocks', component: StockList},
+        {path: '/stocks/create', component: StockForm, meta: {mode: 'create'}},
+        {path: '/stocks/:id/edit', component: StockForm, meta: {mode: 'edit'}},
+        {path: '/stocks/:id', component: StockShow}
+
     ]
 });
 
