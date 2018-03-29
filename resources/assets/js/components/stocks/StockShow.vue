@@ -11,10 +11,10 @@
             <div class="card-header">
                 <span class="card-title">Stock Detail</span>
                 <div>
-                     <router-link :to="`/seller/stocks/`" class="btn btn-secondary">
-                            Cancel
+                     <router-link :to="`/stocks/`" class="btn btn-secondary">
+                            Back
                     </router-link>
-                    <router-link :to="`/seller/stocks/${stock.id}/edit`" class="btn btn-primary">
+                    <router-link :to="`/stocks/${stock.id}/edit`" class="btn btn-primary">
                             Edit
                     </router-link>
                 </div>

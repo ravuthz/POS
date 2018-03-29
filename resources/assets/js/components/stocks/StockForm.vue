@@ -6,7 +6,7 @@
             <div class="card-header">
                 <span class="card-title">{{ action }} Stock</span>
                 <div>
-                     <router-link :to="`/seller/stocks/`" class="btn btn-secondary">
+                     <router-link :to="`/stocks/`" class="btn btn-secondary">
                             Back
                     </router-link>
                     <button class="btn btn-primary" :disabled="stock.items < 1"  @click="onSave">Save</button>
@@ -104,15 +104,13 @@
                     action: 'Create',
                     store: '/api/stocks',
                     errors: {},
-                    method: 'POST'
                 }
         },
         created() {
             if(this.$route.meta.mode ==='edit') {
                 this.initialLizeURL = `/api/stocks/${this.$route.params.id}/edit`
-                this.store = `/api/stocks/${this.$route.params.id}`
+                this.store = `/api/stocks/${this.$route.params.id}?_method=PUT`
                 this.action = 'Update'
-                this.method = 'PUT'
 
             }
             get(this.initialLizeURL)
@@ -135,7 +133,7 @@
                         if(res.data.saved) {
                             console.log(res.data.message)
                             Flash.setSuccess(res.data.message)
-                            this.$router.push(`/seller/stocks/${res.data.id}`)
+                            this.$router.push(`/stocks/${res.data.id}`)
                         }
                     })
                     .catch((err) => {

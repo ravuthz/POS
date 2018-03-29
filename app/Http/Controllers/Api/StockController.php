@@ -64,4 +64,44 @@ class StockController extends Controller
         $stock = Stock::getItemProducts()->findOrFail($id);
         return new StockResource($stock);
     }
+
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'items'              => 'required|array|min:1',
+            'items.*.product_id' => 'required|integer|exists:products,id',
+            'items.*.price'      => 'required|numeric|min:0',
+            'items.*.quantity'   => 'required|integer|min:1'
+        ]);
+
+        $stock = Stock::findOrFail($id);
+
+        $newItems = [];
+        $itemsUpdated = [];
+        foreach ($request->items as $item) {
+            if (isset($item['id'])) {
+                StockMovement::where('stock_id', $stock->id)
+                    ->where('id', $item['id'])
+                    ->update(['price' => $item['price'], 'quantity' => $item['quantity']]);
+
+                $itemsUpdated[] = $item['id'];
+            } else {
+                $newItems[] = new StockMovement($item);
+            }
+        }
+
+        StockMovement::whereNotIn('id', $itemsUpdated)
+            ->where('stock_id', $stock->id)
+            ->delete();
+
+        if (count($newItems)) {
+            $stock->items()->saveMany($newItems);
+        }
+
+        return response()->json([
+            'saved'   => true,
+            'id'      => $stock->id,
+            'message' => 'You have successfully created recipe!'
+        ]);
+    }
 }

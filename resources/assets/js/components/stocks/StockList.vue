@@ -5,7 +5,7 @@
             <div class="card-header">
                 <span class="card-title">Stock Detail</span>
                 <div>
-                     <router-link :to="`/seller/stocks/create`" class="btn btn-primary">
+                     <router-link :to="`/stocks/create`" class="btn btn-primary">
                             Create
                     </router-link>
                 </div>
@@ -34,7 +34,7 @@
                             <td>{{ stock.updated_by }}</td>
                             <td>{{ stock.updated_at }}</td>
                             <td>
-                                <router-link :to="`/seller/stocks/${stock.id}`" class="btn btn-info">
+                                <router-link :to="`/stocks/${stock.id}`" class="btn btn-info">
                                     Detail
                                 </router-link>
                             </td>
