@@ -1,7 +1,7 @@
 <template>
         <div class="card">
             <div class="card-header">
-                <span class="card-title">{{ $t('labels.stock_detail') }}</span>
+                <span class="card-title">{{ $t('stocks.show') }}</span>
                 <div>
                      <router-link :to="{ name: 'stocks.list'}" class="btn btn-secondary">
                             {{ $t('buttons.back') }}
@@ -12,17 +12,16 @@
                 </div>
             </div>
             <div class="card-body">
-                <p class="card-text" v-if="stock.movement === 0">{{  $t('tables.movement') }}: {{  $t('tables.out') }}</p>
-                <p class="card-text" v-else>{{  $t('tables.movement') }}: {{ $t('tables.in') }}</p>
-                <p class="card-text">{{ $t('tables.created_at') }}: {{ stock.created_at }}</p>
+                <p class="card-text">{{ $tc('labels.movementInOut', stock.movement) }}</p>
+                <p class="card-text">{{ $t('labels.createdAt') }}: {{ stock.created_at }}</p>
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">{{ $t('tables.product') }}</th>
-                            <th scope="col">{{ $t('tables.price') }}</th>
-                            <th scope="col">{{ $t('tables.quantity') }}</th>
-                            <th scope="col">{{ $t('tables.amount') }}</th>
+                            <th scope="col">{{ $t('labels.no') }}</th>
+                            <th scope="col">{{ $t('labels.product') }}</th>
+                            <th scope="col">{{ $t('labels.price') }}</th>
+                            <th scope="col">{{ $t('labels.quantity') }}</th>
+                            <th scope="col">{{ $t('labels.amount') }}</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -1,8 +1,8 @@
 <template>
     <div class="card">
         <div class="card-header">
-            <span class="card-title" v-if="action === 'Update'">{{ $t('labels.update_stock') }}</span>
-            <span class="card-title" v-else>{{ $t('labels.create_stock') }}</span>
+            <span class="card-title" v-if="action === 'Update'">{{ $t('stocks.update') }}</span>
+            <span class="card-title" v-else>{{ $t('stocks.create') }}</span>
             <div>
                  <router-link :to="{ name:'stocks.list' }" class="btn btn-secondary">
                          {{ $t('buttons.back') }}
@@ -13,27 +13,26 @@
         <div class="card-body">
             <div v-if="action === 'Update'">
                 <div class="form-group row">
-                    <label for="example-date-input" class="col-2 col-form-label">{{ $t('tables.movement') }}</label>
+                    <label class="col-2 col-form-label">{{ $t('labels.movement') }}</label>
                     <div class="col-10">
-                        <p class="form-control" v-if="stock.movement === 0">{{ $t('tables.out') }}</p>
-                        <p class="form-control" v-else>{{ $t('tables.in') }}</p>
+                        <p class="form-control">{{ $tc('labels.movementInOut', stock.movement) }}</p>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="example-date-input" class="col-2 col-form-label">{{ $t('tables.created_at') }}</label>
+                    <label for="stockCreatedAt" class="col-2 col-form-label">{{ $t('labels.createdAt') }}</label>
                     <div class="col-10">
-                        <input class="form-control" type="text" v-model="stock.created_at" disabled="disabled">
+                        <input class="form-control" id="stockCreatedAt" type="text" v-model="stock.created_at" disabled="disabled">
                     </div>
                 </div>
             </div>
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">{{ $t('tables.product') }}</th>
-                        <th scope="col">{{ $t('tables.price') }}</th>
-                        <th scope="col">{{ $t('tables.quantity') }}</th>
-                        <th scope="col">{{ $t('tables.amount') }}</th>
-                        <th scope="col">{{ $t('tables.action') }}</th>
+                        <th scope="col">{{ $t('labels.product') }}</th>
+                        <th scope="col">{{ $t('labels.price') }}</th>
+                        <th scope="col">{{ $t('labels.quantity') }}</th>
+                        <th scope="col">{{ $t('labels.amount') }}</th>
+                        <th scope="col">{{ $t('labels.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,9 +57,9 @@
                     <tr class="table-success">
                         <td colspan="3">
                             <button class="btn btn-secondary"
-                             @click="addNewLine">{{ $t('tables.add_product') }}</button>
+                             @click="addNewLine">{{ $t('labels.addProduct') }}</button>
                         </td>
-                        <td class="form-summary">{{ $t('tables.sub_total') }}</td>
+                        <td class="form-summary">{{ $t('labels.subTotal') }}</td>
                         <td class="form-summary">{{ subTotal | currency('R ')}}</td>
                     </tr>
 
