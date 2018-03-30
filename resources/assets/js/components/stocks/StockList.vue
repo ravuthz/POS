@@ -61,7 +61,7 @@
             get(`/api/stocks`)
                 .then((res) => {
                     this.stocks = res.data.data
-                    this.totalRows = res.data.meta.total;
+                    this.totalRows = res.data.meta.total
                 })
         },
         methods: {
@@ -69,7 +69,7 @@
                 get(`/api/stocks?page=${pageNum}`)
                 .then((res) => {
                     this.stocks = res.data.data
-                    this.totalRows = res.data.meta.total;
+                    this.totalRows = res.data.meta.total
                 })
             },
         }

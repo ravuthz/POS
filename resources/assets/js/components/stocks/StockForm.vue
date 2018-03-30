@@ -75,15 +75,6 @@
     import { get, post } from '../../api.js'
     import Flash from '../../helpers/flash'
 
-    function initialize(to) {
-        let urls = {
-            'create': `/api/stocks/create`,
-            'edit': `/api/stocks/${to.params.id}/edit`
-        }
-
-        return (urls[to.meta.mode] || urls['create'])
-    }
-
     export default {
         components: {
             Typeahead
