@@ -1,36 +1,28 @@
 <template>
-    <div class="container">
-        <navbar></navbar>
-        <div class="falert alert-success" v-if="flash.success">
-            {{ flash.success }}
-        </div>
-        <div class="alert alert-danger" v-if="flash.error">
-            {{ flash.error }}
-        </div>
         <div class="card">
             <div class="card-header">
-                <span class="card-title">Stock Detail</span>
+                <span class="card-title">{{ $t('labels.stock_detail') }}</span>
                 <div>
-                     <router-link :to="`/stocks/`" class="btn btn-secondary">
-                            Back
+                     <router-link :to="{ name: 'stocks.list'}" class="btn btn-secondary">
+                            {{ $t('buttons.back') }}
                     </router-link>
-                    <router-link :to="`/stocks/${stock.id}/edit`" class="btn btn-primary">
-                            Edit
+                    <router-link :to="{ name: 'stocks.edit', params: {id: stock.id} }" class="btn btn-primary">
+                            {{ $t('buttons.modify') }}
                     </router-link>
                 </div>
             </div>
             <div class="card-body">
-                <h5 class="card-title">Stock Id: {{ stock.id }}</h5>
-                <p class="card-text" >Movement: {{ stock.movement === 0 ? 'OUT' : 'IN'}}</p>
-                <p class="card-text">Created Ad: {{ stock.created_at }}</p>
+                <p class="card-text" v-if="stock.movement === 0">{{  $t('tables.movement') }}: {{  $t('tables.out') }}</p>
+                <p class="card-text" v-else>{{  $t('tables.movement') }}: {{ $t('tables.in') }}</p>
+                <p class="card-text">{{ $t('tables.created_at') }}: {{ stock.created_at }}</p>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Amout</th>
+                            <th scope="col">{{ $t('tables.product') }}</th>
+                            <th scope="col">{{ $t('tables.price') }}</th>
+                            <th scope="col">{{ $t('tables.quantity') }}</th>
+                            <th scope="col">{{ $t('tables.amount') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,26 +37,20 @@
                 </table>
             </div>
         </div>
-
-    </div>
 </template>
 
 <script>
-    import Navbar from '../partials/navbar.vue'
     import { get } from '../../api.js'
-    import Flash from '../../helpers/flash'
 
     export default {
-        components: {
-            Navbar
-        },
         data() {
             return {
-                stock: {},
-                flash: Flash.state,
+                stock: {
+                    id: 0
+                },
             }
         },
-        created() {
+        beforeCreate() {
             get(`/api/stocks/${this.$route.params.id}`)
                 .then((res) => {
                     this.stock = res.data.data

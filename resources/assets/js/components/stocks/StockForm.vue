@@ -1,82 +1,77 @@
 <template>
-    <div class="container">
-        <navbar></navbar>
-
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">{{ action }} Stock</span>
-                <div>
-                     <router-link :to="`/stocks/`" class="btn btn-secondary">
-                            Back
-                    </router-link>
-                    <button class="btn btn-primary" :disabled="stock.items < 1"  @click="onSave">Save</button>
-                </div>
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title" v-if="action === 'Update'">{{ $t('labels.update_stock') }}</span>
+            <span class="card-title" v-else>{{ $t('labels.create_stock') }}</span>
+            <div>
+                 <router-link :to="{ name:'stocks.list' }" class="btn btn-secondary">
+                         {{ $t('buttons.back') }}
+                </router-link>
+                <button class="btn btn-primary" :disabled="stock.items < 1"  @click="onSave">{{ $t('buttons.save') }}</button>
             </div>
-           <div class="card-body">
-                <div v-if="action === 'Update'">
+        </div>
+        <div class="card-body">
+            <div v-if="action === 'Update'">
                 <div class="form-group row">
-                    <label for="example-date-input" class="col-2 col-form-label">Movement</label>
+                    <label for="example-date-input" class="col-2 col-form-label">{{ $t('tables.movement') }}</label>
                     <div class="col-10">
-                        <p class="form-control" >{{ stock.movement === 0 ? 'OUT' : 'IN'}}</p>
+                        <p class="form-control" v-if="stock.movement === 0">{{ $t('tables.out') }}</p>
+                        <p class="form-control" v-else>{{ $t('tables.in') }}</p>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="example-date-input" class="col-2 col-form-label">Created At</label>
+                    <label for="example-date-input" class="col-2 col-form-label">{{ $t('tables.created_at') }}</label>
                     <div class="col-10">
                         <input class="form-control" type="text" v-model="stock.created_at" disabled="disabled">
                     </div>
                 </div>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Amout</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, index) in stock.items">
-                            <td>
-                                <typeahead :initialize="item.product" @input="onProduct(index, $event)" />
-                                <small class="error-control" v-if="errors[`items.${index}.product_id`]">
-                                    {{errors[`items.${index}.product_id`][0] }}
-                                </small>
-                            </td>
-                            <td>{{ item.price | currency('R ') }}</td>
-                            <td><input type="text" class="typeahead-input" v-model="item.quantity"></td>
-                            <td>{{ Number(item.quantity) * Number(item.price) | currency('R ') }}</td>
-                            <td>
-                                <b-button size="sm" v-b-modal.removeItem @click="removeItem(index)" class="mr-1 btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                </b-button>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
+            </div>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td colspan="2">
-                            <button class="btn btn-sm"
-                             @click="addNewLine">Add New Item</button>
+                        <th scope="col">{{ $t('tables.product') }}</th>
+                        <th scope="col">{{ $t('tables.price') }}</th>
+                        <th scope="col">{{ $t('tables.quantity') }}</th>
+                        <th scope="col">{{ $t('tables.amount') }}</th>
+                        <th scope="col">{{ $t('tables.action') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in stock.items">
+                        <td>
+                            <typeahead :initialize="item.product" @input="onProduct(index, $event)" />
+                            <small class="error-control" v-if="errors[`items.${index}.product_id`]">
+                                {{errors[`items.${index}.product_id`][0] }}
+                            </small>
                         </td>
-                        <td class="form-summary">Sub Total</td>
-                        <td>{{ subTotal | currency('R ')}}</td>
+                        <td>{{ item.price | currency('R ') }}</td>
+                        <td><input type="text" class="typeahead-input" v-model="item.quantity"></td>
+                        <td>{{ Number(item.quantity) * Number(item.price) | currency('R ') }}</td>
+                        <td>
+                            <b-button size="sm" v-b-modal.removeItem @click="removeItem(index)" class="mr-1 btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </b-button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="table-success">
+                        <td colspan="3">
+                            <button class="btn btn-secondary"
+                             @click="addNewLine">{{ $t('tables.add_product') }}</button>
+                        </td>
+                        <td class="form-summary">{{ $t('tables.sub_total') }}</td>
+                        <td class="form-summary">{{ subTotal | currency('R ')}}</td>
                     </tr>
 
                 </tfoot>
-                </table>
-           </div>
+            </table>
         </div>
-        </div>
-
     </div>
 </template>
 <script type="text/javascript">
     import Vue from 'vue'
     import { Typeahead } from '../typeahead'
-    import Navbar from '../partials/navbar.vue'
     import { get, post } from '../../api.js'
     import Flash from '../../helpers/flash'
 
@@ -91,7 +86,6 @@
 
     export default {
         components: {
-            Navbar,
             Typeahead
         },
         data() {
@@ -100,23 +94,28 @@
                     stock: {
                         items: []
                     },
-                    initialLizeURL: `/api/stocks/create`,
                     action: 'Create',
                     store: '/api/stocks',
                     errors: {},
                 }
         },
-        created() {
+        beforeCreate() {
             if(this.$route.meta.mode ==='edit') {
                 this.initialLizeURL = `/api/stocks/${this.$route.params.id}/edit`
-                this.store = `/api/stocks/${this.$route.params.id}?_method=PUT`
-                this.action = 'Update'
-
+            }else {
+                this.initialLizeURL= '/api/stocks/create'
             }
+
             get(this.initialLizeURL)
                 .then((res) => {
                     this.stock = res.data.data
                 })
+        },
+        created(){
+            if(this.$route.meta.mode ==='edit') {
+                this.store = `/api/stocks/${this.$route.params.id}?_method=PUT`
+                this.action = 'Update'
+            }
         },
         computed: {
             subTotal() {
@@ -131,7 +130,6 @@
                 post(this.store, this.stock)
                     .then((res) => {
                         if(res.data.saved) {
-                            console.log(res.data.message)
                             Flash.setSuccess(res.data.message)
                             this.$router.push(`/stocks/${res.data.id}`)
                         }
@@ -139,7 +137,6 @@
                     .catch((err) => {
                         if(err.response.status === 422) {
                             this.errors = err.response.data.errors
-                            console.log(this.errors)
                         }
                     })
             },
@@ -176,5 +173,10 @@
 }
 .error-control{
     color: red;
+}
+.form-summary {
+    text-align: right;
+    vertical-align: middle !important;
+    font-weight: bold;
 }
 </style>

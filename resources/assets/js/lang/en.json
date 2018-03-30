@@ -1,34 +1,62 @@
 {
-  "orders": {
-    "list": "Orders Listing",
-    "show": "Details Order",
-    "create": "Create New Order",
-    "update": "Update Exist Order"
-  },
+    "orders":
+    {
+        "list": "Orders Listing",
+        "show": "Details Order",
+        "create": "Create New Order",
+        "update": "Update Exist Order"
+    },
 
-  "buttons": {
-    "addNew": "Add New",
-    "create": "Create",
-    "update": "Update",
-    "delete": "Delete",
-    "detail": "Detail",
-    "modify": "Modify",
-    "save": "Save",
-    "back": "Go Back",
-    "clear": "Clear",
-    "cancel": "Cancel"
-  },
+    "buttons":
+    {
+        "addNew": "Add New",
+        "create": "Create",
+        "update": "Update",
+        "delete": "Delete",
+        "detail": "Detail",
+        "modify": "Modify",
+        "save": "Save",
+        "back": "Go Back",
+        "clear": "Clear",
+        "cancel": "Cancel"
+    },
 
-  "labels": {
-    "search": "Type to search",
-    "perPage": "Per Page",
+    "labels":
+    {
+        "search": "Type to search",
+        "perPage": "Per Page",
 
-    "orderId": "Order Id",
-    "orderType": "Order Type",
-    "orderIdType": "Order #{id} was {type}",
+        "orderId": "Order Id",
+        "orderType": "Order Type",
+        "orderIdType": "Order #{id} was {type}",
 
-    "createdAt": "Created at",
-    "createdBy": "Created by",
-    "createdAtBy": "<strong>Created at</strong> {at}, <strong>by</strong> {by}"
-  }
+        "createdAt": "Created at",
+        "createdBy": "Created by",
+        "createdAtBy": "<strong>Created at</strong> {at}, <strong>by</strong> {by}",
+        "create_stock": "Create Stock",
+        "update_stock": "Update Stock",
+        "stock_detail": "Stock Detail"
+    },
+
+    "stocks":
+    {
+        "list": "Stocks List"
+    },
+
+    "tables": {
+        "movement" : "Movement",
+        "created_at" : "Created At",
+        "created_by" : "Created By",
+        "updated_at" : "Updated At",
+        "updated_by" : "Updated By",
+        "action" : "Action",
+        "in" : "IN",
+        "out": "OUT",
+        "product": "Product",
+        "price": "Price",
+        "quantity": "Quantity",
+        "amount": "Amount",
+        "add_product": "Add Product",
+        "sub_total": "Sub Total"
+    }
 }

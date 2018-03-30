@@ -13,7 +13,7 @@ class StockController extends Controller
 {
     public function index()
     {
-        $stocks = Stock::getItemProducts()->get();
+        $stocks = Stock::getItemProducts()->latest()->paginate(10);
         return new StockCollection($stocks);
     }
 
@@ -101,7 +101,7 @@ class StockController extends Controller
         return response()->json([
             'saved'   => true,
             'id'      => $stock->id,
-            'message' => 'You have successfully created recipe!'
+            'message' => 'You have successfully updated recipe!'
         ]);
     }
 }

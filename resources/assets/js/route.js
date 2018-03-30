@@ -32,10 +32,17 @@ const router = new VueRouter({
 
         },
 
-        {path: '/stocks', component: StockList},
-        {path: '/stocks/create', component: StockForm, meta: {mode: 'create'}},
-        {path: '/stocks/:id/edit', component: StockForm, meta: {mode: 'edit'}},
-        {path: '/stocks/:id', component: StockShow}
+        {
+            path: '/stocks',
+            component: MainLayout,
+            children: [
+                {name: 'stocks.list', path: '/', component: StockList},
+                {name: 'stocks.create', path: '/stocks/create', component: StockForm, meta: {mode: 'create'}},
+                {name: 'stocks.show', path: '/stocks/:id', component: StockShow},
+                {name: 'stocks.edit', path: '/stocks/:id/edit', component: StockForm, meta: {mode: 'edit'}}
+            ]
+        },
+
 
     ]
 });
