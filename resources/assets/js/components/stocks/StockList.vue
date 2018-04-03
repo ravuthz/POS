@@ -14,19 +14,18 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">{{ $t('tables.movement') }}</th>
-                        <th scope="col">{{ $t('tables.created_by') }}</th>
-                        <th scope="col">{{ $t('tables.created_at') }}</th>
-                        <th scope="col">{{ $t('tables.updated_by') }}</th>
-                        <th scope="col">{{ $t('tables.updated_at') }}</th>
-                        <th scope="col">{{ $t('tables.action') }}</th>
+                        <th scope="col">{{ $t('labels.movement') }}</th>
+                        <th scope="col">{{ $t('labels.createdBy') }}</th>
+                        <th scope="col">{{ $t('labels.createdAt') }}</th>
+                        <th scope="col">{{ $t('labels.updatedBy') }}</th>
+                        <th scope="col">{{ $t('labels.updatedAt') }}</th>
+                        <th scope="col">{{ $t('labels.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(stock, index) in stocks">
                         <td>{{ index + 1 }}</td>
-                        <td v-if="stock.movement === 0">{{ $t('tables.out') }}</td>
-                        <td v-else>{{ $t('tables.in') }}</td>
+                        <td>{{ $tc('labels.movementInOut', stock.movement) }}</td>
                         <td>{{ stock.created_by }}</td>
                         <td>{{ stock.created_at }}</td>
                         <td>{{ stock.updated_by }}</td>

@@ -1,14 +1,17 @@
 {
-    "orders":
-    {
+    "orders": {
         "list": "Orders Listing",
         "show": "Details Order",
         "create": "Create New Order",
         "update": "Update Exist Order"
     },
-
-    "buttons":
-    {
+    "stocks": {
+        "list": "Stocks List",
+        "show": "Stock Detail",
+        "create": "Create Stock",
+        "update": "Update Stock"
+    },
+    "buttons": {
         "addNew": "Add New",
         "create": "Create",
         "update": "Update",
@@ -20,43 +23,43 @@
         "clear": "Clear",
         "cancel": "Cancel"
     },
-
-    "labels":
-    {
+    "labels": {
         "search": "Type to search",
         "perPage": "Per Page",
-
         "orderId": "Order Id",
         "orderType": "Order Type",
         "orderIdType": "Order #{id} was {type}",
-
-        "createdAt": "Created at",
-        "createdBy": "Created by",
+        "no": "#",
+        "type": "Type",
+        "movement": "Movement",
+        "movementInOut": "IN | OUT",
+        "createdAt": "Created At",
+        "createdBy": "Created By",
+        "updatedAt": "Updated At",
+        "updatedBy": "Updated By",
+        "deletedAt": "Deleted At",
+        "deletedBy": "Deleted By",
+        "actions": "Actions",
         "createdAtBy": "<strong>Created at</strong> {at}, <strong>by</strong> {by}",
-        "create_stock": "Create Stock",
-        "update_stock": "Update Stock",
-        "stock_detail": "Stock Detail"
+        "addMoreItem": "Add More Item",
+        "removeItem": "Remove Item",
+        "product": "Product",
+        "productId": "Product Id",
+        "addProduct": "Add Product",
+        "price": "Price",
+        "quantity": "Quantity",
+        "amount": "Amount",
+        "total": "Total",
+        "subTotal": "Sub Total",
+        "grandTotal": "Grand Total"
     },
-
-    "stocks":
-    {
-        "list": "Stocks List"
-    },
-
     "tables": {
-        "movement" : "Movement",
-        "created_at" : "Created At",
-        "created_by" : "Created By",
-        "updated_at" : "Updated At",
-        "updated_by" : "Updated By",
-        "action" : "Action",
-        "in" : "IN",
+        "in": "IN",
         "out": "OUT",
         "product": "Product",
         "price": "Price",
         "quantity": "Quantity",
         "amount": "Amount",
-        "add_product": "Add Product",
         "sub_total": "Sub Total"
     }
 }
