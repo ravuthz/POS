@@ -11,6 +11,10 @@
 |
  */
 
+use App\Models\Product;
+use App\Models\SettingType;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -21,22 +25,33 @@ Route::get('/logout', function () {
 });
 
 Route::group([
-    'prefix'    => 'api',
+    'prefix' => 'api',
     'namespace' => 'Api',
-     'middleware' => 'auth'
+    'middleware' => 'auth'
 ], function () {
     Route::apiResource('products', 'ProductController');
     Route::get('sales-products', 'ProductController@sales');
     Route::apiResource('sales', 'SaleProductController');
+
     Route::get('order-types', function () {
-        return ['data' => ['Cancel', 'Booked', 'Other']];
+        $type = SettingType::whereSlug('order-type')->first();
+        return ['data' => $type->settingItems->pluck('name')];
+    });
+
+    Route::get('stock-movements', function () {
+        $type = SettingType::whereSlug('movement')->first();
+        return ['data' => $type->settingItems->pluck('name')];
+    });
+
+    Route::get('list-products', function () {
+        return ['data' => Product::pluck('name', 'id')];
     });
     Route::apiResource('orders', 'OrderController');
     Route::resource('stocks', 'StockController');
 });
 
 Route::group([
-    'prefix'     => 'adminz',
+    'prefix' => 'adminz',
     'middleware' => ['auth', 'role:admin']
 ], function () {
     Route::get('/', 'AdminController@index');
@@ -48,7 +63,7 @@ Route::group([
 });
 
 Route::group([
-    'prefix'     => 'adminz',
+    'prefix' => 'adminz',
     'middleware' => ['auth', 'crud.permissions']
 ], function () {
     Route::resource('products', 'ProductController');
@@ -59,7 +74,7 @@ Route::group([
 });
 
 Route::group([
-    'prefix'     => 'seller',
+    'prefix' => 'seller',
     'middleware' => ['auth']
 ], function () {
     Route::get('/{vue_capture?}', function () {
