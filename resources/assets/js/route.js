@@ -25,9 +25,9 @@ const router = new VueRouter({
             component: MainLayout,
             children: [
                 {name: 'orders.list', path: '', component: OrderList},
-                {name: 'orders.show', path: ':id', component: OrderShow},
                 {name: 'orders.create', path: 'create', component: OrderForm, meta: { mode: 'create'}},
                 {name: 'orders.update', path: ':id/edit', component: OrderForm, meta: { mode: 'update'}},
+                {name: 'orders.show', path: ':id', component: OrderShow},
             ]
 
         },

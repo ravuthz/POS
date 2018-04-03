@@ -35,4 +35,5 @@ class SettingType extends Model
     {
         return $this->hasMany(SettingItem::class);
     }
+
 }

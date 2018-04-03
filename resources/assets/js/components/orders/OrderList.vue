@@ -98,7 +98,7 @@
         methods: {
             dataProvider(ctx) {
                 const params = {
-                    page: ctx.currentPage,
+                    page: this.filter ? 1 : ctx.currentPage,
                     size: ctx.perPage,
                     sort: ctx.sortBy,
                     desc: ctx.sortDesc,

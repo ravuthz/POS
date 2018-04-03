@@ -24,7 +24,8 @@
         "cancel": "Cancel"
     },
     "labels": {
-        "search": "Type to search",
+        "search": "Type any name to search",
+        "searchId": "Enter Id to search",
         "perPage": "Per Page",
         "orderId": "Order Id",
         "orderType": "Order Type",

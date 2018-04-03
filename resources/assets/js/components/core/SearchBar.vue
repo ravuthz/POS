@@ -1,7 +1,7 @@
 <template>
     <b-form-group horizontal :label="label">
         <b-input-group>
-            <b-form-input :value="keyword" @input="onSearch" :placeholder="$t('labels.search')"/>
+            <b-form-input :value="keyword" @input="onSearch" :placeholder="$t('labels.searchId')"/>
             <b-btn :disabled="!keyword" @click="onClear">
                 {{ $t('buttons.clear')}}
             </b-btn>
