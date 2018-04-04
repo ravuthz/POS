@@ -1,6 +1,5 @@
 <template>
     <div id="content">
-        <router-view></router-view>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }"
                     class="navbar-btn col-lg-1 col-md-2" @click="topCloseClick">
@@ -21,14 +20,16 @@
                             MARU
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/logout">Logout</a>
+                            <a class="dropdown-item" href="/logout">{{ $t('labels.logout') }}</a>
                         </div>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <b-form-input aria-label="Search" placeholder="Search product here..." v-model="productName"
+                    <b-form-input aria-label="Search" :placeholder="$t('labels.searchProduct')" v-model="productName"
                                   @keyup.native="searchProduct(productName)"></b-form-input>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                        {{ $t('buttons.search') }}
+                    </button>
                 </form>
             </div>
         </nav>
@@ -53,6 +54,7 @@
 
     </div>
 </template>
+
 <script>
 
     export default {
