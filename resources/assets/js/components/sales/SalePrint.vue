@@ -42,15 +42,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in loadItems">
-                        <td>
-                            {{ index + 1}}
-                        </td>
-                        <td>{{ item.name }}</td>
-                        <td class="text-center">{{ item.sale_price }}</td>
-                        <td class="text-right">{{ item.qty }}</td>
-                        <td class="text-right">{{ item.subTotal }}</td>
-                    </tr>
+                <tr v-for="(item, index) in loadItems">
+                    <td>
+                        {{ index + 1}}
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td class="text-center">{{ item.sale_price }}</td>
+                    <td class="text-right">{{ item.qty }}</td>
+                    <td class="text-right">{{ item.subTotal }}</td>
+                </tr>
                 </tbody>
             </table>
         </div>

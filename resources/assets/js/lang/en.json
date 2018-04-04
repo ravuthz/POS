@@ -21,17 +21,22 @@
         "save": "Save",
         "back": "Go Back",
         "clear": "Clear",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "sale": "Sale",
+        "search": "Search"
     },
     "labels": {
         "search": "Type any name to search",
         "searchId": "Enter Id to search",
+        "searchProduct": "Search product here ...",
         "perPage": "Per Page",
         "orderId": "Order Id",
         "orderType": "Order Type",
         "orderIdType": "Order #{id} was {type}",
         "no": "#",
         "type": "Type",
+        "qty": "Qty",
+        "name": "Name",
         "movement": "Movement",
         "movementInOut": "IN | OUT",
         "createdAt": "Created At",
@@ -52,7 +57,26 @@
         "amount": "Amount",
         "total": "Total",
         "subTotal": "Sub Total",
-        "grandTotal": "Grand Total"
+        "grandTotal": "Grand Total",
+        "currency": "R ",
+        "logout": "Logout"
+    },
+    "modals": {
+        "cancelTitle": "Cancel",
+        "sale": {
+            "title": "Sale",
+            "okTitle": "Save and Print"
+        },
+        "clear": {
+            "title": "Delete Items",
+            "okTitle": "Clear",
+            "content": "Do you want to clear <span class='text-danger'>all items</span>?"
+        },
+        "delete": {
+            "title": "Delete Item",
+            "okTitle": "Delete",
+            "content": "Do you want to delete this item <span class='text-danger'>{item}</span>?"
+        }
     },
     "tables": {
         "in": "IN",

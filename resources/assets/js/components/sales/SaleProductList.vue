@@ -1,7 +1,7 @@
 <template>
     <div id="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button type="button" id="sidebarCollapse" :class="{ active : showRightSidebar }"
+            <button type="button" id="sidebarCollapse" v-bind:class="{ active : showRightSidebar }"
                     class="navbar-btn col-lg-1 col-md-2" @click="topCloseClick">
                 <span></span>
                 <span></span>
@@ -11,6 +11,7 @@
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown">
@@ -19,14 +20,16 @@
                             MARU
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/logout">Logout</a>
+                            <a class="dropdown-item" href="/logout">{{ $t('labels.logout') }}</a>
                         </div>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <b-form-input aria-label="Search" placeholder="Search product here..." v-model="productName"
+                    <b-form-input aria-label="Search" :placeholder="$t('labels.searchProduct')" v-model="productName"
                                   @keyup.native="searchProduct(productName)"></b-form-input>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                        {{ $t('buttons.search') }}
+                    </button>
                 </form>
             </div>
         </nav>
@@ -41,18 +44,20 @@
                 </div>
             </div>
         </div>
+
         <template>
             <div>
                 <b-pagination size="md" @change="changePage" :total-rows="totalRows" :per-page="perPage"></b-pagination>
             </div>
         </template>
+
+
     </div>
 </template>
 
 <script>
 
     export default {
-        // name: "sale-product-list.vue",
         props: {
             items: {
                 type: Array
@@ -60,15 +65,15 @@
         },
         data() {
             return {
-                perPage: 12,
-                totalRows: null,
-                productName: null,
                 showRightSidebar: false,
+                perPage: 12,
+                productName: null,
+                totalRows: null,
             }
         },
-        /*created() {
+        created() {
             this.$store.dispatch('listProduct', {size: this.perPage});
-        },*/
+        },
         computed: {
             getAllProductsFromStore() {
                 this.products = this.$store.getters.products;
@@ -90,7 +95,7 @@
             },
             addItem(product) {
                 this.$store.dispatch('addItem', product);
-            }
+            },
         }
     }
 

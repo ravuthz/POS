@@ -16,18 +16,18 @@
         </div>
 
         <div class="sidebar-content">
-            <b-table :items="loadItems" :fields="fields" :value.sync="items" class="table-sidebar">
+            <b-table :items="loadItems" :fields="fields" :value.sync="items">
                 <template slot="no" slot-scope="data">
                     {{ data.index + 1 }}
                 </template>
                 <template slot="sale_price" slot-scope="data">
-                    {{ data.item.sale_price | currency('R ') }}
+                    {{ data.item.sale_price | currency($t('labels.currency')) }}
                 </template>
                 <template slot="qty" slot-scope="data">
                     <b-form-input v-model="data.item.qty" type="text" @change="changeQty(data.item)"></b-form-input>
                 </template>
                 <template slot="subtotal" slot-scope="data">
-                    {{ data.item.subTotal | currency('R ') }}
+                    {{ data.item.subTotal | currency($t('labels.currency')) }}
                 </template>
                 <template slot="actions" slot-scope="data">
                     <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
@@ -42,96 +42,72 @@
             <div class="row">
                 <div class="col-md-12">
                     <button class="btn btn-lg btn-block btn-total">
-                        <span class="float-left">Total</span>
-                        <span class="float-right">{{ total | currency('R ') }}</span>
+                        <span class="float-left">{{ $t('labels.total') }}</span>
+                        <span class="float-right">{{ total | currency($t('labels.currency')) }}</span>
                     </button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <b-button v-b-modal.sellItem class="btn btn-xl btn-footer" :disabled="items.length < 1">Sale
+                    <b-button v-b-modal.sellItem class="btn btn-xl btn-footer" :disabled="items.length < 1">
+                        {{ $t('buttons.sale') }}
                     </b-button>
                 </div>
             </div>
         </div>
 
         <b-modal centered id="removeItem"
-                 title="Item"
-                 ok-title="Delete"
+                 :title="$t('modals.delete.title')"
+                 :ok-title="$t('modals.delete.okTitle')"
+                 :cancel-title="$t('modals.cancelTitle')"
                  @ok="removeItem(itemRemove)">
-            Do you want to delete this item <p style="color:red">{{ itemRemove.name }}?</p>
+            <div v-html="$t('modals.delete.content', { item: itemRemove.name })"></div>
         </b-modal>
 
         <b-modal centered id="clearAllItem"
-                 title="Clear"
-                 ok-title="Clear"
+                 :title="$t('modals.clear.title')"
+                 :ok-title="$t('modals.delete.okTitle')"
+                 :cancel-title="$t('modals.cancelTitle')"
                  @ok="clearSaleProduct()">
-            Do you want to clear all item?
+            <div v-html="$t('modals.clear.content')"></div>
         </b-modal>
 
-        <b-modal centered
-                 id="sellItem"
-                 title="Sale"
-                 ok-title="Save & Print"
+        <b-modal centered id="sellItem"
+                 :title="$t('modals.sale.title')"
+                 :ok-title="$t('modals.sale.okTitle')"
+                 :cancel-title="$t('modals.cancelTitle')"
                  @ok="createSaleProduct()">
+
             <b-table :items="loadItems" :fields="fields" :value.sync="items">
                 <template slot="no" slot-scope="data">
                     {{ data.index + 1 }}
                 </template>
                 <template slot="sale_price" slot-scope="data">
-                    {{ data.item.sale_price | currency('R ') }}
+                    {{ data.item.sale_price | currency($t('labels.currency')) }}
                 </template>
                 <template slot="qty" slot-scope="data">
                     <b-form-input v-model="data.item.qty" type="text" @change="changeQty(data.item)"></b-form-input>
                 </template>
                 <template slot="subtotal" slot-scope="data">
-                    {{ data.item.subTotal | currency('R ') }}
+                    {{ data.item.subTotal | currency($t('labels.currency')) }}
                 </template>
             </b-table>
+
             <div class="row">
                 <div class="col-md-12">
                     <button class="btn btn-lg btn-block btn-total">
-                        <span class="float-left">Total</span>
-                        <span class="float-right">{{ total | currency('R ') }}</span>
+                        <span class="float-left">{{ $t('labels.total') }}</span>
+                        <span class="float-right">{{ total | currency($t('labels.currency')) }}</span>
                     </button>
                 </div>
             </div>
         </b-modal>
 
     </nav>
-
 </template>
 
 <script>
-    import { createSaleItems , updateSaleItems } from '../../api.js';
-
-    const tableFields = [
-        {
-            key: 'no',
-            label: '#'
-        },
-        {
-            key: 'name',
-        },
-        {
-            key: 'sale_price',
-            label: 'Price',
-            class: 'text-right'
-        },
-        {
-            key: 'qty',
-            class: 'text-right'
-        },
-        {
-            key: 'subtotal',
-            class: 'text-right'
-        },
-        {
-            key: 'actions',
-            label: ' ',
-            class: 'text-right'
-        }
-    ];
+    import {createSaleItems, updateSaleItems} from '../../api.js';
 
     export default {
         props: {
@@ -139,7 +115,36 @@
         },
         data() {
             return {
-                fields: tableFields,
+                fields: [
+                    {
+                        key: 'no',
+                        label: this.trans('labels.no')
+                    },
+                    {
+                        key: 'name',
+                        label: this.trans('labels.name')
+                    },
+                    {
+                        key: 'sale_price',
+                        label: this.trans('labels.price'),
+                        class: 'text-right'
+                    },
+                    {
+                        key: 'qty',
+                        label: this.trans('labels.qty'),
+                        class: 'text-right'
+                    },
+                    {
+                        key: 'subtotal',
+                        label: this.trans('labels.subTotal'),
+                        class: 'text-right'
+                    },
+                    {
+                        key: 'actions',
+                        label: ' ',
+                        class: 'text-right'
+                    }
+                ],
                 items: [],
                 total: 0.00,
                 itemRemove: {
@@ -165,15 +170,22 @@
                 this.$store.dispatch('updateItem', product);
             },
             createSaleProduct() {
-                // window.print();
-                // this.clearSaleProduct();
                 let items = this.items;
-
-                // createSaleItems({ items }); // for create sale items
-                // updateSaleItems(4, { items }); // for update sale items
+                createSaleItems({items});
+                window.print();
+                this.clearSaleProduct();
+            },
+            updateSaleProduct(id) { // don't implatement yet
+                let items = this.items;
+                updateSaleItems(id, {items});
+                window.print();
+                this.clearSaleProduct();
             },
             clearSaleProduct: function () {
                 this.$store.dispatch('clearAllItems');
+            },
+            trans(code) {
+                return this.$i18n.t(code);
             }
         }
     }
