@@ -1,26 +1,22 @@
 <template>
     <div class="wrapper">
-        {{ $t("maru") }} <br/>
-        {{ $t("cheat") }} <br/>
-        {{ $t("vuthz") }} <br/>
-        <sidebar class="d-print-none" v-model="showSideBar"></sidebar>
-
-        <productlist class="d-print-none" @onTopCloseClick="topCloseClick"></productlist>
-
+        <sale-side-bar class="d-print-none" v-model="showSideBar"></sale-side-bar>
+        <sale-product-list class="d-print-none" @onTopCloseClick="topCloseClick"></sale-product-list>
         <div class="d-none d-print-block">
-            <print class="d-none d-print-block"></print>
+            <sale-print class="d-none d-print-block"></sale-print>
         </div>
     </div>
 </template>
 <script type="text/javascript">
-    import Sidebar from '../../components/products/Sidebar.vue'
-    import Productlist from '../../components/products/Productlist.vue'
-    import Print from '../../components/products/Print.vue'
+    import SalePrint from './SalePrint';
+    import SaleSideBar from './SaleSideBar';
+    import SaleProductList from './SaleProductList';
+
     export default {
         components: {
-            Sidebar,
-            Productlist,
-            Print
+            SalePrint,
+            SaleSideBar,
+            SaleProductList
         },
         data() {
             return {

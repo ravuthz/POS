@@ -16,7 +16,7 @@
         </div>
 
         <div class="sidebar-content">
-            <b-table :items="loadItems" :fields="fields" :value.sync="items" class="table-sidebar">
+            <b-table :items="loadItems" :fields="fields" :value.sync="items">
                 <template slot="no" slot-scope="data">
                     {{ data.index + 1 }}
                 </template>
