@@ -16,9 +16,11 @@ class OrderController extends Controller
     {
         $query = Order::select();
         $filter = $request->get('filter');
+
         if (!empty($filter)) {
             $query->where('id', 'like', $request->get('filter') . '%');
         }
+
         $orders = $query->getPageAndSort($request);
         return new OrderCollection($orders);
     }

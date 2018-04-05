@@ -13,6 +13,7 @@
 
 use App\Models\Product;
 use App\Models\SettingType;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,13 +30,19 @@ Route::group([
     'namespace' => 'Api',
     'middleware' => 'auth'
 ], function () {
+    Route::get('auth', function () {
+        return Auth::user();
+    });
+
+    Route::get('count/orders', 'CountController@orders');
+
     Route::apiResource('products', 'ProductController');
     Route::get('sales-products', 'ProductController@sales');
     Route::apiResource('sales', 'SaleProductController');
 
     Route::get('order-types', function () {
         $type = SettingType::whereSlug('order-type')->first();
-        return ['data' => $type->settingItems->pluck('name')];
+        return ['data' => $type->settingItems->pluck('name', 'id')];
     });
 
     Route::get('stock-movements', function () {

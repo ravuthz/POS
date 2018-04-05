@@ -10,7 +10,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        MARU
+                        {{ auth.name }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/logout">Logout</a>
@@ -20,3 +20,25 @@
         </div>
     </nav>
 </template>
+
+<script>
+    import {getAuth} from '../../api';
+
+    export default {
+        data() {
+            return {
+                auth: {
+                    id: '',
+                    name: '',
+                    name_kh: '',
+                    email: '',
+                    created_at: null,
+                    updated_at: null
+                }
+            };
+        },
+        beforeCreate() {
+            getAuth().then(res => this.auth = res.data);
+        }
+    }
+</script>

@@ -107,7 +107,7 @@
 </template>
 
 <script>
-    import {createSaleItems, updateSaleItems} from '../../api.js';
+    import {getCountOrderType, createSaleItems, updateSaleItems} from '../../api.js';
 
     export default {
         props: {
@@ -155,6 +155,15 @@
         created() {
             this.$store.dispatch('listItems');
         },
+        updated() {
+            getCountOrderType().then(res => {
+                this.countOrderTypeSold = res.data;
+                let data = {
+                    countOrderTypeSold: this.countOrderTypeSold
+                };
+                this.$bus.$emit('SaleSideBar.updated', data);
+            });
+        },
         computed: {
             loadItems() {
                 this.items = this.$store.getters.items;
@@ -171,11 +180,12 @@
             },
             createSaleProduct() {
                 let items = this.items;
+                console.log("items before prints: ", this.items);
                 createSaleItems({items});
                 window.print();
                 this.clearSaleProduct();
             },
-            updateSaleProduct(id) { // don't implatement yet
+            updateSaleProduct(id) { // don't implement yet
                 let items = this.items;
                 updateSaleItems(id, {items});
                 window.print();
