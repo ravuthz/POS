@@ -1,0 +1,90 @@
+{
+    "orders": {
+        "list": "បញ្ជីបញ្ជាទិញ",
+        "show": "ពិនិត្យបញ្ជាទិញ",
+        "create": "បង្កើតបញ្ជាទិញថ្មី",
+        "update": "កែតំរូវបញ្ជាទិញចាស់"
+    },
+    "stocks": {
+        "list": "ទំនិញក្នុងឃ្លាំងទាំងអស់",
+        "show": "ពិនិត្យទំនិញក្នុងឃ្លាំង",
+        "create": "បន្ថែមទំនិញចូលឃ្លាំង",
+        "update": "កែប្រែទំនិញក្នុងឃ្លាំង"
+    },
+    "buttons": {
+        "addNew": "បន្ថែមថ្មី",
+        "create": "បង្កើតថ្មី",
+        "update": "កែប្រែ",
+        "delete": "លុបចេញ",
+        "detail": "ពិនិត្យ",
+        "modify": "កែតំរូវ",
+        "save": "រក្សាទុក",
+        "back": "ត្រឡប់​ក្រោយ",
+        "clear": "លុបសំអាត",
+        "cancel": "បោះបង់",
+        "sale": "លក់",
+        "search": "ស្វែងរក"
+    },
+    "labels": {
+        "search": "វាយបញ្ចូលឈ្មោះណាមួយដើម្បីស្វែងរក",
+        "searchId": "បញ្ចូលលេខសម្គាល់ដើម្បីស្វែងរក",
+        "searchProduct": "ស្វែងរកផលិតផលនៅទីនេះ ...",
+        "perPage": "ក្នុងមួយទំព័រ",
+        "orderId": "លេខសម្គាល់បញ្ជាទិញ",
+        "orderType": "ប្រភេទនៃការបញ្ជាទិញ",
+        "orderIdType": "បញ្ជាទិញលេខសម្គាល់ #{id} គឺ {type}",
+        "no": "#",
+        "type": "ប្រភេទ",
+        "qty": "បរិមាណ",
+        "name": "បរិមាណ",
+        "movement": "ចលនា",
+        "movementInOut": "ចូល | ចេញ",
+        "createdAt": "នបង្កើត​ឡើង​នៅ",
+        "createdBy": "បង្កើត​ឡើង​ដោយ",
+        "updatedAt": "កែប្រែនៅ",
+        "updatedBy": "កែប្រែដោយ",
+        "deletedAt": "លុបនៅ",
+        "deletedBy": "លុបដោយ",
+        "actions": "សកម្មភាព",
+        "createdAtBy": "<strong>នបង្កើត​ឡើង​នៅ</strong> {at}, <strong>ដោយ</strong> {by}",
+        "addMoreItem": "បន្ថែមផលិតផល",
+        "removeItem": "ដកផលិតផលចេញ",
+        "product": "ផលិតផល",
+        "productId": "លេខសម្គាល់ផលិតផល",
+        "addProduct": "បន្ថែមផលិតផល",
+        "price": "តំលៃ",
+        "quantity": "បរិមាណ",
+        "amount": "ចំនួន",
+        "total": "សរុប",
+        "subTotal": "សុរប",
+        "grandTotal": "សរុបរួម",
+        "currency": "រ ",
+        "logout": "ចាកចេញ"
+    },
+    "modals": {
+        "cancelTitle": "បោះបង់",
+        "sale": {
+            "title": "លក់",
+            "okTitle": "រក្សាទុកការលក់"
+        },
+        "clear": {
+            "title": "លុបសម្ភារៈ",
+            "okTitle": "លុបសំអាត",
+            "content": "តើអ្នកចង់លុបសម្អាតសម្ភារៈទាំងអស់ទេ?"
+        },
+        "delete": {
+            "title": "លុបសម្ភារៈ",
+            "okTitle": "លុបចេញ",
+            "content": "តើអ្នកចង់លុបសម្អាតសម្ភារៈមួយនេះទេ?"
+        }
+    },
+    "tables": {
+        "in": "IN",
+        "out": "OUT",
+        "product": "Product",
+        "price": "Price",
+        "quantity": "Quantity",
+        "amount": "Amount",
+        "sub_total": "Sub Total"
+    }
+}
