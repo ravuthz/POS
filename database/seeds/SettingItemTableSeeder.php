@@ -61,6 +61,16 @@ class SettingItemTableSeeder extends Seeder
         SettingItem::create([
             'setting_type_id' => $orderType->id,
             'setting_type_model' => 'no',
+            'slug' => 'sold',
+            'name' => 'Sold',
+            'name_kh' => 'បានលក់',
+            'value' => '1',
+            'note' => 'For Order type is sold'
+        ]);
+
+        SettingItem::create([
+            'setting_type_id' => $orderType->id,
+            'setting_type_model' => 'no',
             'slug' => 'other',
             'name' => 'Other',
             'name_kh' => 'ផ្សេងៗ',

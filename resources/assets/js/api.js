@@ -26,6 +26,10 @@ export function post(url, data) {
     })
 }
 
+export const getAuth = () => axios.get('/api/auth');
+
+export const getCountOrderType = () => axios.get('/api/count/orders?field=type&value=3');
+
 export const getProductsList = () => axios.get(API_PRODUCT_LIST);
 export const getOrderTypes = () => axios.get(API_ORDER_TYPE);
 export const getAllOrders = (params = {}) => axios.get(API_ORDER, { params });

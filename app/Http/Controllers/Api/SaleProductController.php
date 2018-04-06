@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SaleCollection;
 use App\Http\Resources\SaleResource;
-use App\Models\ItemDetails;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\SettingItem;
+use App\Models\SettingType;
 use App\Models\Stock;
 use App\Models\StockMovement;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SaleProductController extends Controller
@@ -20,30 +20,31 @@ class SaleProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return SaleCollection
      */
     public function index()
     {
-        return new SaleCollection(Sale::all());
+        $sales = Sale::orderBy('id', 'desc')->latest()->get();
+        return new SaleCollection($sales);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return SaleResource
      */
     public function store(Request $request)
     {
         $items = $request->get('items', []);
 
         if (count($items) > 0) {
-//            $order = Order::create([
-//                'type' => 1, // 1=book, 2=paid, 0=cancel
-//            ]);
+
+            $sold = SettingItem::whereSlug('sold')->first();
+            $order = Order::create(['type' => $sold->id]);
 
             $stock = Stock::create([
-                'movement' => 1
+                'movement' => 0
             ]);
 
             $sale = new Sale();
@@ -52,18 +53,23 @@ class SaleProductController extends Controller
                 $product = Product::find($item['id']);
 
                 if ($product) {
-//                    $itemDetails = new ItemDetails();
                     $itemDetails = new StockMovement();
                     $itemDetails->product()->associate($product);
                     $itemDetails->price = $item['sale_price'];
                     $itemDetails->quantity = $item['qty'];
 
-//                    $order->items()->save($itemDetails);
                     $stock->items()->save($itemDetails);
+
+                    $orderItem = new OrderProduct();
+                    $orderItem->product()->associate($product);
+                    $orderItem->price = $item['sale_price'];
+                    $orderItem->quantity = $item['qty'];
+
+                    $order->items()->save($orderItem);
                 }
             }
 
-//            $sale->order()->associate($order);
+            $sale->order()->associate($order);
             $sale->stock()->associate($stock);
             $sale->save();
         }
@@ -75,7 +81,7 @@ class SaleProductController extends Controller
      * Display the specified resource.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return SaleResource
      */
     public function show($id)
     {
@@ -87,7 +93,7 @@ class SaleProductController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return SaleResource
      */
     public function update(Request $request, $id)
     {
@@ -96,11 +102,6 @@ class SaleProductController extends Controller
 
         if (count($items) > 0 && $sale) {
             foreach ($items as $item) {
-//                $itemDetails = ItemDetails
-//                    ::where('order_id', $sale->order->id)
-//                    ->where('stock_id', $sale->stock->id)
-//                    ->where('product_id', $item['id'])
-//                    ->first();
 
                 $itemDetails = StockMovement::where('stock_id', $sale->stock->id)
                     ->where('product_id', $item['id'])->first();
@@ -120,7 +121,7 @@ class SaleProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return SaleResource
      */
     public function destroy($id)
     {

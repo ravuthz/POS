@@ -14,10 +14,16 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <router-link :to="{ name: 'orders.list' }"
+                                     class="nav-link">
+                            Sold ({{ countOrderTypeSold }})
+                        </router-link>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            MARU
+                            {{ auth.name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/logout">{{ $t('labels.logout') }}</a>
@@ -56,6 +62,7 @@
 </template>
 
 <script>
+    import {getAuth} from '../../api';
 
     export default {
         props: {
@@ -69,10 +76,27 @@
                 perPage: 12,
                 productName: null,
                 totalRows: null,
+                auth: {
+                    id: '',
+                    name: '',
+                    name_kh: '',
+                    email: '',
+                    created_at: null,
+                    updated_at: null
+                },
+                countOrderTypeSold: 0
             }
+        },
+        beforeCreate() {
+            getAuth().then(res => this.auth = res.data);
         },
         created() {
             this.$store.dispatch('listProduct', {size: this.perPage});
+
+            this.$bus.$on('SaleSideBar.updated', event => {
+                console.log('SaleProductList.created: ', event);
+                this.countOrderTypeSold = event.countOrderTypeSold;
+            });
         },
         computed: {
             getAllProductsFromStore() {
