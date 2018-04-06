@@ -15,8 +15,4 @@ yarn-error.log
 /public/css
 /public/fonts
 
-.env
-.env.testing
-.env.develop
-
 php_errors.log
