@@ -23,10 +23,20 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ auth.name }}
+                            {{ auth.name | capitalize }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/logout">{{ $t('labels.logout') }}</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ $i18n.locale | uppercase }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <button class="dropdown-item" @click="changeLanguage('kh')">KH</button>
+                            <button class="dropdown-item" @click="changeLanguage('en')">EN</button>
                         </div>
                     </li>
                 </ul>
@@ -120,6 +130,9 @@
             addItem(product) {
                 this.$store.dispatch('addItem', product);
             },
+            changeLanguage(value) {
+                this.$i18n.locale = value;
+            }
         }
     }
 
