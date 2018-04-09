@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Intervention\Image\Facades\Image;
+
 trait CrudsModelTrait
 {
     /**
@@ -75,7 +77,37 @@ trait CrudsModelTrait
         $path = public_path('uploads');
         $file = $request->file($name);
         $filename = $file->getClientOriginalName();
+
+        $this->resizeImage($file, 640, 480);
+        $this->resizeImage($file, 400, 200);
+        $this->resizeImage($file, 100, 70);
+
         $file->move($path, $filename);
+
         return $filename;
+    }
+
+    public function resizeImage($file, $width, $height) {
+
+        // create instance of Intervention Image
+        $img = Image::make($file);
+
+        // resize image to fixed size
+        // See the docs - http://image.intervention.io/api/resize
+        $img->resize($width, $height);
+
+        $fileName = $this->fileNameSize($file->getClientOriginalName(), $width, $height);
+
+        $img->save('uploads/' . $fileName);
+
+        return $img;
+    }
+
+    private function fileNameSize($name, $width, $height) {
+        if ($name) {
+            $names = explode('.', $name);
+            return $names[0] . '-' . $width . 'x' . $height . '.' . $names[1];
+        }
+        return $name;
     }
 }
