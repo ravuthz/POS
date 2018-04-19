@@ -89,4 +89,8 @@ Route::group([
     })->where('vue_capture', '[\/\w\.-]*');
 });
 
+Route::get('phpinfo', function() {
+    return view('info');
+});
+
 Auth::routes();
