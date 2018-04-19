@@ -78,9 +78,9 @@ trait CrudsModelTrait
         $file = $request->file($name);
         $filename = $file->getClientOriginalName();
 
-        $this->resizeImage($file, 640, 480);
-        $this->resizeImage($file, 400, 200);
-        $this->resizeImage($file, 100, 70);
+        // $this->resizeImage($file, 640, 480);
+        // $this->resizeImage($file, 400, 200);
+        // $this->resizeImage($file, 100, 70);
 
         $file->move($path, $filename);
 
