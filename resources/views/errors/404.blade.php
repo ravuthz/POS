@@ -3,7 +3,7 @@
 @section('content')
 
 	<div class='text-center'>
-	    <h1><strong>403</strong> Not Found</h1>
+	    <h1><strong>404</strong> Not Found</h1>
 	</div>
 
 @endsection
