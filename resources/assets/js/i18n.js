@@ -4,7 +4,6 @@ import en from './lang/en.json';
 import kh from './lang/kh.json';
 
 Vue.use(VueI18n);
-
 const locale = 'kh';
 
 const messages = {
