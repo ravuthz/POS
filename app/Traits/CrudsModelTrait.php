@@ -74,7 +74,7 @@ trait CrudsModelTrait
 
     public function uploadFile($name, $request)
     {
-        $path = public_path('uploads');
+        $path = public_path('images');
         $file = $request->file($name);
         $filename = $file->getClientOriginalName();
 
