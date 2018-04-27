@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->string('name')->unique();
             $table->string('name_kh');
-            $table->string('note')->nullable()->default(NULL);
+            $table->text('note')->nullable()->default(NULL);
             $table->integer('status')->default(1);
             $table->string('image')->default('default-product.jpg');
             $table->decimal('buy_price', 8, 2);

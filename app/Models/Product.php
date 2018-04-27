@@ -28,6 +28,7 @@ class Product extends Model
         'slug',
         'name',
         'name_kh',
+        'note',
         'image',
         'status',
         'buy_price',

@@ -160,10 +160,14 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Other Plugins Service Provider
+         */
+        Unisharp\Ckeditor\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
         Watson\BootstrapForm\BootstrapFormServiceProvider::class,
 
-        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
